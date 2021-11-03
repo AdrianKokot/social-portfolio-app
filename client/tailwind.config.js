@@ -1,16 +1,15 @@
 module.exports = {
-  mode: 'jit',
+  // mode: 'jit',
   purge: ['./src/**/*.{html,ts}'],
-  darkMode: 'class',
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
   },
   variants: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography')
-  ],
+  plugins: [require('@tailwindcss/aspect-ratio')
+,require('@tailwindcss/forms')
+,require('@tailwindcss/typography')
+],
 };
