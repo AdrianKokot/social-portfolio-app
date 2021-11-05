@@ -5,3 +5,7 @@
 @import 'tailwindcss/utilities';
 
 @import './includes/fonts';
+
+@layer components {
+  @import './components/buttons';
+}

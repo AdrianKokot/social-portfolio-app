@@ -1,0 +1,15 @@
+a[variant="landing"] {
+  @apply inline-block;
+  @apply font-sans-heading;
+  @apply bg-green-500;
+  @apply py-4;
+  @apply text-xl;
+  @apply px-10;
+  @apply rounded-lg;
+  @apply text-gray-50;
+  @apply font-bold;
+  @apply duration-300;
+  @apply transition-colors;
+  @apply hover:bg-green-700;
+  @apply focus:bg-green-700;
+}

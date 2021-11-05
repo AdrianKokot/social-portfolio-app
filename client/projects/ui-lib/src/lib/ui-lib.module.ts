@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { UIButtonModule } from '@ui-lib';
+import { UIIconModule } from './modules/ui-icon/ui-icon.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
-    UIButtonModule
+    UIButtonModule,
+    UIIconModule
   ],
   exports: [
-    UIButtonModule
+    UIButtonModule,
+    UIIconModule
   ]
 })
 export class UILibModule { }
