@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { uiButtonVariants, uiButtonVariantsConfig } from '../ui-button.config';
 
 @Component({
-  selector: 'ui-button',
+  selector: 'ui-button:not([href])',
   templateUrl: './ui-button.component.html',
   styles: [
     `ui-button {
-      display: inline-block;
+      @apply inline-block;
     }`
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,11 +15,12 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } 
 export class UiButtonComponent implements OnInit {
 
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
-  @Input() class = 'rounded-md px-4 py-2 text-white bg-blue-500 font-medium';
-  @Input() variant: 'default' | 'ok' | 'cancel' = 'default';
-
-  constructor() { }
+  @Input() className = '';
+  @Input() variant: uiButtonVariants = 'default';
 
   ngOnInit(): void {
+    if (this.className === '') {
+      this.className = uiButtonVariantsConfig[this.variant];
+    }
   }
 }
