@@ -10,7 +10,7 @@
 
   <section>
 
-    <div class="group mb-8">
+    <div class="group mb-6">
       <label for="email"
              class="block font-medium text-gray-500 group-focus-within:text-blue-500 mb-1">
         E-mail address
@@ -22,7 +22,7 @@
              placeholder="user@example.com">
 
     </div>
-    <div class="group mb-12">
+    <div class="group mb-8">
       <label for="password"
              class="block font-medium text-gray-500 group-focus-within:text-blue-500 mb-1">
         Password
@@ -42,17 +42,28 @@
 
   </section>
 
-  <p class="text-center font-medium my-4">Or</p>
+  <p class="text-center font-medium my-8 relative text-gray-500
+     after:block after:w-2/5 after:absolute after:left-0 after:top-1/2 after:border-t after:border-gray-200
+     before:block before:w-2/5 before:absolute before:right-0 before:top-1/2 before:border-t before:border-gray-200">
+    Or
+  </p>
 
   <section>
 
     <ui-button class="w-full"
-               className="block w-full hover:bg-gray-50 focus:bg-gray-50 duration-300 transition-colors bg-white border border-gray-100 shadow rounded-lg px-4 py-2 font-semibold text-center">
-      Continue with Google
+               className="block relative w-full hover:bg-gray-50 focus:bg-gray-50 duration-300 transition-colors bg-white border border-gray-100 shadow rounded-lg px-2 xs:px-4 py-2 font-semibold text-center">
+      <ui-icon icon="google-logo"
+               class="absolute inset-y-0 h-5 w-5 my-auto left-0 ml-4"></ui-icon>
+
+      <span class="ml-8">Continue with Google</span>
     </ui-button>
     <ui-button class="w-full mt-2"
-               className="block w-full hover:bg-blue-600 focus:bg-blue-600 duration-300 transition-colors bg-blue-500 shadow rounded-lg text-white px-4 py-2 font-semibold text-center">
-      Continue with Facebook
+               className="block relative w-full  hover:bg-blue-600 focus:bg-blue-600 duration-300 transition-colors bg-blue-500 shadow rounded-lg text-white px-2 xs:px-4 py-2 font-semibold text-center">
+      <ui-icon icon="facebook-logo"
+               class="absolute inset-y-0 h-5 w-5 my-auto left-0 ml-4"></ui-icon>
+
+      <span class="ml-8">Continue with Facebook</span>
+
     </ui-button>
 
   </section>

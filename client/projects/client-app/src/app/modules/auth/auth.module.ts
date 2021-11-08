@@ -5,7 +5,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { AuthLoginComponent } from './components/auth-login/auth-login.component';
 import { SharedUiModule } from '../../shared/shared-ui/shared-ui.module';
-import { UIButtonModule } from '@ui-lib';
+import { UIButtonModule, UIIconModule } from '@ui-lib';
 
 
 @NgModule({
@@ -17,7 +17,8 @@ import { UIButtonModule } from '@ui-lib';
     CommonModule,
     AuthRoutingModule,
     SharedUiModule,
-    UIButtonModule
+    UIButtonModule,
+    UIIconModule
   ]
 })
 export class AuthModule { }

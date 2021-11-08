@@ -13,3 +13,10 @@
 @layer components {
   @import './components/buttons';
 }
+
+
+.container {
+  @apply px-4;
+  @apply xs:px-8;
+  @apply sm:px-12;
+}
