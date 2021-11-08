@@ -1,0 +1,29 @@
+input {
+  &[type=number] {
+    @apply appearance-none;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button,
+  &::-webkit-calendar-picker-indicator {
+    @apply appearance-none;
+    @apply m-0;
+    @apply hidden;
+  }
+
+  @apply font-sans #{!important};
+  @apply filter-none;
+
+  &:-webkit-autofill::first-line {
+    @apply text-base #{!important};
+    @apply font-sans #{!important};
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-text-fill-color: theme('colors.gray.700') !important;
+    box-shadow: 0 0 0 30px theme('colors.white') inset !important;
+  }
+}

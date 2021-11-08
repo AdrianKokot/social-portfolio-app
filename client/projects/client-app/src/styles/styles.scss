@@ -6,6 +6,10 @@
 
 @import './includes/fonts';
 
+@layer utilities {
+  @import './utils/inputs';
+}
+
 @layer components {
   @import './components/buttons';
 }
