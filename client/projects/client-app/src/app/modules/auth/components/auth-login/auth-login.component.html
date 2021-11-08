@@ -1,0 +1,60 @@
+<form class="">
+
+  <h1 class="text-center mb-8">
+    <a href="/"
+       [routerLink]="['/']"
+       class="font-cursive text-3xl text-green-500">
+      Sociussion
+    </a>
+  </h1>
+
+  <section>
+
+    <div class="group mb-8">
+      <label for="email"
+             class="block font-medium text-gray-500 group-focus-within:text-blue-500 mb-1">
+        E-mail address
+      </label>
+
+      <input type="email"
+             name="email"
+             class="focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2 border-gray-300 rounded-lg"
+             placeholder="user@example.com">
+
+    </div>
+    <div class="group mb-12">
+      <label for="password"
+             class="block font-medium text-gray-500 group-focus-within:text-blue-500 mb-1">
+        Password
+      </label>
+
+      <input type="password"
+             name="password"
+             class="focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2 border-gray-300 rounded-lg"
+             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+
+    </div>
+
+    <ui-button class="w-full"
+               className="block w-full hover:bg-green-600 focus:bg-green-600 duration-300 transition-colors bg-green-500 rounded-lg text-white px-4 py-2 font-semibold text-center">
+      Login
+    </ui-button>
+
+  </section>
+
+  <p class="text-center font-medium my-4">Or</p>
+
+  <section>
+
+    <ui-button class="w-full"
+               className="block w-full hover:bg-gray-50 focus:bg-gray-50 duration-300 transition-colors bg-white border border-gray-100 shadow rounded-lg px-4 py-2 font-semibold text-center">
+      Continue with Google
+    </ui-button>
+    <ui-button class="w-full mt-2"
+               className="block w-full hover:bg-blue-600 focus:bg-blue-600 duration-300 transition-colors bg-blue-500 shadow rounded-lg text-white px-4 py-2 font-semibold text-center">
+      Continue with Facebook
+    </ui-button>
+
+  </section>
+
+</form>

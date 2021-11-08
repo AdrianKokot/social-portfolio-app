@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LandingRoutingModule } from './landing-routing.module';
 import { LandingComponent } from './landing.component';
 import { UIIconModule } from '@ui-lib';
+import { SharedUiModule } from '../../shared/shared-ui/shared-ui.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { UIIconModule } from '@ui-lib';
   imports: [
     CommonModule,
     LandingRoutingModule,
-    UIIconModule
+    UIIconModule,
+    SharedUiModule
   ]
 })
 export class LandingModule { }
