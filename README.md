@@ -1,2 +1,10 @@
-# social-portfolio-app
-Simple social app for portfolio
+# Sociussion
+
+Reddit-like social media application created for portfolio and "Object-Oriented Programming" class at the Poznan University of Technology.
+
+Currently, **_under development_**, more details when finished.
+
+## Tech stack
+
+- Frontend: Angular 13, TailwindCSS 2.2
+- Backend: .NET 5
