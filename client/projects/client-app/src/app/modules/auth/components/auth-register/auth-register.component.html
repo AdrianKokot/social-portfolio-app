@@ -1,0 +1,56 @@
+<form [formGroup]="form"
+      (submit)="onSubmit($event)">
+
+  <h1 class="text-center mb-8">
+    <a href="/"
+       [routerLink]="['/']"
+       class="font-cursive text-3xl text-green-500">
+      Sociussion
+    </a>
+  </h1>
+
+  <section class="mb-6">
+
+    <forms-input class="mb-6"
+                 label="Name"
+                 formControlName="name"
+                 placeholder="John Snow">
+    </forms-input>
+
+    <forms-input class="mb-6"
+                 type="email"
+                 label="E-mail address"
+                 formControlName="email"
+                 placeholder="user@example.com">
+    </forms-input>
+
+    <forms-input class="mb-6"
+                 type="password"
+                 label="Password"
+                 formControlName="password"
+                 placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+    </forms-input>
+
+    <forms-input class="mb-8"
+                 type="password"
+                 label="Confirm password"
+                 formControlName="password_confirmation"
+                 placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+    </forms-input>
+
+    <ui-button class="w-full"
+               type="submit"
+               className="block w-full hover:bg-green-600 focus:bg-green-600 duration-300 transition-colors bg-green-500 rounded-lg text-white px-4 py-2 font-semibold text-center">
+      Sign Up
+    </ui-button>
+
+  </section>
+
+  <section class="text-center text-sm">
+    <a href="/auth/login"
+       routerLink="/auth/login" variant="base">
+      Already have an account? Login
+    </a>
+  </section>
+
+</form>

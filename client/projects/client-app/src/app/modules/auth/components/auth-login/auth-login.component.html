@@ -1,4 +1,5 @@
-<form class="">
+<form [formGroup]="form"
+      (submit)="onSubmit($event)">
 
   <h1 class="text-center mb-8">
     <a href="/"
@@ -8,64 +9,62 @@
     </a>
   </h1>
 
-  <section>
+  <section class="mb-6">
 
-    <div class="group mb-6">
-      <label for="email"
-             class="block font-medium text-gray-500 group-focus-within:text-blue-500 mb-1">
-        E-mail address
-      </label>
+    <forms-input class="mb-6"
+                 type="email"
+                 label="E-mail address"
+                 formControlName="email"
+                 placeholder="user@example.com">
+    </forms-input>
 
-      <input type="email"
-             name="email"
-             class="focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2 border-gray-300 rounded-lg"
-             placeholder="user@example.com">
-
-    </div>
-    <div class="group mb-8">
-      <label for="password"
-             class="block font-medium text-gray-500 group-focus-within:text-blue-500 mb-1">
-        Password
-      </label>
-
-      <input type="password"
-             name="password"
-             class="focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-2 border-gray-300 rounded-lg"
-             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
-
-    </div>
+    <forms-input class="mb-8"
+                 type="password"
+                 label="Password"
+                 formControlName="password"
+                 placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+    </forms-input>
 
     <ui-button class="w-full"
-               className="block w-full hover:bg-green-600 focus:bg-green-600 duration-300 transition-colors bg-green-500 rounded-lg text-white px-4 py-2 font-semibold text-center">
+               variant="submit"
+               type="submit">
       Login
     </ui-button>
 
   </section>
 
-  <p class="text-center font-medium my-8 relative text-gray-500
-     after:block after:w-2/5 after:absolute after:left-0 after:top-1/2 after:border-t after:border-gray-200
-     before:block before:w-2/5 before:absolute before:right-0 before:top-1/2 before:border-t before:border-gray-200">
-    Or
-  </p>
-
-  <section>
-
-    <ui-button class="w-full"
-               className="block relative w-full hover:bg-gray-50 focus:bg-gray-50 duration-300 transition-colors bg-white border border-gray-100 shadow rounded-lg px-2 xs:px-4 py-2 font-semibold text-center">
-      <ui-icon icon="google-logo"
-               class="absolute inset-y-0 h-5 w-5 my-auto left-0 ml-4"></ui-icon>
-
-      <span class="ml-8">Continue with Google</span>
-    </ui-button>
-    <ui-button class="w-full mt-2"
-               className="block relative w-full  hover:bg-blue-600 focus:bg-blue-600 duration-300 transition-colors bg-blue-500 shadow rounded-lg text-white px-2 xs:px-4 py-2 font-semibold text-center">
-      <ui-icon icon="facebook-logo"
-               class="absolute inset-y-0 h-5 w-5 my-auto left-0 ml-4"></ui-icon>
-
-      <span class="ml-8">Continue with Facebook</span>
-
-    </ui-button>
-
+  <section class="text-center text-sm">
+    <a href="/auth/register"
+       routerLink="/auth/register"
+       variant="base">
+      Don't have an account? Sign up
+    </a>
   </section>
+
+  <!--  <p class="text-center font-medium my-8 relative text-gray-500-->
+  <!--     after:block after:w-2/5 after:absolute after:left-0 after:top-1/2 after:border-t after:border-gray-200-->
+  <!--     before:block before:w-2/5 before:absolute before:right-0 before:top-1/2 before:border-t before:border-gray-200">-->
+  <!--    Or-->
+  <!--  </p>-->
+
+  <!--  <section>-->
+
+  <!--    <ui-button class="w-full"-->
+  <!--               className="block relative w-full hover:bg-gray-50 focus:bg-gray-50 duration-300 transition-colors bg-white border border-gray-100 shadow rounded-lg px-2 xs:px-4 py-2 font-semibold text-center">-->
+  <!--      <ui-icon icon="google-logo"-->
+  <!--               class="absolute inset-y-0 h-5 w-5 my-auto left-0 ml-4"></ui-icon>-->
+
+  <!--      <span class="ml-8">Continue with Google</span>-->
+  <!--    </ui-button>-->
+  <!--    <ui-button class="w-full mt-2"-->
+  <!--               className="block relative w-full  hover:bg-blue-600 focus:bg-blue-600 duration-300 transition-colors bg-blue-500 shadow rounded-lg text-white px-2 xs:px-4 py-2 font-semibold text-center">-->
+  <!--      <ui-icon icon="facebook-logo"-->
+  <!--               class="absolute inset-y-0 h-5 w-5 my-auto left-0 ml-4"></ui-icon>-->
+
+  <!--      <span class="ml-8">Continue with Facebook</span>-->
+
+  <!--    </ui-button>-->
+
+  <!--  </section>-->
 
 </form>

@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from "@angular/forms";
+import { Validators, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-auth-login',
-  templateUrl: './auth-login.component.html',
+  selector: 'app-auth-register',
+  templateUrl: './auth-register.component.html',
   styles: []
 })
-export class AuthLoginComponent {
+export class AuthRegisterComponent {
   public form = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]
+    password: ['', [Validators.required]],
+    password_confirmation: ['', [Validators.required]]
   });
 
   constructor(private fb: FormBuilder) {

@@ -23,6 +23,11 @@ module.exports = {
       red: colors.red,
       yellow: colors.amber,
 
+      blue: colors.blue,
+      indigo: colors.indigo,
+      purple: colors.violet,
+      pink: colors.pink,
+
       gray: {
         '50': '#F9FAFC',
         '100': '#f0f3f5',
@@ -49,10 +54,7 @@ module.exports = {
         '900': '#115e4e'
       },
 
-      blue: colors.blue,
-      indigo: colors.indigo,
-      purple: colors.violet,
-      pink: colors.pink,
+
     },
     fontFamily: {
       'sans-heading': [
@@ -112,7 +114,9 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/forms'),
+    require("@tailwindcss/forms")({
+      strategy: 'class',
+    }),
     require('@tailwindcss/typography')
   ],
 };

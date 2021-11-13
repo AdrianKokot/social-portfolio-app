@@ -13,3 +13,11 @@ a[variant="landing"] {
   @apply hover:bg-green-700;
   @apply focus:bg-green-700;
 }
+
+a[variant="base"] {
+  @apply text-gray-500;
+  @apply hover:text-blue-600;
+  @apply duration-300;
+  @apply transition-colors;
+  @apply underline;
+}
