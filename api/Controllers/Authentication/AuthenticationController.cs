@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -38,10 +39,17 @@ namespace Sociussion.Controllers.Authentication
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
-                return BadApiRequest(nameof(model.PasswordConfirmation), "Couldn't create user");
 
-            return NoContent();
+            if (result.Succeeded)
+            {
+                return NoContent();
+            }
+
+            var errors = result.Errors
+                .Select(x => x.Description.Replace("Passwords", "Password"))
+                .ToArray();
+            
+            return BadApiRequest(nameof(model.Password), errors);
         }
 
         [HttpPost]

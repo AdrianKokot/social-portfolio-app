@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -29,9 +30,10 @@ namespace Sociussion.Services
                 .AddDefaultIdentity<ApplicationUser>(config =>
                 {
                     config.User.RequireUniqueEmail = true;
+                    config.Password.RequiredLength = 10;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            
             services
                 .AddAuthentication(options =>
                 {
