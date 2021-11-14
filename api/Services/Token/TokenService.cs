@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -29,15 +30,20 @@ namespace Sociussion.Services.Token
 
         public async Task<string> CreateJwtToken(ApplicationUser user)
         {
-            var token = new JwtSecurityToken(
-                issuer: _tokenConfiguration.Issuer,
-                audience: _tokenConfiguration.Audience,
-                expires: DateTime.Now.AddMinutes(_tokenConfiguration.TokenExpirationInMinutes),
-                claims: await GetUserClaims(user),
-                signingCredentials: new SigningCredentials(_key, SecurityAlgorithms.HmacSha256)
-            );
+            var tokenHandler = new JwtSecurityTokenHandler();
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Audience = _tokenConfiguration.Audience,
+                Issuer = _tokenConfiguration.Issuer,
+                Expires = DateTime.UtcNow.AddMinutes(_tokenConfiguration.TokenExpirationInMinutes),
+                SigningCredentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512),
+                Subject = new ClaimsIdentity(await GetUserClaims(user))
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return  tokenHandler.WriteToken(token);
         }
 
         private async Task<IEnumerable<Claim>> GetUserClaims(ApplicationUser user)
@@ -45,9 +51,9 @@ namespace Sociussion.Services.Token
 
             var authClaims = new List<Claim>
             {
-                new(ClaimTypes.Name, user.UserName),
+                // new(ClaimTypes.Email, user.Email)//,
                 new(JwtRegisteredClaimNames.UniqueName, user.Email),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             // var userRoles = await _userManager.GetRolesAsync(user);

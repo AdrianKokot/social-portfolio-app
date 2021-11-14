@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Sociussion.Models;
 using Sociussion.Models.Authentication;
 using Sociussion.Services.Token;
@@ -54,10 +57,15 @@ namespace Sociussion.Controllers.Authentication
 
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                return Ok(new {token = await _tokenService.CreateJwtToken(user)});
+                return Ok(
+                    new AuthenticatedUserModel {Token = await _tokenService.CreateJwtToken(user), Email = user.Email}
+                );
             }
 
-            return BadRequest("Invalid credentials.");
+            return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>()
+            {
+                {"Password", new[] {"Invalid credentials."}}
+            }));
         }
     }
 }
