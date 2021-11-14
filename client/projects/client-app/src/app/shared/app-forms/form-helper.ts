@@ -27,7 +27,12 @@ export class FormHelper {
           const control = form.get(formInput);
 
           if (control) {
-            control.setErrors({backendInvalid: error.error.errors[formInput].toString()})
+
+            const formattedErrorMessage = (Array.isArray(error.error.errors[formInput])
+              ? error.error.errors[formInput].join(' ')
+              : error.error.errors[formInput].toString());
+
+            control.setErrors({backendInvalid: formattedErrorMessage});
             control.markAllAsTouched();
           }
         }
