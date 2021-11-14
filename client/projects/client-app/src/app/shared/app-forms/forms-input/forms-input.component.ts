@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Self } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from "@angular/forms";
-import { getValidationMessage, ValidationMessageFn } from '../validation-message';
+import { FormValidationMessage, ValidationMessageFn } from "../form-validation-message";
 
 @Component({
   selector: 'forms-input',
@@ -17,19 +17,19 @@ export class FormsInputComponent implements ControlValueAccessor, OnInit {
 
   public control!: FormControl;
 
-  public getErrorMessage: ValidationMessageFn = getValidationMessage;
+  public getErrorMessage: ValidationMessageFn = FormValidationMessage.validationMessage();
 
   constructor(@Self() public ngControl: NgControl) {
     ngControl.valueAccessor = this;
   }
 
   ngOnInit(): void {
+    // if(this.label != '') {
+    //   this.getErrorMessage = FormValidationMessage.validationMessage(this.label);
+    // }
+
     this.control = this.ngControl.control as FormControl;
     this.name = this.name == '' ? this.ngControl.name?.toString() || '' : this.name;
-
-    // if(this.label != '') {
-    //   this.getErrorMessage = getValidationMessageForField(this.label);
-    // }
   }
 
   writeValue(obj: any): void {
