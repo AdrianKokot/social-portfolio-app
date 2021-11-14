@@ -8,23 +8,29 @@ import {
 import { map, Observable, switchMap, take } from 'rxjs';
 import { AuthService } from "../auth.service";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor(private auth: AuthService) {
+    console.log('TokenInterceptor created');
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return this.auth.token$.pipe(
-      take(1),
-      map(token => {
-        if (token) {
-          request.headers.append('Authorization', `Bearer ${token}`);
-        }
+    return this.auth.token$
+      .pipe(
+        take(1),
+        map(token => {
 
-        return request;
-      }),
-      switchMap(request => next.handle(request))
-    );
+          return token
+            ? request.clone({
+              setHeaders: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+            : request;
+
+        }),
+        switchMap(request => next.handle(request))
+      );
   }
 }

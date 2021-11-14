@@ -10,7 +10,7 @@ import { TokenInterceptor } from "./interceptors/token.interceptor";
     CommonModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useValue: TokenInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ]
 })
 export class AuthModule {
