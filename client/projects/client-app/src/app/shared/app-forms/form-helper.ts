@@ -24,7 +24,7 @@ export class FormHelper {
     return (error: HttpErrorResponse) => {
       if (error.error.errors) {
         for (let formInput in error.error.errors) {
-          const control = form.get(formInput.toLowerCase());
+          const control = form.get(formInput);
 
           if (control) {
             control.setErrors({backendInvalid: error.error.errors[formInput].toString()})

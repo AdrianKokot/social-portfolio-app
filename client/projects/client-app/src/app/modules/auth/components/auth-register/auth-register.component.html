@@ -34,7 +34,7 @@
     <forms-input class="mb-8"
                  type="password"
                  label="Confirm password"
-                 formControlName="password_confirmation"
+                 formControlName="passwordConfirmation"
                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
     </forms-input>
 
@@ -47,8 +47,10 @@
   </section>
 
   <section class="text-center text-sm">
-    <a href="/auth/login"
-       routerLink="/auth/login" variant="base">
+    <a [href]="'/auth/login' + (returnUrl ? '?returnUrl=' + returnUrl : '')"
+       routerLink="/auth/login"
+       [queryParams]="{returnUrl}"
+       variant="base">
       Already have an account? Login
     </a>
   </section>

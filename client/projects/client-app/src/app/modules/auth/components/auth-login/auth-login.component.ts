@@ -12,10 +12,10 @@ import { FormHelper } from "../../../../shared/app-forms/form-helper";
 export class AuthLoginComponent {
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', []]
+    password: ['', [Validators.required]]
   });
 
-  private returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
+  public returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
 
   constructor(
     private fb: FormBuilder,

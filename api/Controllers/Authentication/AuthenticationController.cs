@@ -11,13 +11,10 @@ using Sociussion.Services.Token;
 
 namespace Sociussion.Controllers.Authentication
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : ApiController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ITokenService _tokenService;
-
 
         public AuthenticationController(
             UserManager<ApplicationUser> userManager,
@@ -34,7 +31,8 @@ namespace Sociussion.Controllers.Authentication
             var userExists = await _userManager.FindByEmailAsync(model.Email);
 
             if (userExists != null)
-                return BadRequest("User already exists!");
+                return BadApiRequest(nameof(model.Email), "Given e-mail address is already taken");
+
 
             ApplicationUser user = new ApplicationUser()
             {
@@ -44,7 +42,7 @@ namespace Sociussion.Controllers.Authentication
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
-                return BadRequest("Something went wrong");
+                return BadApiRequest(nameof(model.PasswordConfirmation), "Couldn't create user");
 
             return NoContent();
         }
@@ -62,10 +60,7 @@ namespace Sociussion.Controllers.Authentication
                 );
             }
 
-            return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>()
-            {
-                {"Password", new[] {"Invalid credentials."}}
-            }));
+            return BadApiRequest(nameof(model.Password), "Invalid credentials");
         }
     }
 }

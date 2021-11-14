@@ -11,13 +11,13 @@ import { FormHelper } from "../../../../shared/app-forms/form-helper";
 })
 export class AuthRegisterComponent {
   public form = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
+    name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(128)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
-    password_confirmation: ['', [Validators.required]]
+    passwordConfirmation: ['', [Validators.required]]
   });
 
-  private returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
+  public returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +28,7 @@ export class AuthRegisterComponent {
 
   public onSubmit = FormHelper.wrapSubmit(this.form, () => {
 
-    this.auth.login(this.form.value)
+    this.auth.register(this.form.value)
       .subscribe({
         next: () => {
           this.auth.user$.subscribe(user => {

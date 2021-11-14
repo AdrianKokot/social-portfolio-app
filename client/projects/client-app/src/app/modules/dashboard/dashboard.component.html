@@ -1,1 +1,13 @@
 <p>dashboard works!</p>
+
+<p>
+
+  <button (click)="testApi()">Test api</button>
+  {{apiResponse | json}}
+
+</p>
+
+<p>
+  <button (click)="testAuthorizedApi()">Test authorized api</button>
+  {{authorizedApiResponse | json}}
+</p>
