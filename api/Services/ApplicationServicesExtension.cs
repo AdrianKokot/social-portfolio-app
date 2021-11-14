@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Sociussion.Data;
-using Sociussion.Models;
+using Sociussion.Data.Context;
+using Sociussion.Data.Models;
 using Sociussion.Services.Token;
 
 namespace Sociussion.Services

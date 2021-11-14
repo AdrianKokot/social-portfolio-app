@@ -18,31 +18,27 @@ namespace Sociussion.Helpers
 
         public void CreateBindingMetadata(BindingMetadataProviderContext context)
         {
-            if (!context.BindingMetadata.IsBindingAllowed || !IsNonControllerProperty(context.Key))
+            if (context.BindingMetadata.IsBindingAllowed && IsNonControllerProperty(context.Key))
             {
-                return;
+                var jsonPropertyName = JsonPropertyName(context.Attributes, context.Key);
+                context.BindingMetadata.BinderModelName ??= jsonPropertyName;
             }
-
-            var jsonPropertyName = JsonPropertyName(context.Attributes, context.Key);
-            context.BindingMetadata.BinderModelName ??= jsonPropertyName;
         }
 
         public void CreateDisplayMetadata(DisplayMetadataProviderContext context)
         {
-            if (!IsNonControllerProperty(context.Key))
+            if (IsNonControllerProperty(context.Key))
             {
-                return;
+                var jsonPropertyName = JsonPropertyName(context.Attributes, context.Key);
+                context.DisplayMetadata.DisplayName ??= () => jsonPropertyName;
             }
-
-            var jsonPropertyName = JsonPropertyName(context.Attributes, context.Key);
-            context.DisplayMetadata.DisplayName ??= () => jsonPropertyName;
         }
 
         private static bool IsNonControllerProperty(ModelMetadataIdentity key) =>
             key.MetadataKind == ModelMetadataKind.Property
             && !key.ContainerType.IsAssignableTo(typeof(ControllerBase));
 
-        private string JsonPropertyName(IEnumerable<object> attributes, ModelMetadataIdentity key) =>
+        private string JsonPropertyName(IReadOnlyList<object> attributes, ModelMetadataIdentity key) =>
             attributes.OfType<JsonPropertyNameAttribute>().FirstOrDefault()?.Name
             ?? _jsonNamingPolicy?.ConvertName(key.Name);
     }

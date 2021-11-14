@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Sociussion.Models;
+using Sociussion.Data.Models;
 
-namespace Sociussion.Data
+namespace Sociussion.Data.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

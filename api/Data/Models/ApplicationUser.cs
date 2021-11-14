@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace Sociussion.Models
+namespace Sociussion.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {

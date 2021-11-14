@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Sociussion.Data
+namespace Sociussion.Data.Context
 {
     public static class ApplicationDataExtension
     {

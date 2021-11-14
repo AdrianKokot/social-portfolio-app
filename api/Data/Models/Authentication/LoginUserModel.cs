@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sociussion.Models.Authentication
+namespace Sociussion.Data.Models.Authentication
 {
     public record LoginUserModel
     {

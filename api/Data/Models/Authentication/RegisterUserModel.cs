@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
-namespace Sociussion.Models.Authentication
+namespace Sociussion.Data.Models.Authentication
 {
     public record RegisterUserModel
     {

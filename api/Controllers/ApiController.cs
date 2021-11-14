@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sociussion.Controllers
@@ -14,6 +15,8 @@ namespace Sociussion.Controllers
 
         protected BadRequestObjectResult BadApiRequest(string key, string[] messages)
         {
+            key = JsonNamingPolicy.CamelCase.ConvertName(key);
+            
             var errors = new Dictionary<string, string[]> {{key, messages}};
 
             return BadRequest(new ValidationProblemDetails(errors));

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Sociussion.Models;
-using Sociussion.Models.Authentication;
+using Sociussion.Data.Models;
+using Sociussion.Data.Models.Authentication;
 using Sociussion.Services.Token;
 
 namespace Sociussion.Controllers.Authentication

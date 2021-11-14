@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Sociussion.Models;
+using Sociussion.Data.Models;
 
 namespace Sociussion.Services.Token
 {

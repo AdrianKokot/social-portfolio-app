@@ -1,4 +1,4 @@
-﻿namespace Sociussion.Models.Authentication
+﻿namespace Sociussion.Data.Models.Authentication
 {
     internal record AuthenticatedUserModel
     {
