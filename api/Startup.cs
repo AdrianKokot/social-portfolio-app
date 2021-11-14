@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Sociussion.Data;
+using Sociussion.Helpers;
 using Sociussion.Services;
 
 namespace Sociussion
@@ -27,8 +29,19 @@ namespace Sociussion
 
             services.AddApplicationServices();
 
+            services.AddControllers()
+                .AddMvcOptions(options =>
+                {
+                    options.ModelMetadataDetailsProviders.Add(
+                        new JsonPropertyMetadataProvider(JsonNamingPolicy.CamelCase)
+                    );
+                })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                });
 
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Sociussion", Version = "v1"});
@@ -41,7 +54,7 @@ namespace Sociussion
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
                     Description =
-                        "Enter ‘Bearer’ [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+                        "Enter 'Bearer <valid token>'",
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -57,7 +70,6 @@ namespace Sociussion
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
