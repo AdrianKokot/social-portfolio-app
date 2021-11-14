@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
+import { AuthService } from "../../../../shared/shared/auth/auth.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormHelper } from "../../../../shared/app-forms/form-helper";
 
 @Component({
   selector: 'app-auth-register',
@@ -14,24 +17,27 @@ export class AuthRegisterComponent {
     password_confirmation: ['', [Validators.required]]
   });
 
-  constructor(private fb: FormBuilder) {
-    this.form.valueChanges.subscribe(v => {
-      console.log(v);
-    });
+  private returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
+
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute) {
   }
 
-  public onSubmit(event: Event): void {
-    event.preventDefault();
-    if (this.form == null) {
-      return;
-    }
+  public onSubmit = FormHelper.wrapSubmit(this.form, () => {
 
-    if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      return;
-    }
+    this.auth.login(this.form.value)
+      .subscribe({
+        next: () => {
+          this.auth.user$.subscribe(user => {
+            this.router.navigate([this.returnUrl]);
+          });
+        },
+        error: FormHelper.handleApiError(this.form)
+      });
 
-    console.log(this.form.value);
-  }
+  });
 
 }

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from "../../../../shared/shared/auth/auth.service";
+import { FormHelper } from "../../../../shared/app-forms/form-helper";
 
 @Component({
   selector: 'app-auth-login',
@@ -9,27 +12,30 @@ import { FormBuilder, Validators } from "@angular/forms";
 export class AuthLoginComponent {
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]
+    password: ['', []]
   });
 
-  constructor(private fb: FormBuilder) {
-    this.form.valueChanges.subscribe(v => {
-      console.log(v);
-    });
+  private returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
+
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute) {
   }
 
-  public onSubmit(event: Event): void {
-    event.preventDefault();
-    if (this.form == null) {
-      return;
-    }
+  public onSubmit = FormHelper.wrapSubmit(this.form, () => {
 
-    if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      return;
-    }
+    this.auth.login(this.form.value)
+      .subscribe({
+        next: () => {
+          this.auth.user$.subscribe(user => {
+            this.router.navigate([this.returnUrl]);
+          });
+        },
+        error: FormHelper.handleApiError(this.form)
+      });
 
-    console.log(this.form.value);
-  }
+  });
 
 }
