@@ -27,7 +27,8 @@
 
     <ui-button class="w-full"
                variant="submit"
-               type="submit">
+               type="submit"
+               [disabled]="!form.valid">
       Login
     </ui-button>
 

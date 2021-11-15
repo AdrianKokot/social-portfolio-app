@@ -1,8 +1,8 @@
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   mode: 'jit',
-  purge: ['./projects/**/src/**/*.{html,ts}'],
+  purge: ['./projects/**/*.{html,ts}'],
   darkMode: 'class',
   theme: {
     screens: {
