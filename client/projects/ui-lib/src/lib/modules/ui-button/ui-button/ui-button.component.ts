@@ -19,6 +19,7 @@ export class UiButtonComponent implements OnInit {
   @Input() variant: uiButtonVariants = 'default';
 
   @Input() disabled: boolean = false;
+  @Input() loading: boolean = false;
 
   ngOnInit(): void {
     if (this.className === '') {

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AuthService } from "../../../../shared/shared/auth/auth.service";
+import { BehaviorSubject } from 'rxjs';
 import { FormHelper } from "../../../../shared/app-forms/form-helper";
+import { AuthService } from "../../../../shared/shared/auth/auth.service";
 
 @Component({
   selector: 'app-auth-login',
@@ -15,6 +16,8 @@ export class AuthLoginComponent {
     password: ['', [Validators.required]]
   });
 
+  public isFormLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   public returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
 
   constructor(
@@ -26,9 +29,11 @@ export class AuthLoginComponent {
 
   public onSubmit = FormHelper.wrapSubmit(this.form, () => {
 
+    this.isFormLoading$.next(true);
     this.auth.login(this.form.value)
       .subscribe({
         next: () => {
+          this.isFormLoading$.next(false);
           this.auth.user$.subscribe(user => {
             this.router.navigate([this.returnUrl]);
           });

@@ -28,7 +28,8 @@
     <ui-button class="w-full"
                variant="submit"
                type="submit"
-               [disabled]="!form.valid">
+               [disabled]="!form.valid"
+               [loading]="(isFormLoading$ | async) ?? false">
       Login
     </ui-button>
 

@@ -1,5 +1,11 @@
 <button [class]="className"
         [type]="type"
         [disabled]="disabled">
-  <ng-content></ng-content>
+        <ng-content *ngIf="!loading; else loadingIcon"></ng-content>
+  <!-- <ng-template *ngIf="!loading; else loadingIcon">
+
+  </ng-template> -->
+  <ng-template #loadingIcon>
+    Loading...
+  </ng-template>
 </button>
