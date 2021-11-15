@@ -16,8 +16,7 @@ export class AuthLoginComponent {
     password: ['', [Validators.required]]
   });
 
-  public isFormLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
+  public isFormLoading = false;
   public returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
 
   constructor(
@@ -29,11 +28,13 @@ export class AuthLoginComponent {
 
   public onSubmit = FormHelper.wrapSubmit(this.form, () => {
 
-    this.isFormLoading$.next(true);
+    this.isFormLoading = true;
+
     this.auth.login(this.form.value)
       .subscribe({
         next: () => {
-          this.isFormLoading$.next(false);
+          this.isFormLoading = false;
+
           this.auth.user$.subscribe(user => {
             this.router.navigate([this.returnUrl]);
           });

@@ -1,11 +1,51 @@
 <button [class]="className"
         [type]="type"
-        [disabled]="disabled">
-        <ng-content *ngIf="!loading; else loadingIcon"></ng-content>
-  <!-- <ng-template *ngIf="!loading; else loadingIcon">
+        [attr.loading]="loading || null"
+        [disabled]="disabled || loading">
+  <ng-content></ng-content>
 
-  </ng-template> -->
-  <ng-template #loadingIcon>
-    Loading...
-  </ng-template>
+  <svg
+    *ngIf="loading"
+    class="absolute h-full py-1 inset-0 m-auto text-white"
+    id="L4"
+    xmlns="http://www.w3.org/2000/svg"
+    x="0px"
+    y="0px"
+    viewBox="0 0 52 50"
+    xml:space="preserve">
+      <circle fill="currentColor"
+              stroke="none"
+              cx="6"
+              cy="25"
+              r="6">
+        <animate attributeName="opacity"
+                 dur="1.5s"
+                 values="0;1;0"
+                 repeatCount="indefinite"
+                 begin="0.1"/>
+      </circle>
+    <circle fill="currentColor"
+            stroke="none"
+            cx="26"
+            cy="25"
+            r="6">
+        <animate attributeName="opacity"
+                 dur="1.5s"
+                 values="0;1;0"
+                 repeatCount="indefinite"
+                 begin="0.2"/>
+      </circle>
+    <circle fill="currentColor"
+            stroke="none"
+            cx="46"
+            cy="25"
+            r="6">
+        <animate attributeName="opacity"
+                 dur="1.5s"
+                 values="0;1;0"
+                 repeatCount="indefinite"
+                 begin="0.3"/>
+      </circle>
+    </svg>
+
 </button>

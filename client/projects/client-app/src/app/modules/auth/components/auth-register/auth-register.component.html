@@ -39,8 +39,10 @@
     </forms-input>
 
     <ui-button class="w-full"
+               variant="submit"
                type="submit"
-               className="block w-full hover:bg-green-600 focus:bg-green-600 duration-300 transition-colors bg-green-500 rounded-lg text-white px-4 py-2 font-semibold text-center">
+               [disabled]="!form.valid"
+               [loading]="isFormLoading">
       Sign Up
     </ui-button>
 

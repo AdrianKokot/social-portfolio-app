@@ -7,6 +7,10 @@ import { uiButtonVariants, uiButtonVariantsConfig } from '../ui-button.config';
   styles: [
     `ui-button {
       @apply inline-block;
+    }
+
+    ui-button button {
+      @apply relative;
     }`
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

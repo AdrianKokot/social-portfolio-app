@@ -1,13 +1,8 @@
-<p>dashboard works!</p>
+<main class="bg-white sm:bg-transparent min-h-screen">
 
-<p>
+  <p>Dashboard</p>
+  <router-outlet></router-outlet>
 
-  <button (click)="testApi()">Test api</button>
-  {{apiResponse | json}}
+</main>
 
-</p>
-
-<p>
-  <button (click)="testAuthorizedApi()">Test authorized api</button>
-  {{authorizedApiResponse | json}}
-</p>
+<app-footer></app-footer>

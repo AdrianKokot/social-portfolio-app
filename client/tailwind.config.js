@@ -1,4 +1,15 @@
 const colors = require('tailwindcss/colors');
+const plugin = require('tailwindcss/plugin');
+
+const loadingVariant = plugin(function({addVariant, e}) {
+  
+  addVariant("loading", ({ modifySelectors, separator }) => {
+    modifySelectors(({ className }) => {
+      const newClass = e(`loading${separator}${className}`);
+      return `[loading].${newClass}`;
+    });
+  });
+});
 
 module.exports = {
   mode: 'jit',
@@ -117,6 +128,7 @@ module.exports = {
     require("@tailwindcss/forms")({
       strategy: 'class',
     }),
-    require('@tailwindcss/typography')
+    require('@tailwindcss/typography'),
+    loadingVariant
   ],
 };

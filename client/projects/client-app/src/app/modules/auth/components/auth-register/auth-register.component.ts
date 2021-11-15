@@ -17,6 +17,7 @@ export class AuthRegisterComponent {
     passwordConfirmation: ['', [Validators.required]]
   });
 
+  public isFormLoading = false;
   public returnUrl = this.route.snapshot.params['returnUrl'] || '/app'
 
   constructor(
@@ -28,9 +29,13 @@ export class AuthRegisterComponent {
 
   public onSubmit = FormHelper.wrapSubmit(this.form, () => {
 
+    this.isFormLoading = true;
+
     this.auth.register(this.form.value)
       .subscribe({
         next: () => {
+          this.isFormLoading = false;
+
           this.auth.user$.subscribe(user => {
             this.router.navigate([this.returnUrl]);
           });

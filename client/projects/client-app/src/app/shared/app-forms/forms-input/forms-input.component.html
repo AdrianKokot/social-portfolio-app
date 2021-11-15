@@ -10,7 +10,7 @@
          [placeholder]="placeholder">
 </div>
 
-<div class="mt-1 text-sm text-red-500"
+<div class="text-xs mt-1.5 px-2 text-red-500 font-medium"
      *ngIf="control.touched && !control.valid">
   <p *ngFor="let error of control.errors | keyvalue">
     {{ getErrorMessage(error.key, error.value) }}
