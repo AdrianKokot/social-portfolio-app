@@ -3,6 +3,7 @@ import { FormBuilder } from "@angular/forms";
 import { AuthService } from "../../../../shared/shared/auth/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormHelper } from "../../../../shared/app-forms/form-helper";
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-auth-form',
@@ -29,13 +30,19 @@ export abstract class AuthFormComponent {
     this.isFormLoading = true;
 
     this.auth[this.onSubmitAuthMethodName](this.form.value)
+      .pipe(
+        finalize(() => {
+          this.isFormLoading = false;
+        })
+      )
       .subscribe({
         next: () => {
-          this.isFormLoading = false;
           this.onSuccessSubmitMethod();
         },
         error: FormHelper.handleApiError(this.form)
       });
+
+
   });
 
 }
