@@ -1,0 +1,31 @@
+<label
+  class="flex items-center py-2 pl-2 pr-4 rounded-lg bg-gray-100 focus-within:shadow focus-within:focus-visible:ring-2 focus-within:focus-visible:ring-black relative">
+
+  <ui-icon icon="search"
+           class="text-gray-500">
+  </ui-icon>
+  <input class="ml-3 bg-gray-100 w-full focus:outline-none placeholder-gray-500"
+         placeholder="Search"/>
+
+</label>
+
+<div *ngIf="isSearchBarVisible"
+     class="bg-white shadow position w-full max-w-screen-xs transition-all duration-300 fixed max-h-64 mt-2 rounded-lg px-4 py-2 overflow-y-auto h-full">
+  <ul>
+    <li>
+      <a href="https://kokotadrian.pl"
+         target="_blank">Test1
+      </a>
+    </li>
+    <li>
+      <a href="https://kokotadrian.pl"
+         target="_blank">Test2
+      </a>
+    </li>
+    <li>
+      <a href="https://kokotadrian.pl"
+         target="_blank">Test3
+      </a>
+    </li>
+  </ul>
+</div>

@@ -1,4 +1,4 @@
-<nav class="flex justify-between items-center px-8 py-4 bg-gray-50 shadow-sm border-b border-gray-200">
+<nav class="grid grid-cols-5 items-center px-8 py-4 bg-gray-50 shadow-sm border-b border-gray-200">
 
   <div>
     <a href="/app"
@@ -9,16 +9,9 @@
 
   </div>
 
-  <div>
+  <app-dashboard-nav-search class="col-span-3 mx-auto"></app-dashboard-nav-search>
 
-    <div class="flex items-center py-2 pl-2 pr-4 rounded-lg bg-gray-100 w-60">
-      <ui-icon icon="search"></ui-icon>
-      <span class="ml-3">Search</span>
-    </div>
-
-  </div>
-
-  <div class="flex">
+  <div class="flex ml-auto">
     <div class="p-2 rounded-lg bg-gray-100 mr-4 flex items-center justify-center">
       <ui-icon icon="notification"></ui-icon>
     </div>
@@ -30,3 +23,5 @@
   </div>
 
 </nav>
+
+

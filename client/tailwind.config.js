@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
 const loadingVariant = plugin(function({addVariant, e}) {
-  
+
   addVariant("loading", ({ modifySelectors, separator }) => {
     modifySelectors(({ className }) => {
       const newClass = e(`loading${separator}${className}`);
