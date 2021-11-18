@@ -1,15 +1,18 @@
 <label
+  [class.shadow]="isSearchBarVisible"
   class="flex items-center py-2 pl-2 pr-4 rounded-lg bg-gray-100 focus-within:shadow focus-within:focus-visible:ring-2 focus-within:focus-visible:ring-black relative">
 
-  <ui-icon icon="search"
-           class="text-gray-500">
+  <ui-icon class="text-gray-500"
+           icon="search">
   </ui-icon>
-  <input class="ml-3 bg-gray-100 w-full focus:outline-none text-gray-900 placeholder-gray-500"
+  <input #searchInput
+         (input)="search(searchInput.value)"
+         class="ml-3 bg-gray-100 w-full focus:outline-none text-gray-900 placeholder-gray-500"
          placeholder="Search"/>
 
 </label>
 
-<div *ngIf="isSearchBarVisible"
+<div *ngIf="isSearchBarVisible && isSearchBarResultVisible"
      class="bg-white shadow position w-full max-w-screen-xs transition-all duration-300 fixed max-h-64 top-16 rounded-lg px-4 py-2 overflow-y-auto h-full">
   <ul>
     <li>

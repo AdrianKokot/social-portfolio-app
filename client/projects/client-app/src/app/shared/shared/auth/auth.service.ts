@@ -74,4 +74,10 @@ export class AuthService {
         })
       )
   }
+
+  public logout(): Observable<boolean> {
+    localStorage.removeItem('user');
+    this._user$.next(null);
+    return this.isLoggedIn$.pipe(map(x => !x));
+  }
 }

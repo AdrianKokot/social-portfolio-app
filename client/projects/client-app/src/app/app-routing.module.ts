@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GuestGuard } from "./shared/shared/auth/guards/guest.guard";
 import { AuthGuard } from "./shared/shared/auth/guards/auth.guard";
+import { LogoutComponent } from "./shared/shared/auth/components/logout/logout.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'landing', pathMatch: 'full'},
@@ -9,6 +10,11 @@ const routes: Routes = [
     path: 'landing',
     canActivate: [GuestGuard],
     loadChildren: () => import('./modules/landing/landing.module').then(m => m.LandingModule)
+  },
+  {
+    path: 'auth/logout',
+    component: LogoutComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'auth',
