@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { BehaviorSubject, Observable } from 'rxjs';
-import { FormHelper } from "../../../../shared/app-forms/form-helper";
-import { AuthService } from "../../../../shared/shared/auth/auth.service";
+import { Component } from '@angular/core';
+import { Validators } from "@angular/forms";
 import { AuthFormComponent } from "../auth-form/auth-form.component";
 
 @Component({
@@ -17,12 +13,5 @@ export class AuthLoginComponent extends AuthFormComponent {
     password: ['', [Validators.required]]
   });
 
-  override onSubmitAuthMethodName: 'login'|'register' = 'login';
-
-  protected override onSuccessSubmitMethod = () => {
-    this.auth.user$.subscribe(user => {
-      this.router.navigate([this.returnUrl]);
-    });
-  }
-
+  override onSubmitAuthMethodName: 'login' | 'register' = 'login';
 }

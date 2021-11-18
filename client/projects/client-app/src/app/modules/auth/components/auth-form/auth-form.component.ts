@@ -13,7 +13,11 @@ import { finalize } from "rxjs";
 export abstract class AuthFormComponent {
   public form = this.fb.group({});
   protected onSubmitAuthMethodName!: 'login' | 'register';
-  protected onSuccessSubmitMethod!: () => void;
+
+  protected onSuccessSubmitMethod: () => void = () => {
+      this.router.navigate([this.returnUrl]);
+  }
+
 
   public isFormLoading = false;
   public returnUrl = this.route.snapshot.params['returnUrl'] || '/app'

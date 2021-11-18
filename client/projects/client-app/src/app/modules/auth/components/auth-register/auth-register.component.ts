@@ -15,12 +15,5 @@ export class AuthRegisterComponent extends AuthFormComponent {
     passwordConfirmation: ['', [Validators.required]]
   });
 
-  override onSubmitAuthMethodName: 'login' | 'register' = 'login';
-
-  protected override onSuccessSubmitMethod = () => {
-    this.auth.user$.subscribe(user => {
-      this.router.navigate([this.returnUrl]);
-    });
-  }
-
+  override onSubmitAuthMethodName: 'login' | 'register' = 'register';
 }

@@ -1,7 +1,7 @@
 a[variant="landing"] {
   @apply inline-block;
   @apply font-sans-heading;
-  @apply bg-green-500;
+  @apply bg-green-600;
   @apply py-4;
   @apply text-xl;
   @apply px-10;
@@ -15,9 +15,15 @@ a[variant="landing"] {
 }
 
 a[variant="base"] {
-  @apply text-gray-500;
+  @apply text-gray-600;
   @apply hover:text-blue-600;
   @apply duration-300;
   @apply transition-colors;
   @apply underline;
+}
+
+a[variant="logo"] {
+  @apply font-cursive;
+  @apply text-3xl;
+  @apply text-green-600;
 }

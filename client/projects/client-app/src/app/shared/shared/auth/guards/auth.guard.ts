@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  CanActivateChild, CanLoad,
-  Route, Router,
+  CanActivateChild,
+  Router,
   RouterStateSnapshot,
-  UrlSegment,
   UrlTree
 } from '@angular/router';
 import { Observable, tap } from 'rxjs';
