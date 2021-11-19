@@ -13,7 +13,6 @@ export class FormValidationMessage {
       return ` can be up to ${requiredLength} characters long.`;
     },
     sameAs: ({controlNames}) => {
-
       return ` doesn't match the value of ${controlNames[0]} field.`;
     }
   };

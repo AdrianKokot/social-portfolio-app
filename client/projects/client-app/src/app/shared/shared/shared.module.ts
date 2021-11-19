@@ -4,9 +4,9 @@ import { AuthModule } from "./auth/auth.module";
 import { HttpClientModule } from "@angular/common/http";
 
 
-
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -18,4 +18,5 @@ import { HttpClientModule } from "@angular/common/http";
     AuthModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

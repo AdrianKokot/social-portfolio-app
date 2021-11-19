@@ -14,15 +14,28 @@
 
 <div *ngIf="isSearchInputExtended && (isSearchLoading || searchResult.length > 0)"
      @dropdownAnimation
-     class="bg-white shadow inset-x-0 transition-all duration-300 absolute top-16 rounded-lg px-4 py-2 overflow-y-auto">
+     class="bg-white shadow inset-x-0 transition-all duration-300 absolute top-16 p-2 rounded-lg overflow-y-auto ">
 
-  <div *ngIf="isSearchLoading; else loaded">
-    Loading...
-  </div>
+  <ui-loading class="h-8 text-gray-500"
+              *ngIf="isSearchLoading; else loaded">
+  </ui-loading>
 
   <ng-template #loaded>
-    <ul>
-      <li *ngFor="let result of searchResult">{{result}}</li>
+    <ul class="max-w-full">
+      <li *ngFor="let result of searchResult">
+        <a class="flex items-center rounded-lg px-4 py-2 hover:bg-gray-50 duration-300 transition-colors"
+           href="">
+          <span class="mr-2 truncate">{{result}}</span>
+          <ui-icon icon="arrow-right" class="ml-auto text-gray-500"></ui-icon>
+        </a>
+      </li>
+      <li>
+        <a class="block rounded-lg text-green-600 px-4 py-2 hover:bg-gray-50 duration-300 transition-colors"
+           href="">
+          See more...
+        </a>
+      </li>
+
     </ul>
   </ng-template>
 

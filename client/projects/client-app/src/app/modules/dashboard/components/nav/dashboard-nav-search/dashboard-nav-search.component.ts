@@ -37,18 +37,16 @@ export class DashboardNavSearchComponent extends AbstractBodyClickListenerCompon
 
   private searchResult$ = (this.searchControl.valueChanges as Observable<string>)
     .pipe(
-      tap(() => {
-        this.searchResult = [];
-      }),
-      debounceTime(300),
       map(searchText => searchText.trim()),
       tap(searchText => {
+        this.searchResult = [];
         this.isSearchLoading = searchText.length > 3;
-
       }),
+      debounceTime(300),
       filter(x => x.length > 3),
       distinctUntilChanged(),
       switchMap((searchText) => {
+
         let arr = [];
 
         for (let i = 0; i < 5; i++) {

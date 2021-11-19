@@ -22,9 +22,14 @@ import { uiIcons } from '../icons';
   `
 })
 export class UIIconComponent {
-  private selectedIcon = '';
+  public icons: { [key: string]: SafeHtml } = {};
+  private selectedIcon: string = '';
   private cssSizeClasses = 'w-6 h-6';
   private cssClasses = '';
+  @HostBinding('class') private hostClass = this.cssSizeClasses;
+
+  constructor(private sanitizer: DomSanitizer) {
+  }
 
   @Input()
   public set sizeClass(value: string) {
@@ -38,23 +43,15 @@ export class UIIconComponent {
     this.updateHostCssClasses();
   }
 
-  @HostBinding('class') private hostClass = this.cssSizeClasses;
-
-  @Input()
-  public set icon(icon: string) {
-    this.selectedIcon = icon in this.icons ? icon : 'default';
-  }
-
   public get icon(): string {
     return this.selectedIcon;
   }
 
-  public icons: { [key: string]: SafeHtml } = {};
+  @Input()
+  public set icon(icon: string) {
+    this.selectedIcon = icon in uiIcons ? icon : 'default';
 
-  constructor(private sanitizer: DomSanitizer) {
-    for (const key of Object.keys(uiIcons)) {
-      this.icons[key] = this.sanitizer.bypassSecurityTrustHtml(uiIcons[key]);
-    }
+    this.icons[this.selectedIcon] = this.sanitizer.bypassSecurityTrustHtml(uiIcons[this.selectedIcon]);
   }
 
   private updateHostCssClasses(): void {
