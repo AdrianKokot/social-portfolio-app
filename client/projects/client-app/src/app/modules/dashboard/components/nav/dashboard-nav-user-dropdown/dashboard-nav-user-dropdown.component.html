@@ -8,22 +8,22 @@
 <ul *ngIf="isDropdownVisible"
     class=" absolute w-50 bg-white shadow-md border border-gray-200 overflow-y-hidden rounded-lg top-full mt-2 w-56 right-0">
   <li>
-    <a class="block px-4 py-2 hover:bg-gray-50 border-b border-gray-100 duration-300 transition-colors"
+    <a class="flex items-center px-4 py-2 hover:bg-gray-50 border-b border-gray-100 duration-300 transition-colors"
        href="">
-      My account
+      <ui-icon icon="user" class="mr-2" sizeClass="h-5 w-5"></ui-icon> My account
     </a>
   </li>
   <li>
-    <a class="block px-4 py-2 hover:bg-gray-50 border-b border-gray-100 duration-300 transition-colors"
+    <a class="flex items-center  px-4 py-2 hover:bg-gray-50 border-b border-gray-100 duration-300 transition-colors"
        href="">
-      Settings
+      <ui-icon icon="settings" class="mr-2" sizeClass="h-5 w-5"></ui-icon> Settings
     </a>
   </li>
   <li>
-    <a class="block px-4 py-2 hover:bg-gray-50 duration-300 transition-colors"
+    <a class="flex items-center  px-4 py-2 hover:bg-gray-50 duration-300 transition-colors"
        href="/auth/logout"
        routerLink="/auth/logout">
-      Logout
+      <ui-icon icon="logout" class="mr-2" sizeClass="h-5 w-5"></ui-icon> Logout
     </a>
   </li>
 </ul>
