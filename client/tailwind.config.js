@@ -103,16 +103,16 @@ module.exports = {
         '"Noto Color Emoji"',
       ],
       // serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-      // mono: [
-      //   'ui-monospace',
-      //   'SFMono-Regular',
-      //   'Menlo',
-      //   'Monaco',
-      //   'Consolas',
-      //   '"Liberation Mono"',
-      //   '"Courier New"',
-      //   'monospace',
-      // ],
+      mono: [
+        'ui-monospace',
+        'SFMono-Regular',
+        'Menlo',
+        'Monaco',
+        'Consolas',
+        '"Liberation Mono"',
+        '"Courier New"',
+        'monospace',
+      ],
       cursive: [
         '"Pacifico"',
         'cursive'

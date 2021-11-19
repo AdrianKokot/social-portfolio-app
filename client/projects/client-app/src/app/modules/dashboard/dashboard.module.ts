@@ -10,6 +10,7 @@ import { DashboardNavSearchComponent } from "./components/nav/dashboard-nav-sear
 import { DashboardNavUserDropdownComponent } from './components/nav/dashboard-nav-user-dropdown/dashboard-nav-user-dropdown.component';
 import { AbstractComponentsModule } from "../../shared/shared/abstract-components/abstract-components.module";
 import { AppFormsModule } from "../../shared/app-forms/app-forms.module";
+import { DashboardNavUserNotificationsComponent } from './components/nav/dashboard-nav-user-notifications/dashboard-nav-user-notifications.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { AppFormsModule } from "../../shared/app-forms/app-forms.module";
     DashboardComponent,
     DashboardNavComponent,
     DashboardNavSearchComponent,
-    DashboardNavUserDropdownComponent
+    DashboardNavUserDropdownComponent,
+    DashboardNavUserNotificationsComponent
   ],
   imports: [
     SharedModule,

@@ -7,7 +7,7 @@ import { dropdownAnimation } from "../../../../../shared/shared/animations/dropd
   templateUrl: './dashboard-nav-user-dropdown.component.html',
   styles: [],
   host: {
-    class: 'block relative select-none'
+    class: 'block select-none'
   },
   animations: [dropdownAnimation]
 })
