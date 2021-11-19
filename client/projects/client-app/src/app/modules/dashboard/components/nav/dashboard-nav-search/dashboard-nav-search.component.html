@@ -13,16 +13,17 @@
 </label>
 
 <div *ngIf="isSearchInputExtended && (isSearchLoading || searchResult.length > 0)"
-     class="bg-white shadow position w-full max-w-screen-xs transition-all duration-300 fixed max-h-64 top-16 rounded-lg px-4 py-2 overflow-y-auto h-full">
+     @dropdownAnimation
+     class="bg-white shadow inset-x-0 transition-all duration-300 absolute top-16 rounded-lg px-4 py-2 overflow-y-auto">
 
   <div *ngIf="isSearchLoading; else loaded">
     Loading...
   </div>
 
   <ng-template #loaded>
-  <ul>
-    <li *ngFor="let result of searchResult">{{result}}</li>
-  </ul>
+    <ul>
+      <li *ngFor="let result of searchResult">{{result}}</li>
+    </ul>
   </ng-template>
 
 </div>

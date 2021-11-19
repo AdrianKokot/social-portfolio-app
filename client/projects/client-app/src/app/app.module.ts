@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedUIModule } from './shared/shared-ui/shared-ui.module';
 import { SharedModule } from './shared/shared/shared.module';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { SharedModule } from './shared/shared/shared.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,
     SharedUIModule

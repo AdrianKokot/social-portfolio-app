@@ -13,6 +13,7 @@ import {
   switchMap,
   tap
 } from "rxjs";
+import { dropdownAnimation } from "../../../../../shared/shared/animations/dropdown.animation";
 
 @Component({
   selector: 'app-dashboard-nav-search',
@@ -20,7 +21,8 @@ import {
   styles: [],
   host: {
     class: 'block relative transition-all duration-300 max-w-[18rem] w-full'
-  }
+  },
+  animations: [dropdownAnimation]
 })
 export class DashboardNavSearchComponent extends AbstractBodyClickListenerComponent implements OnInit, OnDestroy {
 

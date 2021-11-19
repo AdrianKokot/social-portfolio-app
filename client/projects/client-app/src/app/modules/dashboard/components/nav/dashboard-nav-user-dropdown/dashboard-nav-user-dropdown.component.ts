@@ -1,5 +1,6 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractBodyClickListenerComponent } from "../../../../../shared/shared/abstract-components/components/abstract-body-click-listener/abstract-body-click-listener.component";
+import { dropdownAnimation } from "../../../../../shared/shared/animations/dropdown.animation";
 
 @Component({
   selector: 'app-dashboard-nav-user-dropdown',
@@ -7,7 +8,8 @@ import { AbstractBodyClickListenerComponent } from "../../../../../shared/shared
   styles: [],
   host: {
     class: 'block relative select-none'
-  }
+  },
+  animations: [dropdownAnimation]
 })
 export class DashboardNavUserDropdownComponent extends AbstractBodyClickListenerComponent {
 
