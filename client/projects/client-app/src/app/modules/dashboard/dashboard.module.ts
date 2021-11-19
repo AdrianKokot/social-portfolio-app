@@ -8,6 +8,8 @@ import { DashboardNavComponent } from './components/nav/dashboard-nav/dashboard-
 import { UILibModule } from "@ui-lib";
 import { DashboardNavSearchComponent } from "./components/nav/dashboard-nav-search/dashboard-nav-search.component";
 import { DashboardNavUserDropdownComponent } from './components/nav/dashboard-nav-user-dropdown/dashboard-nav-user-dropdown.component';
+import { AbstractComponentsModule } from "../../shared/shared/abstract-components/abstract-components.module";
+import { AppFormsModule } from "../../shared/app-forms/app-forms.module";
 
 
 @NgModule({
@@ -20,8 +22,10 @@ import { DashboardNavUserDropdownComponent } from './components/nav/dashboard-na
   imports: [
     SharedModule,
     SharedUIModule,
+    AppFormsModule,
     DashboardRoutingModule,
-    UILibModule
+    UILibModule,
+    AbstractComponentsModule
   ]
 })
 export class DashboardModule {

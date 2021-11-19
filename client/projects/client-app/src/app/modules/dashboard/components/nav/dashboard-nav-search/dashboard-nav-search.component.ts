@@ -1,4 +1,18 @@
-import { Component, ElementRef, HostBinding, HostListener, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AbstractBodyClickListenerComponent } from "../../../../../shared/shared/abstract-components/components/abstract-body-click-listener/abstract-body-click-listener.component";
+import { FormBuilder } from "@angular/forms";
+import {
+  debounceTime,
+  delay,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  of,
+  Subscription,
+  switchMap,
+  tap
+} from "rxjs";
 
 @Component({
   selector: 'app-dashboard-nav-search',
@@ -8,51 +22,77 @@ import { Component, ElementRef, HostBinding, HostListener, Renderer2 } from '@an
     class: 'block relative transition-all duration-300 max-w-[18rem] w-full'
   }
 })
-export class DashboardNavSearchComponent {
-  public isSearchBarVisible = false;
+export class DashboardNavSearchComponent extends AbstractBodyClickListenerComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = '';
-  public isSearchBarResultVisible = false;
-  public searchText: string = '';
-  private unlistenOutsideClick: (() => void) | null = null;
+
+  public isSearchInputExtended: boolean = false;
+
+  public searchControl = this.fb.control('', []);
+  public isSearchLoading = false;
+
+  public searchResult: string[] = [];
+
+  private searchResult$ = (this.searchControl.valueChanges as Observable<string>)
+    .pipe(
+      tap(() => {
+        this.searchResult = [];
+      }),
+      debounceTime(300),
+      map(searchText => searchText.trim()),
+      tap(searchText => {
+        this.isSearchLoading = searchText.length > 3;
+
+      }),
+      filter(x => x.length > 3),
+      distinctUntilChanged(),
+      switchMap((searchText) => {
+        let arr = [];
+
+        for (let i = 0; i < 5; i++) {
+          arr.push(searchText + String.fromCharCode(i * 2 + 97));
+        }
+
+        return of(arr)
+          .pipe(
+            delay(300),
+            tap(() => {
+              this.isSearchLoading = false;
+            })
+          );
+      })
+    );
+  private searchResultSubscription: Subscription | null = null;
+
 
   constructor(
-    private elementRef: ElementRef,
-    private renderer2: Renderer2) {
+    private fb: FormBuilder,
+    elementRef: ElementRef,
+    renderer2: Renderer2) {
+    super(elementRef, renderer2);
   }
 
-  public search(value: string): void {
-    this.isSearchBarResultVisible = value.length > 3;
+  ngOnDestroy(): void {
+    this.searchResultSubscription?.unsubscribe();
+  }
+
+  ngOnInit(): void {
+    this.searchResultSubscription = this.searchResult$.subscribe(result => this.searchResult = result);
+  }
+
+  protected override onOutsideComponentBodyClick(): void {
+    this.isSearchInputExtended = false;
+    this.hostClass = '';
+
+    this.stopBodyClickListening();
   }
 
   @HostListener('focusin')
   private onFocusIn() {
-    this.isSearchBarVisible = true;
+    this.isSearchInputExtended = true;
     this.hostClass = '!max-w-screen-xs';
 
-    this.listenOutsideClick();
+    this.startBodyClickListening();
   }
 
-  private blur() {
-    this.isSearchBarVisible = false;
-    this.hostClass = '';
-
-    if (this.unlistenOutsideClick) {
-      this.unlistenOutsideClick();
-    }
-  }
-
-  private listenOutsideClick(): void {
-    if (this.unlistenOutsideClick !== null) {
-      return;
-    }
-    this.unlistenOutsideClick = this.renderer2.listen(document.body, 'click', e => {
-      const clickedOutsideComponent: boolean = !e.composedPath().includes(this.elementRef.nativeElement);
-
-      if (clickedOutsideComponent) {
-        this.blur();
-      }
-
-    });
-  }
 }

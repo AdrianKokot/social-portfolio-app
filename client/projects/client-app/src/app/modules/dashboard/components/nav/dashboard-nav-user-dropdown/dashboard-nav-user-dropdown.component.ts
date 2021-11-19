@@ -1,4 +1,5 @@
 import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { AbstractBodyClickListenerComponent } from "../../../../../shared/shared/abstract-components/components/abstract-body-click-listener/abstract-body-click-listener.component";
 
 @Component({
   selector: 'app-dashboard-nav-user-dropdown',
@@ -8,38 +9,24 @@ import { Component, ElementRef, Renderer2 } from '@angular/core';
     class: 'block relative select-none'
   }
 })
-export class DashboardNavUserDropdownComponent {
+export class DashboardNavUserDropdownComponent extends AbstractBodyClickListenerComponent {
 
   public isDropdownVisible: boolean = false;
-  private unlistenOutsideClick: (() => void) | null = null;
 
-  constructor(private elementRef: ElementRef,
-              private renderer2: Renderer2) {
+  protected override onOutsideComponentBodyClick() {
+    this.hide();
   }
 
   public show() {
     this.isDropdownVisible = true;
 
-    this.listenOutsideClick();
+    this.startBodyClickListening();
   }
 
   public hide() {
     this.isDropdownVisible = false;
 
-    if (this.unlistenOutsideClick) {
-      this.unlistenOutsideClick();
-    }
-  }
-
-  private listenOutsideClick(): void {
-    this.unlistenOutsideClick = this.renderer2.listen(document.body, 'click', e => {
-      const clickedOutsideComponent: boolean = !e.composedPath().includes(this.elementRef.nativeElement);
-
-      if (clickedOutsideComponent) {
-        this.hide();
-      }
-
-    });
+    this.stopBodyClickListening();
   }
 
   toggle() {

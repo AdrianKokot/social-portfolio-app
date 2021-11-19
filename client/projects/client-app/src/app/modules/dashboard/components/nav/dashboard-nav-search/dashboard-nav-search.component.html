@@ -1,34 +1,28 @@
-<label
-  [class.shadow]="isSearchBarVisible"
-  class="flex items-center py-2 pl-2 pr-4 rounded-lg bg-gray-100 focus-within:shadow focus-within:focus-visible:ring-2 focus-within:focus-visible:ring-black relative">
+<label [class.shadow]="isSearchInputExtended"
+       class="flex items-center py-2 pl-2 pr-4 rounded-lg bg-gray-100 focus-within:shadow focus-within:focus-visible:ring-2 focus-within:focus-visible:ring-black relative">
 
   <ui-icon class="text-gray-500"
            icon="search">
   </ui-icon>
-  <input #searchInput
-         (input)="search(searchInput.value)"
-         class="ml-3 bg-gray-100 w-full focus:outline-none text-gray-900 placeholder-gray-500"
-         placeholder="Search"/>
+
+  <input
+    [formControl]="searchControl"
+    class="ml-3 bg-gray-100 w-full focus:outline-none text-gray-900 placeholder-gray-500"
+    placeholder="Search"/>
 
 </label>
 
-<div *ngIf="isSearchBarVisible && isSearchBarResultVisible"
+<div *ngIf="isSearchInputExtended && (isSearchLoading || searchResult.length > 0)"
      class="bg-white shadow position w-full max-w-screen-xs transition-all duration-300 fixed max-h-64 top-16 rounded-lg px-4 py-2 overflow-y-auto h-full">
+
+  <div *ngIf="isSearchLoading; else loaded">
+    Loading...
+  </div>
+
+  <ng-template #loaded>
   <ul>
-    <li>
-      <a href="https://kokotadrian.pl"
-         target="_blank">Test1
-      </a>
-    </li>
-    <li>
-      <a href="https://kokotadrian.pl"
-         target="_blank">Test2
-      </a>
-    </li>
-    <li>
-      <a href="https://kokotadrian.pl"
-         target="_blank">Test3
-      </a>
-    </li>
+    <li *ngFor="let result of searchResult">{{result}}</li>
   </ul>
+  </ng-template>
+
 </div>
