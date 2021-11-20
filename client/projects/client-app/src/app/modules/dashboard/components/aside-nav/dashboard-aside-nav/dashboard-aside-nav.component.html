@@ -1,0 +1,15 @@
+<nav class="px-8 sticky top-24 -mt-px left-0">
+  <p class="text-lg mb-4">Menu</p>
+
+  <a *ngFor="let link of links"
+     [href]="link.href"
+     [routerLink]="link.href"
+     routerLinkActive="bg-gray-200 font-medium"
+     class="flex items-center bg-gray-100 rounded-lg py-2 pl-3 pr-4 hover:bg-gray-200 duration-300 transition-colors mb-2">
+    <ui-icon [icon]="link.icon"
+             class="mr-3"
+             sizeClass="h-5 w-5"></ui-icon>
+    {{link.label}}
+  </a>
+
+</nav>

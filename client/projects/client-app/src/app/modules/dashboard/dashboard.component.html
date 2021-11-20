@@ -1,10 +1,26 @@
 <app-dashboard-nav class="sticky inset-x-0 top-0 w-full block"></app-dashboard-nav>
 
-<main class=" sm:bg-transparent min-h-screen">
+<div class="my-6 flex sm:bg-transparent min-h-screen w-full">
 
-  <p>Dashboard</p>
-  <router-outlet></router-outlet>
+  <app-dashboard-aside-nav class="w-64 relative"></app-dashboard-aside-nav>
 
-</main>
+  <main class=" border-l border-r border-gray-200 flex-grow">
+
+    <div class="container mx-auto">
+
+      <p>Dashboard</p>
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+
+  </main>
+
+  <aside class="w-64">
+
+  </aside>
+
+</div>
 
 <app-footer></app-footer>

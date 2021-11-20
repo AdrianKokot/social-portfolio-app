@@ -11,6 +11,7 @@ import { DashboardNavUserDropdownComponent } from './components/nav/dashboard-na
 import { AbstractComponentsModule } from "../../shared/shared/abstract-components/abstract-components.module";
 import { AppFormsModule } from "../../shared/app-forms/app-forms.module";
 import { DashboardNavUserNotificationsComponent } from './components/nav/dashboard-nav-user-notifications/dashboard-nav-user-notifications.component';
+import { DashboardAsideNavComponent } from './components/aside-nav/dashboard-aside-nav/dashboard-aside-nav.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { DashboardNavUserNotificationsComponent } from './components/nav/dashboa
     DashboardNavComponent,
     DashboardNavSearchComponent,
     DashboardNavUserDropdownComponent,
-    DashboardNavUserNotificationsComponent
+    DashboardNavUserNotificationsComponent,
+    DashboardAsideNavComponent
   ],
   imports: [
     SharedModule,
