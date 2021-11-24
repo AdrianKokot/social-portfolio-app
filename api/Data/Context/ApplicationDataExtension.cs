@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sociussion.Data.Interfaces;
 
 namespace Sociussion.Data.Context
 {
@@ -15,6 +16,8 @@ namespace Sociussion.Data.Context
                 {
                     options.UseSqlite(config.GetConnectionString("DefaultConnection"));
                 });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

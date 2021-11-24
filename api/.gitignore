@@ -450,3 +450,5 @@ $RECYCLE.BIN/
 .vscode
 .vs
 .idea
+
+app.db
