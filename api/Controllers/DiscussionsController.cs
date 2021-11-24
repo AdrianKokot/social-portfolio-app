@@ -2,21 +2,21 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sociussion.Data.Interfaces;
-using Sociussion.Data.Models.Community;
+using Sociussion.Data.Models.Discussion;
 
 namespace Sociussion.Controllers
 {
-    public class CommunitiesController : GenericApiController<Community, ulong>
+    public class DiscussionsController : GenericApiController<Discussion, ulong>
     {
-        public CommunitiesController(IUnitOfWork unitOfWork)
-            : base(unitOfWork.CommunityRepository)
+        public DiscussionsController(IUnitOfWork unitOfWork)
+            : base(unitOfWork.DiscussionRepository)
         {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCommunityModel createModel)
+        public async Task<IActionResult> CreateDiscussion(CreateDiscussionModel createModel)
         {
-            var model = new Community() {Name = createModel.Name};
+            var model = new Discussion() {Title = createModel.Title};
 
             try
             {

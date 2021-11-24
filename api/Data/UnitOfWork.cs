@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Sociussion.Data.Context;
 using Sociussion.Data.Interfaces;
 using Sociussion.Data.Models.Community;
+using Sociussion.Data.Models.Discussion;
 using Sociussion.Data.Repositories;
 
 namespace Sociussion.Data
@@ -11,13 +12,23 @@ namespace Sociussion.Data
     {
         private readonly DbContext _context;
 
-        private IGenericRepository<Community, string> community { get; set; }
+        private IGenericRepository<Community, ulong> community { get; set; }
 
-        public IGenericRepository<Community, string> CommunityRepository
+        public IGenericRepository<Community, ulong> CommunityRepository
         {
             get
             {
-                return community ??= new GenericRepository<Community, string>(_context);
+                return community ??= new GenericRepository<Community, ulong>(_context);
+            }
+        }
+
+        private IGenericRepository<Discussion, ulong> discussion { get; set; }
+
+        public IGenericRepository<Discussion, ulong> DiscussionRepository
+        {
+            get
+            {
+                return discussion ??= new GenericRepository<Discussion, ulong>(_context);
             }
         }
 
