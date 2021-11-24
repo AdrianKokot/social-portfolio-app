@@ -1,24 +1,33 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Sociussion.Data.Collections;
 using Sociussion.Data.Interfaces;
 using Sociussion.Data.Models.Community;
+using Sociussion.Helpers;
 
 namespace Sociussion.Controllers
 {
-    public class CommunityController : ApiController
+    public class CommunitiesController : ApiController
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public CommunityController(IUnitOfWork unitOfWork)
+        public CommunitiesController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCommunities()
+        public async Task<IActionResult> GetCommunities([FromQuery] PaginationParams paginationParams)
         {
-            return Ok(await _unitOfWork.CommunityRepository.GetAll());
+            var result = await _unitOfWork.CommunityRepository.GetAll(paginationParams);
+
+
+            Response.Headers.Add("X-Pagination", AppJsonSerializer.Serialize(result.Metadata));
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]

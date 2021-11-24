@@ -29,6 +29,11 @@ namespace Sociussion
 
             services.AddApplicationServices();
 
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            });
+
             services.AddControllers()
                 .AddMvcOptions(options =>
                 {

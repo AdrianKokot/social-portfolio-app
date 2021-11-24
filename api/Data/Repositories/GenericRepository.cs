@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sociussion.Data.Collections;
 using Sociussion.Data.Interfaces;
 
 namespace Sociussion.Data.Repositories
@@ -23,9 +25,9 @@ namespace Sociussion.Data.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public async Task<PaginatedList<TEntity>> GetAll(PaginationParams paginationParams)
         {
-            return await _dbSet.ToListAsync();
+            return await PaginatedList<TEntity>.FromQueryableAsync(_dbSet.AsQueryable(), paginationParams);
         }
 
         public async Task<TEntity> Add(TEntity entity)
