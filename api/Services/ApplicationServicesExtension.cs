@@ -35,12 +35,7 @@ namespace Sociussion.Services
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             
             services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(config =>
                 {
                     config.TokenValidationParameters = new TokenValidationParameters()

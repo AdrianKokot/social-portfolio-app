@@ -50,7 +50,7 @@ namespace Sociussion.Services.Token
 
             var authClaims = new List<Claim>
             {
-                // new(ClaimTypes.Email, user.Email)//,
+                new(ClaimTypes.NameIdentifier, user.Id),
                 new(JwtRegisteredClaimNames.UniqueName, user.Email),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
