@@ -9,17 +9,17 @@ namespace Sociussion.Controllers
 {
     public abstract class GenericApiController<TEntity, TEntityKey> : ApiController where TEntity : class
     {
-        protected readonly IGenericRepository<TEntity, TEntityKey> _repository;
+        internal readonly IRepository<TEntity, TEntityKey> Repository;
 
-        protected GenericApiController(IGenericRepository<TEntity, TEntityKey> repository)
+        protected GenericApiController(IRepository<TEntity, TEntityKey> repository)
         {
-            _repository = repository;
+            Repository = repository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetEntities([FromQuery] PaginationParams paginationParams)
+        public virtual async Task<IActionResult> GetEntities([FromQuery] PaginationParams paginationParams)
         {
-            var result = await _repository.GetAll(paginationParams);
+            var result = await Repository.GetAll(paginationParams);
 
             Response.Headers.Add("X-Pagination", AppJsonSerializer.Serialize(result.Metadata));
 
@@ -27,16 +27,16 @@ namespace Sociussion.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetEntity(TEntityKey id)
+        public virtual async Task<IActionResult> GetEntity(TEntityKey id)
         {
-            try
-            {
-                return Ok(await _repository.Get(id));
-            }
-            catch (Exception e)
+            var entity = await Repository.Get(id);
+
+            if (entity is null)
             {
                 return NotFound();
             }
+
+            return Ok(entity);
         }
     }
 }

@@ -9,8 +9,8 @@ using Sociussion.Data.Context;
 namespace Sociussion.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211124112009_AddCommunity")]
-    partial class AddCommunity
+    [Migration("20211126213239_AddApplicationUser")]
+    partial class AddApplicationUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -158,11 +158,11 @@ namespace Sociussion.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CommunityId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -179,6 +179,7 @@ namespace Sociussion.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
@@ -210,8 +211,6 @@ namespace Sociussion.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommunityId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -220,23 +219,6 @@ namespace Sociussion.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Sociussion.Data.Models.Community.Community", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<ulong>("MembersCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Communities");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -288,18 +270,6 @@ namespace Sociussion.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Sociussion.Data.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Sociussion.Data.Models.Community.Community", null)
-                        .WithMany("Members")
-                        .HasForeignKey("CommunityId");
-                });
-
-            modelBuilder.Entity("Sociussion.Data.Models.Community.Community", b =>
-                {
-                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

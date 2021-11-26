@@ -156,11 +156,11 @@ namespace Sociussion.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong?>("CommunityId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -177,6 +177,7 @@ namespace Sociussion.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
@@ -208,8 +209,6 @@ namespace Sociussion.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommunityId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -226,36 +225,26 @@ namespace Sociussion.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong>("MembersCount")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Description")
+                        .HasMaxLength(512)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("Communities");
-                });
-
-            modelBuilder.Entity("Sociussion.Data.Models.Discussion.Discussion", b =>
-                {
-                    b.Property<ulong>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<ulong?>("CommunityId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(255)
+                    b.Property<string>("PhotoUrl")
+                        .HasMaxLength(512)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommunityId");
+                    b.HasIndex("OwnerId");
 
-                    b.ToTable("Discussion");
+                    b.ToTable("Communities");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -309,27 +298,18 @@ namespace Sociussion.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Sociussion.Data.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Sociussion.Data.Models.Community.Community", null)
-                        .WithMany("Members")
-                        .HasForeignKey("CommunityId");
-                });
-
-            modelBuilder.Entity("Sociussion.Data.Models.Discussion.Discussion", b =>
-                {
-                    b.HasOne("Sociussion.Data.Models.Community.Community", "Community")
-                        .WithMany("Discussions")
-                        .HasForeignKey("CommunityId");
-
-                    b.Navigation("Community");
-                });
-
             modelBuilder.Entity("Sociussion.Data.Models.Community.Community", b =>
                 {
-                    b.Navigation("Discussions");
+                    b.HasOne("Sociussion.Data.Models.ApplicationUser", "Owner")
+                        .WithMany("OwnedCommunities")
+                        .HasForeignKey("OwnerId");
 
-                    b.Navigation("Members");
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Sociussion.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("OwnedCommunities");
                 });
 #pragma warning restore 612, 618
         }

@@ -20,7 +20,7 @@ namespace Sociussion.Controllers
 
             try
             {
-                await _repository.Add(model);
+                await Repository.Add(model);
 
                 return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, model);
             }

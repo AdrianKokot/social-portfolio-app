@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sociussion.Data.Models;
@@ -35,7 +34,10 @@ namespace Sociussion.Controllers.Authentication
 
             ApplicationUser user = new ApplicationUser()
             {
-                Email = model.Email, SecurityStamp = Guid.NewGuid().ToString(), UserName = model.Email
+                Name = model.Name,
+                Email = model.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = model.Email
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -49,7 +51,7 @@ namespace Sociussion.Controllers.Authentication
             var errors = result.Errors
                 .Select(x => x.Description.Replace("Passwords", "Password"))
                 .ToArray();
-            
+
             return BadApiRequest(nameof(model.Password), errors);
         }
 
@@ -62,7 +64,10 @@ namespace Sociussion.Controllers.Authentication
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 return Ok(
-                    new AuthenticatedUserModel {Token = await _tokenService.CreateJwtToken(user), Email = user.Email}
+                    new AuthenticatedUserModel
+                    {
+                        Token = await _tokenService.CreateJwtToken(user), Email = user.Email, Name = user.Name
+                    }
                 );
             }
 

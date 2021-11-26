@@ -9,5 +9,6 @@ namespace Sociussion.Data.Models.Discussion
         [MaxLength(255)] public string Title { get; set; }
 
         public Community.Community Community { get; set; }
+        public ulong CommunityId { get; set; }
     }
 }

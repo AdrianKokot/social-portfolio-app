@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using Sociussion.Data.Context;
 using Sociussion.Data.Interfaces;
 using Sociussion.Data.Models.Community;
@@ -10,25 +9,26 @@ namespace Sociussion.Data
 {
     public sealed class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private readonly DbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        private IGenericRepository<Community, ulong> community { get; set; }
+        private CommunityRepository community { get; set; }
 
-        public IGenericRepository<Community, ulong> CommunityRepository
+        public IRepository<Community, ulong> CommunityRepository
         {
             get
             {
-                return community ??= new GenericRepository<Community, ulong>(_context);
+                return community ??= new CommunityRepository(_context);
             }
         }
 
-        private IGenericRepository<Discussion, ulong> discussion { get; set; }
+        private IRepository<Discussion, ulong> discussion { get; set; }
 
-        public IGenericRepository<Discussion, ulong> DiscussionRepository
+        public IRepository<Discussion, ulong> DiscussionRepository
         {
             get
             {
-                return discussion ??= new GenericRepository<Discussion, ulong>(_context);
+                return null;
+                // return discussion ??= new GenericRepository<Discussion, ulong>(_context);
             }
         }
 
