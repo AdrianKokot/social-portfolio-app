@@ -13,7 +13,7 @@ namespace Sociussion.Data
 
         private CommunityRepository Community { get; set; }
 
-        public IRepository<Community, ulong, CommunityParams> CommunityRepository
+        public ICommunityRepository CommunityRepository
         {
             get
             {

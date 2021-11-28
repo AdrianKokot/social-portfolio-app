@@ -6,30 +6,55 @@ using Microsoft.AspNetCore.Mvc;
 using Sociussion.Data.Interfaces;
 using Sociussion.Data.Models.Community;
 using Sociussion.Data.QueryParams;
-using Sociussion.Helpers;
+using Sociussion.Data.Repositories;
 
 namespace Sociussion.Controllers
 {
-    public class CommunitiesController : GenericApiController<Community, ulong, CommunityParams>
+    [Authorize]
+    public class
+        CommunitiesController : RepositoryApiController<ICommunityRepository, Community, ulong, CommunityParams>
     {
         public CommunitiesController(IUnitOfWork unitOfWork)
             : base(unitOfWork.CommunityRepository)
         {
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCommunities([FromQuery] CommunityParams paginationParams)
+        [HttpPost("{id}/join")]
+        public async Task<IActionResult> JoinCommunity(ulong id)
         {
-            return await base.GetEntities(paginationParams);
+            try
+            {
+                if (await Repository.AddMember(id, User.Identity.GetUserId()))
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+
+            return NotFound();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCommunity(ulong id)
+        [HttpDelete("{id}/leave")]
+        public async Task<IActionResult> LaveCommunity(ulong id)
         {
-            return await base.GetEntity(id);
+            try
+            {
+                if (await Repository.RemoveMember(id, User.Identity.GetUserId()))
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+
+            return NotFound();
         }
-        
-        [Authorize]
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommunityModel createModel)
         {
@@ -44,7 +69,7 @@ namespace Sociussion.Controllers
             {
                 await Repository.Add(model);
 
-                return CreatedAtAction(nameof(GetCommunity), new {id = model.Id}, model);
+                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, model);
             }
             catch (Exception e)
             {
