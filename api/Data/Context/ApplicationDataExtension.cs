@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Sociussion.Data.Interfaces;
 
 namespace Sociussion.Data.Context
@@ -14,7 +15,9 @@ namespace Sociussion.Data.Context
             services
                 .AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                    options
+                        .UseSqlite(config.GetConnectionString("DefaultConnection"))
+                        .EnableSensitiveDataLogging();
                 });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

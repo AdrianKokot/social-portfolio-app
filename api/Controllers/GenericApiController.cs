@@ -3,21 +3,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sociussion.Data.Collections;
 using Sociussion.Data.Interfaces;
+using Sociussion.Data.QueryParams;
 using Sociussion.Helpers;
 
 namespace Sociussion.Controllers
 {
-    public abstract class GenericApiController<TEntity, TEntityKey> : ApiController where TEntity : class
+    public abstract class GenericApiController<TEntity, TEntityKey, TParams> : ApiController where TEntity : class where TParams : PaginationParams
     {
-        internal readonly IRepository<TEntity, TEntityKey> Repository;
+        internal readonly IRepository<TEntity, TEntityKey, TParams> Repository;
 
-        protected GenericApiController(IRepository<TEntity, TEntityKey> repository)
+        protected GenericApiController(IRepository<TEntity, TEntityKey, TParams> repository)
         {
             Repository = repository;
         }
 
-        [HttpGet]
-        public virtual async Task<IActionResult> GetEntities([FromQuery] PaginationParams paginationParams)
+        internal async Task<IActionResult> GetEntities(TParams paginationParams)
         {
             var result = await Repository.GetAll(paginationParams);
 
@@ -26,8 +26,7 @@ namespace Sociussion.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        public virtual async Task<IActionResult> GetEntity(TEntityKey id)
+        internal async Task<IActionResult> GetEntity(TEntityKey id)
         {
             var entity = await Repository.Get(id);
 

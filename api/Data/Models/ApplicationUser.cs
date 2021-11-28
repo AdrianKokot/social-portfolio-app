@@ -12,5 +12,6 @@ namespace Sociussion.Data.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public ICollection<Community.Community> OwnedCommunities { get; set; }
+        public ICollection<Community.Community> MemberOfCommunities { get; set; }
     }
 }

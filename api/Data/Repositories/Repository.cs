@@ -3,11 +3,20 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sociussion.Data.Collections;
 using Sociussion.Data.Interfaces;
+using Sociussion.Data.QueryParams;
 
 namespace Sociussion.Data.Repositories
 {
-    public abstract class Repository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>, IDisposable
+    public abstract class Repository<TEntity, TEntityId> : Repository<TEntity, TEntityId, PaginationParams>
         where TEntity : class
+    {
+        protected Repository(DbContext context) : base(context)
+        {
+        }
+    }
+
+    public abstract class Repository<TEntity, TEntityId, TParams> : IRepository<TEntity, TEntityId, TParams>, IDisposable
+        where TEntity : class where TParams : PaginationParams
     {
         internal readonly DbContext Context;
         internal readonly DbSet<TEntity> Set;
@@ -23,7 +32,7 @@ namespace Sociussion.Data.Repositories
             return await Set.FindAsync(id);
         }
 
-        public virtual async Task<PaginatedList<TEntity>> GetAll(PaginationParams paginationParams)
+        public virtual async Task<PaginatedList<TEntity>> GetAll(TParams paginationParams)
         {
             return await PaginatedList<TEntity>.FromQueryableAsync(Set.AsQueryable(), paginationParams);
         }

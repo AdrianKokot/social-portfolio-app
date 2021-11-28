@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sociussion.Data.QueryParams;
 using Sociussion.Data.Repositories;
 
 namespace Sociussion.Data.Collections

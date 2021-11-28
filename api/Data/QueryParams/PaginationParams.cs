@@ -1,6 +1,8 @@
-﻿namespace Sociussion.Data.Collections
+﻿using Sociussion.Data.Interfaces;
+
+namespace Sociussion.Data.QueryParams
 {
-    public class PaginationParams
+    public class PaginationParams 
     {
         private const int MaxPageSize = 50;
         private int _pageSize = 10;

@@ -17,6 +17,7 @@ namespace Sociussion.Data.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.Entity<Community>()
                 .HasOne<ApplicationUser>(s => s.Owner)
                 .WithMany(u => u.OwnedCommunities)

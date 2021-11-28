@@ -2,7 +2,7 @@
 using Sociussion.Data.Context;
 using Sociussion.Data.Interfaces;
 using Sociussion.Data.Models.Community;
-using Sociussion.Data.Models.Discussion;
+using Sociussion.Data.QueryParams;
 using Sociussion.Data.Repositories;
 
 namespace Sociussion.Data
@@ -11,26 +11,26 @@ namespace Sociussion.Data
     {
         private readonly ApplicationDbContext _context;
 
-        private CommunityRepository community { get; set; }
+        private CommunityRepository Community { get; set; }
 
-        public IRepository<Community, ulong> CommunityRepository
+        public IRepository<Community, ulong, CommunityParams> CommunityRepository
         {
             get
             {
-                return community ??= new CommunityRepository(_context);
+                return Community ??= new CommunityRepository(_context);
             }
         }
-
-        private IRepository<Discussion, ulong> discussion { get; set; }
-
-        public IRepository<Discussion, ulong> DiscussionRepository
-        {
-            get
-            {
-                return null;
-                // return discussion ??= new GenericRepository<Discussion, ulong>(_context);
-            }
-        }
+        //
+        // private IRepository<Discussion, ulong> discussion { get; set; }
+        //
+        // public IRepository<Discussion, ulong> DiscussionRepository
+        // {
+        //     get
+        //     {
+        //         return null;
+        //         // return discussion ??= new GenericRepository<Discussion, ulong>(_context);
+        //     }
+        // }
 
         private bool Disposed { get; set; } = false;
 

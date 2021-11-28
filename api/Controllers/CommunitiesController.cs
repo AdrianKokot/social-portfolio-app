@@ -5,16 +5,30 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sociussion.Data.Interfaces;
 using Sociussion.Data.Models.Community;
+using Sociussion.Data.QueryParams;
+using Sociussion.Helpers;
 
 namespace Sociussion.Controllers
 {
-    public class CommunitiesController : GenericApiController<Community, ulong>
+    public class CommunitiesController : GenericApiController<Community, ulong, CommunityParams>
     {
         public CommunitiesController(IUnitOfWork unitOfWork)
             : base(unitOfWork.CommunityRepository)
         {
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCommunities([FromQuery] CommunityParams paginationParams)
+        {
+            return await base.GetEntities(paginationParams);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCommunity(ulong id)
+        {
+            return await base.GetEntity(id);
+        }
+        
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommunityModel createModel)
@@ -30,7 +44,7 @@ namespace Sociussion.Controllers
             {
                 await Repository.Add(model);
 
-                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, model);
+                return CreatedAtAction(nameof(GetCommunity), new {id = model.Id}, model);
             }
             catch (Exception e)
             {

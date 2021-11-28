@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sociussion.Data.Models.Community
@@ -14,9 +15,9 @@ namespace Sociussion.Data.Models.Community
         public ApplicationUser Owner { get; set; }
         public string OwnerId { get; set; }
 
-        // public ulong MembersCount { get; set; }
+        public ulong MembersCount { get; set; }
 
-        // public IEnumerable<ApplicationUser> Members { get; set; }
+        public ICollection<ApplicationUser> Members { get; set; }
         // public IEnumerable<Discussion.Discussion> Discussions { get; set; }
     }
 }
