@@ -23,7 +23,7 @@ export class AuthService {
       .pipe(
         map(appUser =>
           appUser !== null
-            ? {email: appUser.email, name: appUser.name} as User
+            ? {id:appUser.id, email: appUser.email, name: appUser.name} as User
             : null
         )
       );

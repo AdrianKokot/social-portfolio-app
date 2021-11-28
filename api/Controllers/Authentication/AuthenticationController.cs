@@ -66,7 +66,7 @@ namespace Sociussion.Controllers.Authentication
                 return Ok(
                     new AuthenticatedUserModel
                     {
-                        Token = await _tokenService.CreateJwtToken(user), Email = user.Email, Name = user.Name
+                        Token = await _tokenService.CreateJwtToken(user), Email = user.Email, Name = user.Name, Id = user.Id
                     }
                 );
             }
