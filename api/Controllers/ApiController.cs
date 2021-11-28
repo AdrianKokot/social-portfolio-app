@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Sociussion.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public abstract class ApiController : ControllerBase
     {
         protected BadRequestObjectResult BadApiRequest(string key, string message)
