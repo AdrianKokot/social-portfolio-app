@@ -1,0 +1,43 @@
+<section class="container max-w-screen-lg mx-auto">
+  <ng-container *ngIf="(item$ |async) as item; else skeleton">
+
+    <header class="mb-8">
+
+      <img [src]="item.photoUrl || 'https://api.lorem.space/image?w=1293&h=256'"
+           alt="picture"
+           class="rounded-lg shadow-sm h-64 w-full object-cover bg-gray-200">
+
+    </header>
+
+    <h1 class="text-2xl font-medium mb-4">
+      <span>{{item.name}}</span>
+    </h1>
+
+    <section class="flex">
+      <a
+        [queryParams]="{tab:null}"
+        [routerLink]="[]"
+        [ngClass]="{'border-green-500': selectedTab === 'discussions'}"
+        class="px-3 py-0.5 mr-2 border-b-2 border-transparent"
+        href="">
+        Discussions
+      </a>
+      <a
+        [queryParams]="{tab:'about'}"
+        [routerLink]="[]"
+        class="px-3 py-0.5 mr-2 border-b-2 border-transparent"
+        href=""
+        routerLinkActive="border-green-500">
+        About
+      </a>
+    </section>
+    <div class="border-b border-gray-300 -mt-px mb-4 shadow"></div>
+
+    {{item|json}}
+  </ng-container>
+
+  <ng-template #skeleton>
+    Loading..
+  </ng-template>
+
+</section>

@@ -15,10 +15,18 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import('./modules/dashboard-home/dashboard-home.module').then(m => m.DashboardHomeModule)
+      },
+      {
+        path: 'community',
+        loadChildren: () => import('./modules/dashboard-communities/dashboard-communities.module').then(m => m.DashboardCommunitiesModule)
+      },
+      {
+        path: 'explore',
+        loadChildren: () => import('./modules/dashboard-explore/dashboard-explore.module').then(m => m.DashboardExploreModule)
       }
-
     ]
-  }];
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
