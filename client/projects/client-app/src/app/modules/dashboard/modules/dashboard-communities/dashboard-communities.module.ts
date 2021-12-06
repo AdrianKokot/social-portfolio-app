@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardCommunitiesRoutingModule } from './dashboard-communities-routing.module';
 import { CommunityComponent } from './components/community/community.component';
+import { UIButtonModule, UIIconModule } from "@ui-lib";
 
 
 @NgModule({
@@ -11,6 +12,8 @@ import { CommunityComponent } from './components/community/community.component';
   ],
   imports: [
     CommonModule,
+    UIButtonModule,
+    UIIconModule,
     DashboardCommunitiesRoutingModule
   ]
 })
