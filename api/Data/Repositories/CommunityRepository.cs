@@ -52,6 +52,11 @@ namespace Sociussion.Data.Repositories
                 throw new Exception("User doesn't exist.");
             }
 
+            if (community.Members.Contains(user))
+            {
+                throw new Exception("User is already a member.");
+            }
+
             community.Members.Add(user);
             community.MembersCount++;
 
@@ -74,6 +79,11 @@ namespace Sociussion.Data.Repositories
             if (user is null)
             {
                 throw new Exception("User doesn't exist.");
+            }
+            
+            if (!community.Members.Contains(user))
+            {
+                throw new Exception("User is not a member.");
             }
 
             if (community.Members.Remove(user))
