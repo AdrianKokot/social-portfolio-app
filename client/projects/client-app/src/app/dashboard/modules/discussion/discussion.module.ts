@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { DiscussionListComponent } from './discussion-list/discussion-list.component';
 import { SharedModule } from "../../../shared/shared/shared.module";
+import { RouterModule } from "@angular/router";
+import { UIIconModule } from '@ui-lib';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { SharedModule } from "../../../shared/shared/shared.module";
     DiscussionListComponent
   ],
   imports: [
-    SharedModule
+    SharedModule,
+    UIIconModule,
+    RouterModule
   ]
 })
 export class DiscussionModule {

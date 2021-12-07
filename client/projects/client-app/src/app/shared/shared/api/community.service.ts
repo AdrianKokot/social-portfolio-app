@@ -1,32 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, tap } from "rxjs";
-import { environment } from "../../../../environments/environment";
 import { Community } from "../models/community";
+import { apiActions } from "./actions.const";
+import { CommunityParams } from "./params/community.params";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommunityService {
-  private actions = {
-    all: environment.backendUrl + 'communities',
-    get(id: number) {
-      return this.all + '/' + id
-    },
-    join(id: number) {
-      return this.get(id) + '/join'
-    },
-    leave(id: number) {
-      return this.get(id) + '/leave'
-    }
-  }
+  private actions = apiActions.community;
 
   constructor(private http: HttpClient) {
   }
 
-  public getAll(params: { [key: string]: string | number } = {}): Observable<Community[]> {
-    console.log(params);
-    return this.http.get<Community[]>(environment.backendUrl + 'communities', {observe: 'response', params})
+  public getAll(params: Partial<CommunityParams> = {}): Observable<Community[]> {
+    return this.http.get<Community[]>(this.actions.root, {observe: 'response', params})
       .pipe(
         tap(response => {
           console.log(response.headers.keys());//JSON.parse(response.headers.get('Pagination') || '{}'));
@@ -35,8 +24,8 @@ export class CommunityService {
       )
   }
 
-  public get(id: number, params: { [key: string]: string | number } = {}): Observable<Community> {
-    return this.http.get<Community>(environment.backendUrl + 'communities/' + id);
+  public get(id: number, params: Partial<CommunityParams> = {}): Observable<Community> {
+    return this.http.get<Community>(this.actions.get(id), {params});
   }
 
   public join(id: number): Observable<void> {

@@ -64,22 +64,26 @@
     </section>
 
     <section class="flex">
-      <a
-        [ngClass]="{'!border-green-500': selectedTab === 'discussions'}"
-        [queryParams]="{tab:null}"
-        [routerLink]="[]"
-        class="px-4 py-1 mr-2 border-b-2 border-transparent"
-        href="">
-        Discussions
-      </a>
-      <a
-        [queryParams]="{tab:'about'}"
-        [routerLink]="[]"
-        class="px-4 py-1 mr-2 border-b-2 border-transparent"
-        href=""
-        routerLinkActive="!border-green-500">
-        About
-      </a>
+      <h2>
+        <a
+          [ngClass]="{'!border-green-500': selectedTab === 'discussions'}"
+          [queryParams]="{tab:null}"
+          [routerLink]="[]"
+          class="block px-4 py-1 mr-2 border-b-2 border-transparent"
+          href="?tab=discussions">
+          Discussions
+        </a>
+      </h2>
+      <h2>
+        <a
+          [queryParams]="{tab:'about'}"
+          [routerLink]="[]"
+          class="block px-4 py-1 mr-2 border-b-2 border-transparent"
+          href="?tab=about"
+          routerLinkActive="!border-green-500">
+          About
+        </a>
+      </h2>
     </section>
     <div class="border-b border-gray-300 -mt-px mb-4 shadow"></div>
 
