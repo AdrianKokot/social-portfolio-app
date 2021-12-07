@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sociussion.Data.Interfaces;
@@ -13,33 +14,41 @@ namespace Sociussion.Controllers
     public class
         DiscussionsController : RepositoryApiController<IDiscussionRepository, Discussion, ulong, DiscussionParams>
     {
-        public DiscussionsController(IDiscussionRepository repository) : base(repository)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public DiscussionsController(IUnitOfWork unitOfWork) : base(unitOfWork.DiscussionRepository)
         {
+            _unitOfWork = unitOfWork;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateDiscussionModel createModel)
+        {
+            var currentUserId = User.Identity.GetUserId();
+
+            if (await _unitOfWork.CommunityRepository.Get(createModel.CommunityId) is null)
+            {
+                return BadApiRequest(nameof(createModel.CommunityId), "Given community doesn't exist.");
+            }
+
+            var model = new Discussion()
+            {
+                Title = createModel.Title,
+                CommunityId = createModel.CommunityId,
+                AuthorId = currentUserId,
+                Content = createModel.Content
+            };
+
+            try
+            {
+                await Repository.Add(model);
+
+                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, model);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
-    
-    // public class DiscussionsController : GenericApiController<Discussion, ulong>
-    // {
-    //     public DiscussionsController(IUnitOfWork unitOfWork)
-    //         : base(unitOfWork.DiscussionRepository)
-    //     {
-    //     }
-    //
-    //     [HttpPost]
-    //     public async Task<IActionResult> CreateDiscussion(CreateDiscussionModel createModel)
-    //     {
-    //         var model = new Discussion() {Title = createModel.Title};
-    //
-    //         try
-    //         {
-    //             await Repository.Add(model);
-    //
-    //             return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, model);
-    //         }
-    //         catch (Exception e)
-    //         {
-    //             return BadRequest(e.Message);
-    //         }
-    //     }
-    // }
 }
