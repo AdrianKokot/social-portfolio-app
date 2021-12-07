@@ -1,15 +1,4 @@
-<h2 class="text-lg mb-4">My communities</h2>
-
-<section class="grid grid-cols-3 gap-4">
-
-  <div *ngFor="let community of (communities$ | async)"
-       [routerLink]="['/app/community/', community.id]"
-       class="bg-white rounded-lg p-4 shadow-md">
-    <h3 class="text-lg font-medium">{{community.name}}</h3>
-    <p class="truncate mb-4">{{community.description}}</p>
-    <div class="text-gray-500 text-xs">
-      <span>Members: {{community.membersCount}}</span>
-    </div>
-  </div>
-
-</section>
+<app-community-list title="My communities"
+                    limit="3"
+                    [onlyUserCommunities]="true">
+</app-community-list>
