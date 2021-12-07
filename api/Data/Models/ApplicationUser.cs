@@ -13,5 +13,6 @@ namespace Sociussion.Data.Models
 
         public ICollection<Community.Community> OwnedCommunities { get; set; }
         public ICollection<Community.Community> MemberOfCommunities { get; set; }
+        public ICollection<Discussion.Discussion> OwnedDiscussions { get; set; }
     }
 }

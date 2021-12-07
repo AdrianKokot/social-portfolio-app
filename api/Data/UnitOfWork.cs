@@ -20,17 +20,17 @@ namespace Sociussion.Data
                 return Community ??= new CommunityRepository(_context);
             }
         }
-        //
-        // private IRepository<Discussion, ulong> discussion { get; set; }
-        //
-        // public IRepository<Discussion, ulong> DiscussionRepository
-        // {
-        //     get
-        //     {
-        //         return null;
-        //         // return discussion ??= new GenericRepository<Discussion, ulong>(_context);
-        //     }
-        // }
+        
+        private DiscussionRepository Discussion { get; set; }
+
+        public IDiscussionRepository DiscussionRepository
+        {
+            get
+            {
+                return Discussion ??= new DiscussionRepository(_context);
+            }
+        }
+
 
         private bool Disposed { get; set; } = false;
 

@@ -18,6 +18,7 @@ namespace Sociussion.Data.Models.Community
         public ulong MembersCount { get; set; }
 
         public ICollection<ApplicationUser> Members { get; set; }
-        // public IEnumerable<Discussion.Discussion> Discussions { get; set; }
+
+        public ICollection<Discussion.Discussion> Discussions { get; set; }
     }
 }
