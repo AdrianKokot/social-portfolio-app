@@ -65,7 +65,7 @@
 
     <section class="flex">
       <a
-        [ngClass]="{'border-green-500': selectedTab === 'discussions'}"
+        [ngClass]="{'!border-green-500': selectedTab === 'discussions'}"
         [queryParams]="{tab:null}"
         [routerLink]="[]"
         class="px-3 py-0.5 mr-2 border-b-2 border-transparent"
@@ -77,7 +77,7 @@
         [routerLink]="[]"
         class="px-3 py-0.5 mr-2 border-b-2 border-transparent"
         href=""
-        routerLinkActive="border-green-500">
+        routerLinkActive="!border-green-500">
         About
       </a>
 

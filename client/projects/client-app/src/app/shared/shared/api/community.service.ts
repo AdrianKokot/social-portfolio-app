@@ -25,6 +25,7 @@ export class CommunityService {
   }
 
   public getAll(params: { [key: string]: string | number } = {}): Observable<Community[]> {
+    console.log(params);
     return this.http.get<Community[]>(environment.backendUrl + 'communities', {observe: 'response', params})
       .pipe(
         tap(response => {

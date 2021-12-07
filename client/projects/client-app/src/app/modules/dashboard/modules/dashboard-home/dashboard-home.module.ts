@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardHomeRoutingModule } from './dashboard-home-routing.module';
 import { DashboardHomeComponent } from './dashboard-home.component';
+import { DashboardExploreModule } from "../dashboard-explore/dashboard-explore.module";
+import { DashboardSharedModule } from "../dashboard-shared/dashboard-shared.module";
 
 
 @NgModule({
@@ -11,7 +13,10 @@ import { DashboardHomeComponent } from './dashboard-home.component';
   ],
   imports: [
     CommonModule,
-    DashboardHomeRoutingModule
+    DashboardSharedModule,
+    DashboardHomeRoutingModule,
+    DashboardExploreModule
   ]
 })
-export class DashboardHomeModule { }
+export class DashboardHomeModule {
+}

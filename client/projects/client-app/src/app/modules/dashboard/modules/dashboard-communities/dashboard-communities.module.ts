@@ -10,6 +10,9 @@ import { UIButtonModule, UIIconModule } from "@ui-lib";
   declarations: [
     CommunityComponent
   ],
+  exports: [
+    CommunityComponent
+  ],
   imports: [
     CommonModule,
     UIButtonModule,
@@ -17,4 +20,5 @@ import { UIButtonModule, UIIconModule } from "@ui-lib";
     DashboardCommunitiesRoutingModule
   ]
 })
-export class DashboardCommunitiesModule { }
+export class DashboardCommunitiesModule {
+}

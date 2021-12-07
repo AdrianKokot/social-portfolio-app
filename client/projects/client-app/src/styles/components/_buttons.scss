@@ -27,3 +27,18 @@ a[variant="logo"] {
   @apply text-3xl;
   @apply text-green-600;
 }
+
+a[variant="primary"] {
+  @apply inline-block;
+  @apply hover:bg-green-700;
+  @apply duration-300;
+  @apply transition-colors;
+  @apply bg-green-600;
+  @apply loading:text-opacity-0;
+  @apply loading:bg-green-700;
+  @apply rounded-lg;
+  @apply text-gray-50;
+  @apply py-1;
+  @apply px-2;
+  @apply focus:bg-green-700;
+}

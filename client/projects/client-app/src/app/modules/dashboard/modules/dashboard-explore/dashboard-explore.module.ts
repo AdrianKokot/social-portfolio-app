@@ -5,6 +5,8 @@ import { DashboardExploreRoutingModule } from './dashboard-explore-routing.modul
 import { CommunitiesComponent } from './components/communities/communities.component';
 import { DiscussionsComponent } from './components/discussions/discussions.component';
 import { ExploreComponent } from './components/explore/explore.component';
+import { DashboardCommunitiesModule } from "../dashboard-communities/dashboard-communities.module";
+import { DashboardSharedModule } from "../dashboard-shared/dashboard-shared.module";
 
 
 @NgModule({
@@ -13,9 +15,15 @@ import { ExploreComponent } from './components/explore/explore.component';
     DiscussionsComponent,
     ExploreComponent
   ],
+  exports: [
+    CommunitiesComponent
+  ],
   imports: [
     CommonModule,
-    DashboardExploreRoutingModule
+    DashboardSharedModule,
+    DashboardExploreRoutingModule,
+    DashboardCommunitiesModule
   ]
 })
-export class DashboardExploreModule { }
+export class DashboardExploreModule {
+}
