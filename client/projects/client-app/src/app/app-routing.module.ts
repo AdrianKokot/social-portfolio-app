@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: 'landing',
     canActivate: [GuestGuard],
-    loadChildren: () => import('./modules/landing/landing.module').then(m => m.LandingModule)
+    loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule)
   },
   {
     path: 'auth/logout',
@@ -19,12 +19,12 @@ const routes: Routes = [
   {
     path: 'auth',
     canActivate: [GuestGuard],
-    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
     path: 'app',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   }
 ];
 

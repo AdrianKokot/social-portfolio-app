@@ -1,0 +1,25 @@
+<nav class="grid grid-cols-5 items-center px-8 py-4 bg-white shadow-sm border-b border-gray-200">
+
+  <div>
+    <a [routerLink]="['/app']"
+       class="text-2xl"
+       href="/projects/client-app/src/app"
+       variant="logo">
+      Sociussion
+    </a>
+
+  </div>
+
+  <app-dashboard-nav-search class="col-span-3 mx-auto"></app-dashboard-nav-search>
+
+  <div class="flex ml-auto relative">
+
+    <app-dashboard-nav-user-notifications class="mr-4"></app-dashboard-nav-user-notifications>
+
+    <app-dashboard-nav-user-dropdown></app-dashboard-nav-user-dropdown>
+
+  </div>
+
+</nav>
+
+
