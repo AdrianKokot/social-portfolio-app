@@ -7,7 +7,7 @@ using Sociussion.Data.QueryParams;
 
 namespace Sociussion.Data.Repositories
 {
-    public class DiscussionRepository  : Repository<Discussion, ulong, DiscussionParams>, IDiscussionRepository
+    public class DiscussionRepository : Repository<Discussion, ulong, DiscussionParams>, IDiscussionRepository
     {
         public DiscussionRepository(DbContext context) : base(context)
         {
@@ -21,7 +21,9 @@ namespace Sociussion.Data.Repositories
             {
                 set = set.Where(d => d.CommunityId == paginationParams.CommunityId);
             }
-            
+
+            set = set.Include(d => d.Author);
+
             return PaginatedList<Discussion>.FromQueryableAsync(set.OrderBy(d => d.CreatedAt), paginationParams);
         }
     }

@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sociussion.Data.Collections;
 using Sociussion.Data.Interfaces;
 using Sociussion.Data.Models.Discussion;
 using Sociussion.Data.QueryParams;
 using Sociussion.Data.Repositories;
+using Sociussion.Extensions;
 
 namespace Sociussion.Controllers
 {
@@ -49,6 +52,30 @@ namespace Sociussion.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        public override async Task<IActionResult> GetEntities(DiscussionParams paginationParams)
+        {
+            var result = (await Repository.GetAll(paginationParams));
+
+            Response.AddNavigationHeaders(result.Metadata);
+
+            return Ok(
+                result.Select(x => new
+                {
+                    x.Id,
+                    x.Title,
+                    x.VotesUp,
+                    x.VotesDown,
+                    Score = x.VotesUp - x.VotesDown,
+                    x.Content,
+                    x.CommunityId,
+                    x.AuthorId,
+                    AuthorName = x.Author.Name,
+                    x.CreatedAt,
+                    x.EditedAt
+                })
+            );
         }
     }
 }
