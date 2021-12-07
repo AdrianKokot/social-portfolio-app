@@ -4,6 +4,7 @@ import { Community } from "../../../../../shared/shared/models/community";
 import { CommunityService } from "../../../../../shared/shared/api/community.service";
 import { ActivatedRoute } from "@angular/router";
 import { AuthService } from "../../../../../shared/shared/auth/auth.service";
+import { FormBuilder } from "@angular/forms";
 
 @Component({
   selector: 'app-community',
@@ -14,8 +15,10 @@ export class CommunityComponent implements OnDestroy {
   public selectedTab = this.route.snapshot.queryParams["tab"] || 'discussions';
   isCommunityActionLoading: boolean = false;
   public isUserAMember: boolean | null = null;
-  private itemId: number = parseInt(this.route.snapshot.params["id"]);
+  public newDiscussionInput = this.fb.control(null, []);
+  public itemId: number = parseInt(this.route.snapshot.params["id"]);
   public item$: Observable<Community> = this.communityService.get(this.itemId);
+
   private isUserAMemberSubscription = this.auth.user$
     .pipe(
       switchMap(user => {
@@ -30,7 +33,6 @@ export class CommunityComponent implements OnDestroy {
       })
     )
     .subscribe(isMember => this.isUserAMember = isMember);
-
   private routerSubscription = this.route.queryParams
     .subscribe({
       next: (params) => {
@@ -41,7 +43,8 @@ export class CommunityComponent implements OnDestroy {
   constructor(
     private communityService: CommunityService,
     private route: ActivatedRoute,
-    private auth: AuthService
+    private auth: AuthService,
+    private fb: FormBuilder
   ) {
   }
 

@@ -1,4 +1,5 @@
 <section class="container max-w-screen-lg mx-auto">
+
   <ng-container *ngIf="(item$ |async) as item; else skeleton">
 
     <header class="mb-8">
@@ -10,11 +11,12 @@
     </header>
 
     <section class="mb-4 flex items-center w-full">
+
       <div class="mr-2">
-        <h1 class="text-2xl font-medium ">
+        <h1 class="text-2xl font-medium">
           <span>{{item.name}}</span>
         </h1>
-        <p class="text-gray-600">{{item.membersCount}} member{{item.membersCount === 1 ? '' : 's'}}</p>
+        <p class="text-gray-600">{{ item.membersCount}} member{{item.membersCount === 1 ? '' : 's'}}</p>
       </div>
 
       <ng-container *ngIf="isUserAMember !== null">
@@ -59,33 +61,49 @@
 
       </ng-container>
 
-
     </section>
-
 
     <section class="flex">
       <a
         [ngClass]="{'!border-green-500': selectedTab === 'discussions'}"
         [queryParams]="{tab:null}"
         [routerLink]="[]"
-        class="px-3 py-0.5 mr-2 border-b-2 border-transparent"
+        class="px-4 py-1 mr-2 border-b-2 border-transparent"
         href="">
         Discussions
       </a>
       <a
         [queryParams]="{tab:'about'}"
         [routerLink]="[]"
-        class="px-3 py-0.5 mr-2 border-b-2 border-transparent"
+        class="px-4 py-1 mr-2 border-b-2 border-transparent"
         href=""
         routerLinkActive="!border-green-500">
         About
       </a>
-
-
     </section>
     <div class="border-b border-gray-300 -mt-px mb-4 shadow"></div>
 
-    {{item|json}}
+    <section [hidden]="selectedTab !== 'about'"
+             class="rounded-lg border border-gray-200 bg-white px-4 py-2">
+      {{item.description}}
+    </section>
+
+    <section [hidden]="selectedTab !== 'discussions'">
+
+      <div class="rounded-lg border border-gray-200 bg-white px-2 py-1 mb-4">
+
+        <a [routerLink]="['discussion/new']"
+           class="text-gray-400 inline-block px-2 py-1 cursor-text"
+           href="discussion/new">
+          Start a new discussion
+        </a>
+
+      </div>
+
+      <app-discussion-list [communityId]="itemId"></app-discussion-list>
+
+    </section>
+
   </ng-container>
 
   <ng-template #skeleton>
