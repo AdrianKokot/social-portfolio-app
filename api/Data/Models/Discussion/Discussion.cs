@@ -21,5 +21,6 @@ namespace Sociussion.Data.Models.Discussion
 
         public ulong VotesUp { get; set; } = 0;
         public ulong VotesDown { get; set; } = 0;
+        public ulong CommentsCount { get; set; } = 0;
     }
 }

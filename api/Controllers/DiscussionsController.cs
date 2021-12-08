@@ -46,7 +46,13 @@ namespace Sociussion.Controllers
             {
                 await Repository.Add(model);
 
-                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, model);
+                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, new
+                {
+                    model.Id,
+                    model.Content,
+                    model.Title,
+                    model.CommunityId
+                });
             }
             catch (Exception e)
             {
@@ -73,7 +79,8 @@ namespace Sociussion.Controllers
                     x.AuthorId,
                     AuthorName = x.Author.Name,
                     x.CreatedAt,
-                    x.EditedAt
+                    x.EditedAt,
+                    x.CommentsCount
                 })
             );
         }
