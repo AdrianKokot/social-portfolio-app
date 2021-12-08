@@ -27,4 +27,8 @@ export class DiscussionService {
   public get(id: number, params: Partial<DiscussionParams> = {}): Observable<Discussion> {
     return this.http.get<Discussion>(this.actions.get(id), {params});
   }
+
+  public create(discussion: Partial<Discussion>): Observable<Discussion> {
+    return this.http.post<Discussion>(this.actions.root, discussion);
+  }
 }

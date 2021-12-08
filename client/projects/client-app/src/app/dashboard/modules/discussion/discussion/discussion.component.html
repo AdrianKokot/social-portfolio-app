@@ -1,0 +1,12 @@
+<div *ngIf="item$ | async as item">
+
+  <div>
+    <a [href]="'/app/community/' + item.communityId"
+       [routerLink]="['/app/community', item.communityId]"
+       variant="base"
+       class="mb-2">
+      &lt; Return to the community
+    </a>
+  </div>
+  {{ item | json}}
+</div>

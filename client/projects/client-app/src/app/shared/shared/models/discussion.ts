@@ -1,4 +1,5 @@
 export interface Discussion {
+  communityId: number;
   id: number;
   title: string;
   authorName?: string;
@@ -8,4 +9,5 @@ export interface Discussion {
   content: number;
   createdAt: Date;
   editedAt?: Date;
+  commentsCount: number;
 }

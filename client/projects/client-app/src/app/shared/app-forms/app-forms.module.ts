@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { FormsInputComponent } from './forms-input/forms-input.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from '../shared/shared.module';
-
+import { FormsTextareaComponent } from './forms-textarea/forms-textarea.component';
 
 
 @NgModule({
   declarations: [
-    FormsInputComponent
+    FormsInputComponent,
+    FormsTextareaComponent
   ],
   imports: [
     SharedModule,
@@ -15,7 +16,9 @@ import { SharedModule } from '../shared/shared.module';
   ],
   exports: [
     ReactiveFormsModule,
-    FormsInputComponent
+    FormsInputComponent,
+    FormsTextareaComponent
   ]
 })
-export class AppFormsModule { }
+export class AppFormsModule {
+}

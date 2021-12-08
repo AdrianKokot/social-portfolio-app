@@ -11,22 +11,42 @@
 
 
   <p class="mb-2 line-clamp-5">
-    <ng-container *ngFor="let t of [1,2,3,4,5,1,11,1,1,1,1,1,6,1,1,2,3,1,2,3,4]">
-      {{item.content}}
-    </ng-container>
+    {{item.content}}
   </p>
 
-  <div class="border-t border-gray-200 py-2 text-xs flex items-center text-gray-500">
-    <span class="mr-8 inline-flex items-center">
-      <ui-icon icon="message" sizeClass="h-4 mr-1"></ui-icon>
-      5 comments
-    </span>
+  <div class=" border-gray-200 py-2 text-xs flex gap-6 items-center text-gray-500">
 
-    <span>
-      Posted by
+    <a class="inline-flex items-center"
+       [href]="'discussion/' + item.id"
+       [routerLink]="['discussion', item.id]">
+      <ui-icon icon="arrow-up-down"
+               sizeClass="h-4 w-4 mr-1">
+      </ui-icon>
+      <span>
+      {{item.votesUp - item.votesDown}} score
+    </span>
+    </a>
+
+
+    <a class="inline-flex items-center"
+       [href]="'discussion/' + item.id"
+       [routerLink]="['discussion', item.id]">
+      <ui-icon icon="discuss"
+               sizeClass="h-4 w-4 mr-1">
+      </ui-icon>
+      <span>{{item.commentsCount}} comments</span>
+    </a>
+
+    <span class="inline-flex items-center ml-auto">
+            <ui-icon icon="user"
+                     sizeClass="h-4 w-4 mr-1.5">
+      </ui-icon>
+      <span>
+        Posted by
       <a class="font-medium"
          href="">{{item.authorName}}</a>
-      {{item.createdAt | date:'hh:mm dd.MM.y'}}
+        {{item.createdAt | date:'hh:mm dd.MM.y'}}
+      </span>
     </span>
 
   </div>

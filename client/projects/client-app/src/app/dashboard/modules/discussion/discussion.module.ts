@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
 import { DiscussionListComponent } from './discussion-list/discussion-list.component';
 import { SharedModule } from "../../../shared/shared/shared.module";
+import { UIButtonModule, UIIconModule } from '@ui-lib';
+import { DiscussionFormComponent } from './discussion-form/discussion-form.component';
+import { DiscussionComponent } from './discussion/discussion.component';
 import { RouterModule } from "@angular/router";
-import { UIIconModule } from '@ui-lib';
+import { AppFormsModule } from "../../../shared/app-forms/app-forms.module";
 
 
 @NgModule({
   declarations: [
-    DiscussionListComponent
+    DiscussionListComponent,
+    DiscussionFormComponent,
+    DiscussionComponent
   ],
   exports: [
     DiscussionListComponent
@@ -15,7 +20,9 @@ import { UIIconModule } from '@ui-lib';
   imports: [
     SharedModule,
     UIIconModule,
-    RouterModule
+    RouterModule,
+    AppFormsModule,
+    UIButtonModule
   ]
 })
 export class DiscussionModule {

@@ -1,0 +1,31 @@
+<form [formGroup]="form"
+      (submit)="onSubmit($event)"
+      class="mx-auto container max-w-screen-md">
+
+  <h1 class="font-medium text-xl mb-4">
+    New discussion
+  </h1>
+
+  <section class="mb-6">
+
+    <forms-input class="mb-6"
+                 type="email"
+                 label="Title"
+                 formControlName="title"
+                 placeholder="Discussion about...">
+    </forms-input>
+
+    <forms-textarea class="mb-6" label="Content" formControlName="content" placeholder="Discussion">
+    </forms-textarea>
+
+    <ui-button class="w-full"
+               variant="submit"
+               type="submit"
+               [disabled]="!form.valid"
+               [loading]="isFormLoading">
+      Create
+    </ui-button>
+
+  </section>
+
+</form>
