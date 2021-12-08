@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { DiscussionService } from "../../../../shared/shared/api/discussion.service";
 
@@ -7,16 +7,13 @@ import { DiscussionService } from "../../../../shared/shared/api/discussion.serv
   templateUrl: './discussion.component.html',
   styles: []
 })
-export class DiscussionComponent implements OnInit {
+export class DiscussionComponent {
   public itemId = this.route.snapshot.params["id"];
 
   public item$ = this.discussionService.get(this.itemId);
 
   constructor(private route: ActivatedRoute,
               private discussionService: DiscussionService) {
-  }
-
-  ngOnInit(): void {
   }
 
 }
