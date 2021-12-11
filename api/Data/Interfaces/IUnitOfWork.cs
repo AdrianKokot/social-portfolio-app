@@ -6,5 +6,6 @@ namespace Sociussion.Data.Interfaces
     {
         ICommunityRepository CommunityRepository { get; }
         IDiscussionRepository DiscussionRepository { get; }
+        ICommentRepository CommentRepository { get; }
     }
 }

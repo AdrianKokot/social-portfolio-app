@@ -1,8 +1,6 @@
 ﻿using System;
 using Sociussion.Data.Context;
 using Sociussion.Data.Interfaces;
-using Sociussion.Data.Models.Community;
-using Sociussion.Data.QueryParams;
 using Sociussion.Data.Repositories;
 
 namespace Sociussion.Data
@@ -20,15 +18,19 @@ namespace Sociussion.Data
                 return Community ??= new CommunityRepository(_context);
             }
         }
-        
+
         private DiscussionRepository Discussion { get; set; }
 
         public IDiscussionRepository DiscussionRepository
         {
-            get
-            {
-                return Discussion ??= new DiscussionRepository(_context);
-            }
+            get { return Discussion ??= new DiscussionRepository(_context); }
+        }
+
+        private CommentRepository Comment { get; set; }
+
+        public ICommentRepository CommentRepository
+        {
+            get { return Comment ??= new CommentRepository(_context); }
         }
 
 

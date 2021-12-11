@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sociussion.Data.Collections;
 using Sociussion.Data.Context;
+using Sociussion.Data.Models;
 using Sociussion.Data.Models.Community;
 using Sociussion.Data.QueryParams;
 
@@ -25,7 +26,7 @@ namespace Sociussion.Data.Repositories
 
             if (queryParams.Member is not null)
             {
-                query = _context.Users
+                query = _context.Set<ApplicationUser>()
                     .Where(u => u.Id == queryParams.Member)
                     .SelectMany(u => u.MemberOfCommunities)
                     .Distinct();
@@ -45,7 +46,7 @@ namespace Sociussion.Data.Repositories
                 throw new Exception("Community doesn't exist.");
             }
 
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _context.Set<ApplicationUser>().FindAsync(userId);
 
             if (user is null)
             {
@@ -74,7 +75,7 @@ namespace Sociussion.Data.Repositories
                 throw new Exception("Community doesn't exist.");
             }
 
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _context.Set<ApplicationUser>().FindAsync(userId);
 
             if (user is null)
             {

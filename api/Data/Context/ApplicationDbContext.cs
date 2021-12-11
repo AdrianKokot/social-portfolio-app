@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sociussion.Data.Models;
+using Sociussion.Data.Models.Comment;
 using Sociussion.Data.Models.Community;
 using Sociussion.Data.Models.Discussion;
 
@@ -10,6 +11,7 @@ namespace Sociussion.Data.Context
     {
         public DbSet<Community> Communities { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public ApplicationDbContext(DbContextOptions options)
             : base(options)
@@ -34,6 +36,11 @@ namespace Sociussion.Data.Context
                 .HasOne<Community>(d => d.Community)
                 .WithMany(c => c.Discussions)
                 .HasForeignKey(d => d.CommunityId);
+
+            builder.Entity<Comment>()
+                .HasOne<Community>(c => c.Community)
+                .WithMany(c => c.Comments)
+                .HasForeignKey(c => c.CommunityId);
         }
     }
 }

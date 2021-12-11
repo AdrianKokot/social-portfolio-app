@@ -20,5 +20,7 @@ namespace Sociussion.Data.Models.Community
         public ICollection<ApplicationUser> Members { get; set; }
 
         public ICollection<Discussion.Discussion> Discussions { get; set; }
+        
+        public ICollection<Comment.Comment> Comments { get; set; }
     }
 }
