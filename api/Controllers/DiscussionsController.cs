@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sociussion.Data.Collections;
 using Sociussion.Data.Interfaces;
 using Sociussion.Data.Models.Discussion;
 using Sociussion.Data.QueryParams;

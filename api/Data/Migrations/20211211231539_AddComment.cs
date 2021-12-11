@@ -7,6 +7,18 @@ namespace Sociussion.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<DateTime>(
+                name: "LastActive",
+                table: "Discussions",
+                type: "TEXT",
+                nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "LastActive",
+                table: "Communities",
+                type: "TEXT",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
@@ -19,8 +31,7 @@ namespace Sociussion.Data.Migrations
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EditedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
                     VotesUp = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    VotesDown = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    CommunityId = table.Column<ulong>(type: "INTEGER", nullable: true)
+                    VotesDown = table.Column<ulong>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,12 +40,6 @@ namespace Sociussion.Data.Migrations
                         name: "FK_Comments_AspNetUsers_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Comments_Communities_CommunityId",
-                        column: x => x.CommunityId,
-                        principalTable: "Communities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -51,11 +56,6 @@ namespace Sociussion.Data.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_CommunityId",
-                table: "Comments",
-                column: "CommunityId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Comments_DiscussionId",
                 table: "Comments",
                 column: "DiscussionId");
@@ -65,6 +65,14 @@ namespace Sociussion.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropColumn(
+                name: "LastActive",
+                table: "Discussions");
+
+            migrationBuilder.DropColumn(
+                name: "LastActive",
+                table: "Communities");
         }
     }
 }

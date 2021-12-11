@@ -9,7 +9,7 @@ using Sociussion.Data.Context;
 namespace Sociussion.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211211222800_AddComment")]
+    [Migration("20211211231539_AddComment")]
     partial class AddComment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,9 +245,6 @@ namespace Sociussion.Data.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong?>("CommunityId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Content")
                         .HasColumnType("TEXT");
 
@@ -270,8 +267,6 @@ namespace Sociussion.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("CommunityId");
-
                     b.HasIndex("DiscussionId");
 
                     b.ToTable("Comments");
@@ -285,6 +280,9 @@ namespace Sociussion.Data.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(512)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastActive")
                         .HasColumnType("TEXT");
 
                     b.Property<ulong>("MembersCount")
@@ -330,6 +328,9 @@ namespace Sociussion.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("EditedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastActive")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -420,12 +421,8 @@ namespace Sociussion.Data.Migrations
             modelBuilder.Entity("Sociussion.Data.Models.Comment.Comment", b =>
                 {
                     b.HasOne("Sociussion.Data.Models.ApplicationUser", "Author")
-                        .WithMany()
+                        .WithMany("WrittenComments")
                         .HasForeignKey("AuthorId");
-
-                    b.HasOne("Sociussion.Data.Models.Community.Community", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("CommunityId");
 
                     b.HasOne("Sociussion.Data.Models.Discussion.Discussion", "Discussion")
                         .WithMany("Comments")
@@ -469,12 +466,12 @@ namespace Sociussion.Data.Migrations
                     b.Navigation("OwnedCommunities");
 
                     b.Navigation("OwnedDiscussions");
+
+                    b.Navigation("WrittenComments");
                 });
 
             modelBuilder.Entity("Sociussion.Data.Models.Community.Community", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Discussions");
                 });
 

@@ -19,6 +19,7 @@ namespace Sociussion.Data.Models.Discussion
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? EditedAt { get; set; } = null;
+        public DateTime? LastActive { get; set; } = null;
 
         public ulong VotesUp { get; set; } = 0;
         public ulong VotesDown { get; set; } = 0;

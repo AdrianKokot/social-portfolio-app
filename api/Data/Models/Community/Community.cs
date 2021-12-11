@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sociussion.Data.Models.Community
 {
@@ -20,7 +20,7 @@ namespace Sociussion.Data.Models.Community
         public ICollection<ApplicationUser> Members { get; set; }
 
         public ICollection<Discussion.Discussion> Discussions { get; set; }
-        
-        public ICollection<Comment.Comment> Comments { get; set; }
+
+        public DateTime? LastActive { get; set; } = null;
     }
 }
