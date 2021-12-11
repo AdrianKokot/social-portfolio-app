@@ -20,9 +20,9 @@ namespace Sociussion.Data.Repositories
         {
             var query = Set.AsQueryable();
 
-            if (queryParams.CommunityId is not null)
+            if (queryParams.DiscussionId is not null)
             {
-                query = query.Where(x => x.CommunityId == queryParams.CommunityId);
+                query = query.Where(x => x.DiscussionId == queryParams.DiscussionId);
             }
 
             return await PaginatedList<Comment>.FromQueryableAsync(query.OrderBy(c => c.CreatedAt), queryParams);

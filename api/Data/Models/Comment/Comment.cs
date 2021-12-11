@@ -11,8 +11,8 @@ namespace Sociussion.Data.Models.Comment
         public ApplicationUser Author { get; set; }
         public string AuthorId { get; set; }
 
-        public Community.Community Community { get; set; }
-        public ulong CommunityId { get; set; }
+        public Discussion.Discussion Discussion { get; set; }
+        public ulong DiscussionId { get; set; }
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? EditedAt { get; set; } = null;

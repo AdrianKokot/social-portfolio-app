@@ -15,12 +15,12 @@ namespace Sociussion.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Content = table.Column<string>(type: "TEXT", nullable: true),
                     AuthorId = table.Column<string>(type: "TEXT", nullable: true),
-                    CommunityId = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    DiscussionId = table.Column<ulong>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EditedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
                     VotesUp = table.Column<ulong>(type: "INTEGER", nullable: false),
                     VotesDown = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    DiscussionId = table.Column<ulong>(type: "INTEGER", nullable: true)
+                    CommunityId = table.Column<ulong>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -36,13 +36,13 @@ namespace Sociussion.Data.Migrations
                         column: x => x.CommunityId,
                         principalTable: "Communities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Discussions_DiscussionId",
                         column: x => x.DiscussionId,
                         principalTable: "Discussions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

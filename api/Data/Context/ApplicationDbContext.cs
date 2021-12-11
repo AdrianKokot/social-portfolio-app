@@ -38,9 +38,9 @@ namespace Sociussion.Data.Context
                 .HasForeignKey(d => d.CommunityId);
 
             builder.Entity<Comment>()
-                .HasOne<Community>(c => c.Community)
+                .HasOne<Discussion>(c => c.Discussion)
                 .WithMany(c => c.Comments)
-                .HasForeignKey(c => c.CommunityId);
+                .HasForeignKey(c => c.DiscussionId);
         }
     }
 }

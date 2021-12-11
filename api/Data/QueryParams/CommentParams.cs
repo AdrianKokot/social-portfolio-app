@@ -2,6 +2,6 @@
 {
     public class CommentParams : PaginationParams
     {
-        public ulong? CommunityId { get; set; }
+        public ulong? DiscussionId { get; set; }
     }
 }

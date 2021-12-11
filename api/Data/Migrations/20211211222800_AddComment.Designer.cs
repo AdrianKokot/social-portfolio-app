@@ -9,7 +9,7 @@ using Sociussion.Data.Context;
 namespace Sociussion.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211211211809_AddComment")]
+    [Migration("20211211222800_AddComment")]
     partial class AddComment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,7 +245,7 @@ namespace Sociussion.Data.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong>("CommunityId")
+                    b.Property<ulong?>("CommunityId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
@@ -254,7 +254,7 @@ namespace Sociussion.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong?>("DiscussionId")
+                    b.Property<ulong>("DiscussionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("EditedAt")
@@ -423,19 +423,19 @@ namespace Sociussion.Data.Migrations
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("Sociussion.Data.Models.Community.Community", "Community")
+                    b.HasOne("Sociussion.Data.Models.Community.Community", null)
                         .WithMany("Comments")
-                        .HasForeignKey("CommunityId")
+                        .HasForeignKey("CommunityId");
+
+                    b.HasOne("Sociussion.Data.Models.Discussion.Discussion", "Discussion")
+                        .WithMany("Comments")
+                        .HasForeignKey("DiscussionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Sociussion.Data.Models.Discussion.Discussion", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("DiscussionId");
-
                     b.Navigation("Author");
 
-                    b.Navigation("Community");
+                    b.Navigation("Discussion");
                 });
 
             modelBuilder.Entity("Sociussion.Data.Models.Community.Community", b =>
