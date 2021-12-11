@@ -10,7 +10,11 @@ export interface APIActions {
   discussion: {
     root: string;
     get: (id: number) => string;
-  }
+  },
+  comment: {
+    root: string;
+    get: (id: number) => string;
+  },
 }
 
 export const apiActions: APIActions = {
@@ -28,6 +32,12 @@ export const apiActions: APIActions = {
   },
   discussion: {
     root: environment.backendUrl + 'discussions',
+    get(id: number) {
+      return this.root + '/' + id;
+    },
+  },
+  comment: {
+    root: environment.backendUrl + 'comments',
     get(id: number) {
       return this.root + '/' + id;
     },

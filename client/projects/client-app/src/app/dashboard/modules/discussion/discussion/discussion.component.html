@@ -3,10 +3,38 @@
   <div>
     <a [href]="'/app/community/' + item.communityId"
        [routerLink]="['/app/community', item.communityId]"
-       variant="base"
-       class="mb-2">
+       class="mb-2"
+       variant="base">
       &lt; Return to the community
     </a>
   </div>
   {{ item | json}}
 </div>
+
+
+<form (submit)="onSubmit($event)"
+      [formGroup]="form">
+
+  <forms-textarea class="mb-6"
+                  formControlName="content"
+                  label="Content"
+                  placeholder="Comment">
+  </forms-textarea>
+
+  <ui-button [disabled]="!form.valid"
+             [loading]="isFormLoading"
+             class="w-full"
+             type="submit"
+             variant="submit">
+    Add comment
+  </ui-button>
+
+
+</form>
+
+
+<ul *ngIf="comments$ | async as comments">
+  <li *ngFor="let item of comments">
+    {{item.content}}
+  </li>
+</ul>

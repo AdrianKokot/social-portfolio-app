@@ -10,7 +10,7 @@ import { AuthService } from "../../../../../shared/shared/auth/auth.service";
   styles: []
 })
 export class CommunityListComponent implements OnInit {
-  @Input() title = 'Communities';
+  @Input() label = 'Communities';
   @Input() limit: number | null | string = null;
   @Input() onlyUserCommunities = false;
 
