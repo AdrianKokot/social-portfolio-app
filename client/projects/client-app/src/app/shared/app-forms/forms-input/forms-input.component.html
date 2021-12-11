@@ -1,17 +1,17 @@
 <div class="group">
-  <label class="block font-medium text-gray-600 group-focus-within:text-blue-600 mb-1">
+  <label class="block font-medium text-gray-600 group-focus-within:text-green-600 mb-1">
     {{label}}
   </label>
 
-  <input [type]="type"
+  <input [formControl]="control"
          [name]="name"
-         [formControl]="control"
-         class="form-input focus:ring-blue-600 focus:border-blue-600 block w-full px-4 py-2 border-gray-300 rounded-lg"
-         [placeholder]="placeholder">
+         [placeholder]="placeholder"
+         [type]="type"
+         class="border border-gray-300 focus:outline-green-600 form-input block w-full px-4 py-2 rounded-lg bg-white">
 </div>
 
-<div class="text-xs mt-1.5 px-2 text-red-600 font-medium"
-     *ngIf="control.touched && !control.valid">
+<div *ngIf="control.touched && !control.valid"
+     class="text-xs mt-1.5 px-2 text-red-600 font-medium">
   <p *ngFor="let error of control.errors | keyvalue">
     {{ getErrorMessage(error.key, error.value) }}
   </p>

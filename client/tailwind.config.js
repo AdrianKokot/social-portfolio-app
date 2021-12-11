@@ -1,10 +1,10 @@
 const colors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
-const loadingVariant = plugin(function({addVariant, e}) {
+const loadingVariant = plugin(function ({addVariant, e}) {
 
-  addVariant("loading", ({ modifySelectors, separator }) => {
-    modifySelectors(({ className }) => {
+  addVariant("loading", ({modifySelectors, separator}) => {
+    modifySelectors(({className}) => {
       const newClass = e(`loading${separator}${className}`);
       return `[loading].${newClass}`;
     });
@@ -12,21 +12,11 @@ const loadingVariant = plugin(function({addVariant, e}) {
 });
 
 module.exports = {
-  mode: 'jit',
-  purge: ['./projects/**/*.{html,ts}'],
+  content: ['./projects/**/*.{html,ts}'],
   darkMode: 'class',
   theme: {
-    screens: {
-      xs: '475px',
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      '2xl': '1536px',
-    },
     colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
+      transparent: 'transparent', current: 'currentColor',
 
       black: colors.black,
       white: colors.white,
@@ -49,8 +39,7 @@ module.exports = {
         '600': '#4F5F6D',
         '700': '#394b5a',
         '800': '#233748',
-        '900': '#1a2936',
-        // '1000': '#111b23'
+        '900': '#1a2936', // '1000': '#111b23'
       },
       green: {
         '50': '#f4fcfa',
@@ -68,68 +57,16 @@ module.exports = {
 
     },
     fontFamily: {
-      'sans-heading': [
-        '"Josefin Sans"',
-        'ui-sans-serif',
-        'system-ui',
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        '"Noto Sans"',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-        '"Noto Color Emoji"',
-      ],
-      sans: [
-        '"Poppins"',
-        'ui-sans-serif',
-        'system-ui',
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        '"Noto Sans"',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-        '"Noto Color Emoji"',
-      ],
-      // serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-      mono: [
-        'ui-monospace',
-        'SFMono-Regular',
-        'Menlo',
-        'Monaco',
-        'Consolas',
-        '"Liberation Mono"',
-        '"Courier New"',
-        'monospace',
-      ],
-      cursive: [
-        '"Pacifico"',
-        'cursive'
-      ]
+      'sans-heading': ['"Josefin Sans"', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', '"Noto Sans"', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"',],
+      sans: ['"Poppins"', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', '"Noto Sans"', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"',], // serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+      mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace',],
+      cursive: ['"Pacifico"', 'cursive']
     },
-    extend: {},
+    extend: {
+      screens: {
+        xs: '475px'
+      }
+    },
   },
-  variants: {
-    extend: {},
-  },
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-    require("@tailwindcss/forms")({
-      strategy: 'class',
-    }),
-    require('@tailwindcss/line-clamp'),
-    require('@tailwindcss/typography'),
-    loadingVariant
-  ],
-};
+  plugins: [loadingVariant]
+}
