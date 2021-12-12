@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { DiscussionService } from "../../../../shared/shared/api/discussion.service";
 import { CommentService } from "../../../../shared/shared/api/comment.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { FormHelper } from "../../../../shared/app-forms/form-helper";
 import { finalize, tap } from "rxjs";
+import { Comment } from '../../../../shared/shared/models/comment';
 
 @Component({
   selector: 'app-discussion',
   templateUrl: './discussion.component.html',
   styles: []
 })
-export class DiscussionComponent {
+export class DiscussionComponent implements OnDestroy {
   public itemId = this.route.snapshot.params["id"];
   private _communityId = this.route.snapshot.params["communityId"];
   public get communityId() {
@@ -19,7 +20,18 @@ export class DiscussionComponent {
   }
 
   public item$ = this.discussionService.get(this.itemId);
-  public comments$ = this.commentService.getAll({ discussionId: this.itemId });
+
+
+  public comments: Comment[] = [];
+
+  private commentsSubscription = this.commentService.getAll({ discussionId: this.itemId })
+    .subscribe({
+      next: (comments) => {
+        this.comments = comments;
+      }
+    })
+
+
 
 
   public form = this.fb.group({
@@ -40,8 +52,9 @@ export class DiscussionComponent {
         })
       )
       .subscribe({
-        next: () => {
-
+        next: (comment) => {
+          this.comments.unshift(comment);
+          this.form.patchValue({ content: null });
         }
       })
 
@@ -51,6 +64,10 @@ export class DiscussionComponent {
     private discussionService: DiscussionService,
     private commentService: CommentService,
     private fb: FormBuilder) {
+  }
+
+  ngOnDestroy(): void {
+    this.commentsSubscription.unsubscribe();
   }
 
 }

@@ -6,18 +6,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimeagoPipe implements PipeTransform {
 
   transform(value: Date): string {
-    console.log(value);
     value = new Date(value);
 
-    console.log(value);
-
-    const seconds = Math.round(Math.abs(((new Date()).getTime() - ((new Date()).getTimezoneOffset() * 60 * 100) - value.getTime()) / 1000));
+    const seconds = Math.round(Math.abs(((new Date()).getTime() - value.getTime()) / 1000));
     console.log(seconds);
-    const minutes = Math.round(Math.abs(seconds / 60));
-    const hours = Math.round(Math.abs(minutes / 60));
-    const days = Math.round(Math.abs(hours / 24));
-    const months = Math.round(Math.abs(days / 30.416));
-    const years = Math.round(Math.abs(days / 365));
+    const minutes = Math.round(seconds / 60);
+    const hours = Math.round(minutes / 60);
+    const days = Math.round(hours / 24);
+    const months = Math.round(days / 30.416);
+    const years = Math.round(days / 365);
 
     if (seconds <= 90) {
       return 'a minute ago';

@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { AuthModule } from "./auth/auth.module";
 import { HttpClientModule } from "@angular/common/http";
 import { TimeagoPipe } from './pipes/timeago.pipe';
+import { NumberToTextPipe } from './pipes/number-to-text.pipe';
 
 
 @NgModule({
   declarations: [
-    TimeagoPipe
+    TimeagoPipe,
+    NumberToTextPipe
   ],
   imports: [
     CommonModule,
@@ -16,6 +18,7 @@ import { TimeagoPipe } from './pipes/timeago.pipe';
   ],
   exports: [
     TimeagoPipe,
+    NumberToTextPipe,
     CommonModule,
     HttpClientModule,
     AuthModule

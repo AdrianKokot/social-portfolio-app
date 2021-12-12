@@ -23,7 +23,7 @@
                sizeClass="h-4 w-4 mr-1">
       </ui-icon>
       <span>
-        {{item.score}} score
+        {{item.score | numberToText}} score
       </span>
     </a>
 
@@ -34,7 +34,7 @@
       <ui-icon icon="discuss"
                sizeClass="h-4 w-4 mr-1">
       </ui-icon>
-      <span>{{item.commentsCount}} comments</span>
+      <span>{{item.commentsCount | numberToText}} comments</span>
     </a>
 
     <span class="inline-flex items-center ml-auto">

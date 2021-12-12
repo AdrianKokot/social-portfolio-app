@@ -24,7 +24,7 @@
                sizeClass="h-4 w-4 mr-1">
       </ui-icon>
       <span>
-        {{item.score }} score
+        {{item.score | numberToText}} score
       </span>
     </span>
 
@@ -33,7 +33,7 @@
       <ui-icon icon="discuss"
                sizeClass="h-4 w-4 mr-1">
       </ui-icon>
-      <span>{{item.commentsCount}} comments</span>
+      <span>{{item.commentsCount | numberToText}} comments</span>
     </span>
 
     <span class="inline-flex items-center ml-auto">
@@ -78,12 +78,13 @@
   </form>
 </section>
 
-<section class="rounded-lg border border-gray-200 bg-white px-4 py-4 mb-12">
+<section class="rounded-lg border border-gray-200 bg-white px-4 py-4 mb-12"
+         *ngIf="comments.length > 0">
 
   <ul>
 
     <li class="break-words last:mb-2 mb-8"
-        *ngFor="let item of (comments$|async)">
+        *ngFor="let item of comments">
 
       <p class="text-xs mb-2">
         <span class="font-medium">{{item.authorName}}</span>
@@ -98,7 +99,7 @@
                    sizeClass="h-4 w-4 mr-1">
           </ui-icon>
           <span>
-            {{item.score}} score
+            {{item.score | numberToText}} score
           </span>
         </span>
       </div>

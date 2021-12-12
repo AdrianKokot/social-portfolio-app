@@ -1,7 +1,7 @@
 export interface Comment {
   communityId: number;
   id: number;
-  authorName?: string;
+  authorName: string;
   authorId: string;
   votesUp: number;
   votesDown: number;
