@@ -25,7 +25,8 @@ namespace Sociussion.Data.Repositories
 
             if (queryParams.DiscussionId is not null)
             {
-                query = query.Where(x => x.DiscussionId == queryParams.DiscussionId);
+                query = query.Where(x => x.DiscussionId == queryParams.DiscussionId)
+                    .Include(c => c.Author);
             }
 
             return await PaginatedList<Comment>.FromQueryableAsync(query.OrderBy(c => c.CreatedAt), queryParams);

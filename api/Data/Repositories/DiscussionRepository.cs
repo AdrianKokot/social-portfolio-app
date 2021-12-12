@@ -13,6 +13,11 @@ namespace Sociussion.Data.Repositories
         {
         }
 
+        public override async Task<Discussion> Get(ulong id)
+        {
+            return await Set.Include(d => d.Author).FirstOrDefaultAsync(d => d.Id == id);
+        }
+
         public override Task<PaginatedList<Discussion>> GetAll(DiscussionParams paginationParams)
         {
             var set = Set.AsQueryable();

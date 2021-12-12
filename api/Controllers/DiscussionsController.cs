@@ -45,13 +45,8 @@ namespace Sociussion.Controllers
             {
                 await Repository.Add(model);
 
-                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, new
-                {
-                    model.Id,
-                    model.Content,
-                    model.Title,
-                    model.CommunityId
-                });
+                return CreatedAtAction(nameof(GetEntity), new {id = model.Id},
+                    new {model.Id, model.Content, model.Title, model.CommunityId});
             }
             catch (Exception e)
             {
@@ -82,6 +77,32 @@ namespace Sociussion.Controllers
                     x.CommentsCount
                 })
             );
+        }
+
+        public override async Task<IActionResult> GetEntity(ulong id)
+        {
+            var entity = await Repository.Get(id);
+
+            if (entity is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new
+            {
+                entity.Id,
+                entity.Title,
+                entity.VotesUp,
+                entity.VotesDown,
+                Score = entity.VotesUp - entity.VotesDown,
+                entity.Content,
+                entity.CommunityId,
+                entity.AuthorId,
+                AuthorName = entity.Author.Name,
+                entity.CreatedAt,
+                entity.EditedAt,
+                entity.CommentsCount
+            });
         }
     }
 }
