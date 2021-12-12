@@ -33,7 +33,10 @@ namespace Sociussion.Controllers
             {
                 await Repository.Add(model);
 
-                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, model);
+                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, new
+                {
+                    model.Id
+                });
             }
             catch (Exception e)
             {

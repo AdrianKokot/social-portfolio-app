@@ -17,9 +17,9 @@ namespace Sociussion.Data.Models.Discussion
         public Community.Community Community { get; set; }
         public ulong CommunityId { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? EditedAt { get; set; } = null;
-        public DateTime? LastActive { get; set; } = null;
+        public DateTimeOffset CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset? EditedAt { get; set; } = null;
+        public DateTimeOffset? LastActive { get; set; } = null;
 
         public ulong VotesUp { get; set; } = 0;
         public ulong VotesDown { get; set; } = 0;

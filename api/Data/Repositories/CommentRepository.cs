@@ -29,7 +29,8 @@ namespace Sociussion.Data.Repositories
                     .Include(c => c.Author);
             }
 
-            return await PaginatedList<Comment>.FromQueryableAsync(query.OrderBy(c => c.CreatedAt), queryParams);
+            // return await PaginatedList<Comment>.FromQueryableAsync(query.OrderBy(c => c.CreatedAt), queryParams);
+            return await PaginatedList<Comment>.FromQueryableAsync(query, queryParams);
         }
 
         public override async Task<Comment> Add(Comment entity)

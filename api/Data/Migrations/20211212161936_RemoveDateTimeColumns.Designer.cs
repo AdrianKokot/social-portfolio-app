@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sociussion.Data.Context;
 
 namespace Sociussion.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211212161936_RemoveDateTimeColumns")]
+    partial class RemoveDateTimeColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,14 +248,8 @@ namespace Sociussion.Data.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("TEXT");
-
                     b.Property<ulong>("DiscussionId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset?>("EditedAt")
-                        .HasColumnType("TEXT");
 
                     b.Property<ulong>("VotesDown")
                         .HasColumnType("INTEGER");
@@ -278,9 +274,6 @@ namespace Sociussion.Data.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(512)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset?>("LastActive")
                         .HasColumnType("TEXT");
 
                     b.Property<ulong>("MembersCount")
@@ -320,15 +313,6 @@ namespace Sociussion.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset?>("EditedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset?>("LastActive")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")

@@ -21,6 +21,6 @@ namespace Sociussion.Data.Models.Community
 
         public ICollection<Discussion.Discussion> Discussions { get; set; }
 
-        public DateTime? LastActive { get; set; } = null;
+        public DateTimeOffset? LastActive { get; set; } = null;
     }
 }
