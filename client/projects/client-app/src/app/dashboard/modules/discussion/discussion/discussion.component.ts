@@ -19,7 +19,8 @@ export class DiscussionComponent {
 
 
   public form = this.fb.group({
-    content: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(1024)]]
+    content: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(1024)]],
+    discussionId: [this.itemId]
   })
 
   public isFormLoading = false;

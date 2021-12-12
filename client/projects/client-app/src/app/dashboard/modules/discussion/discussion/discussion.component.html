@@ -1,9 +1,8 @@
 <div *ngIf="item$ | async as item">
 
-  <div>
+  <div class="mb-8">
     <a [href]="'/app/community/' + item.communityId"
        [routerLink]="['/app/community', item.communityId]"
-       class="mb-2"
        variant="base">
       &lt; Return to the community
     </a>
@@ -32,9 +31,20 @@
 
 </form>
 
+<div class="flex flex-col">
 
-<ul *ngIf="comments$ | async as comments">
-  <li *ngFor="let item of comments">
+  <span class="break-words"
+        *ngFor="let item of (comments$|async)">
     {{item.content}}
-  </li>
-</ul>
+  </span>
+
+</div>
+
+
+<!-- <ul *ngIf="comments$ | async as comments"
+      class="block">
+    <li *ngFor="let item of comments"
+        class="break-words truncate">
+      {{item.content}}
+    </li>
+  </ul> -->

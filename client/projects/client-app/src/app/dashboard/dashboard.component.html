@@ -1,12 +1,12 @@
 <app-dashboard-nav class="sticky inset-x-0 top-0 w-full block z-50"></app-dashboard-nav>
 
-<div class="my-6 flex sm:bg-transparent min-h-screen w-full">
+<div class="my-6 grid sm:bg-transparent min-h-screen [grid-template-columns:16rem_calc(100%_-_32rem)_16rem]">
 
-  <app-dashboard-aside-nav class="w-64 relative flex-shrink-0"></app-dashboard-aside-nav>
+  <app-dashboard-aside-nav class="relative"></app-dashboard-aside-nav>
 
-  <main class="border-l border-r border-gray-200 flex-grow">
+  <main class="border-x border-gray-200">
 
-    <div class="container mx-auto">
+    <div class="container max-w-screen-lg mx-auto">
 
       <router-outlet></router-outlet>
 
@@ -14,9 +14,7 @@
 
   </main>
 
-  <aside class="w-64 flex-shrink-0">
-
-  </aside>
+  <aside></aside>
 
 </div>
 

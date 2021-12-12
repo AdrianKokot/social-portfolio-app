@@ -1,6 +1,14 @@
+<div class="mb-8">
+  <a [href]="'/app/community/' + communityId"
+     [routerLink]="['/app/community', communityId]"
+     variant="base">
+    &lt; Return to the community
+  </a>
+</div>
+
 <form [formGroup]="form"
       (submit)="onSubmit($event)"
-      class="mx-auto container max-w-screen-md">
+      class="">
 
   <h1 class="font-medium text-xl mb-4">
     New discussion
@@ -15,7 +23,10 @@
                  placeholder="Discussion about...">
     </forms-input>
 
-    <forms-textarea class="mb-6" label="Content" formControlName="content" placeholder="Discussion">
+    <forms-textarea class="mb-6"
+                    label="Content"
+                    formControlName="content"
+                    placeholder="Discussion">
     </forms-textarea>
 
     <ui-button class="w-full"

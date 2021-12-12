@@ -12,7 +12,10 @@ import { finalize } from "rxjs";
 })
 export class DiscussionFormComponent {
 
-  private communityId = this.route.snapshot.params['communityId'];
+  private _communityId = this.route.snapshot.params['communityId'];
+  public get communityId() {
+    return this._communityId;
+  }
 
   public form = this.fb.group({
     title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
