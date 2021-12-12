@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsInputComponent } from "../forms-input/forms-input.component";
 
 @Component({
@@ -7,4 +7,7 @@ import { FormsInputComponent } from "../forms-input/forms-input.component";
   styles: [
   ]
 })
-export class FormsTextareaComponent extends FormsInputComponent {}
+export class FormsTextareaComponent extends FormsInputComponent {
+  @Input() rows: string|number = 10;
+  @Input() resizeable = false;
+}

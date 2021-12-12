@@ -7,9 +7,10 @@
   <textarea
     [name]="name"
     [formControl]="control"
-    class="border focus:outline-green-600 focus:border-green-600 block w-full px-4 py-2 border-gray-300 rounded-lg resize-none"
+    [class.resize-none]="!resizeable"
+    class="border focus:outline-green-600 focus:border-green-600 block w-full px-4 py-2 border-gray-300 rounded-lg min-h-[2.75rem]"
     [placeholder]="placeholder"
-    rows="10">
+    [rows]="rows">
   </textarea>
 </div>
 
