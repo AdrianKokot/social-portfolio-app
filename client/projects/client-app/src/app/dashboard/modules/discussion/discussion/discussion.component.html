@@ -24,7 +24,7 @@
                sizeClass="h-4 w-4 mr-1">
       </ui-icon>
       <span>
-        {{item.votesUp - item.votesDown}} score
+        {{item.score }} score
       </span>
     </span>
 
@@ -44,7 +44,7 @@
         Posted by
         <a class="font-medium"
            href="">{{item.authorName}}</a>
-        {{item.createdAt | date:'hh:mm dd.MM.y'}}
+        {{item.createdAt | timeago}}
       </span>
     </span>
 
@@ -87,7 +87,7 @@
 
       <p class="text-xs mb-2">
         <span class="font-medium">{{item.authorName}}</span>
-        <span class="text-gray-400">- {{item.createdAt | date:'hh:mm dd.MM.y'}}</span>
+        <span class="text-gray-400"> - {{item.createdAt | timeago}}</span>
       </p>
 
       <p class="text-gray-600 mb-3">{{item.content}}</p>

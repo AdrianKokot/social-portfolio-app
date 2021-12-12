@@ -10,4 +10,5 @@ export interface Discussion {
   createdAt: Date;
   editedAt?: Date;
   commentsCount: number;
+  score?: number;
 }
