@@ -13,9 +13,13 @@ import { finalize, tap } from "rxjs";
 })
 export class DiscussionComponent {
   public itemId = this.route.snapshot.params["id"];
+  private _communityId = this.route.snapshot.params["communityId"];
+  public get communityId() {
+    return this._communityId;
+  }
 
   public item$ = this.discussionService.get(this.itemId);
-  public comments$ = this.commentService.getAll({discussionId: this.itemId});
+  public comments$ = this.commentService.getAll({ discussionId: this.itemId });
 
 
   public form = this.fb.group({
@@ -44,9 +48,9 @@ export class DiscussionComponent {
   });
 
   constructor(private route: ActivatedRoute,
-              private discussionService: DiscussionService,
-              private commentService: CommentService,
-              private fb: FormBuilder) {
+    private discussionService: DiscussionService,
+    private commentService: CommentService,
+    private fb: FormBuilder) {
   }
 
 }

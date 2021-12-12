@@ -14,7 +14,7 @@
 </div>
 
 <div class="text-xs mt-1.5 px-2 text-red-600 font-medium"
-     *ngIf="control.touched && !control.valid">
+     *ngIf="!disableErrorMessages && control.touched && !control.valid">
   <p *ngFor="let error of control.errors | keyvalue">
     {{ getErrorMessage(error.key, error.value) }}
   </p>

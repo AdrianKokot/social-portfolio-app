@@ -1,50 +1,108 @@
-<div *ngIf="item$ | async as item">
-
-  <div class="mb-8">
-    <a [href]="'/app/community/' + item.communityId"
-       [routerLink]="['/app/community', item.communityId]"
-       variant="base">
-      &lt; Return to the community
-    </a>
-  </div>
-  {{ item | json}}
+<div class="mb-8">
+  <a [href]="'/app/community/' + communityId"
+     [routerLink]="['/app/community', communityId]"
+     variant="base">
+    &lt; Return to the community
+  </a>
 </div>
 
+<div *ngIf="(item$ | async) as item"
+     class="rounded-lg border border-gray-200 bg-white px-4 py-3 mb-4">
 
-<form (submit)="onSubmit($event)"
-      [formGroup]="form">
+  <h3 class="text-xl font-medium mb-2 break-words">
+    {{item.title}}
+  </h3>
 
-  <forms-textarea class="mb-6"
-                  formControlName="content"
-                  label="Content"
-                  placeholder="Comment">
-  </forms-textarea>
-
-  <ui-button [disabled]="!form.valid"
-             [loading]="isFormLoading"
-             class="w-full"
-             type="submit"
-             variant="submit">
-    Add comment
-  </ui-button>
-
-
-</form>
-
-<div class="flex flex-col">
-
-  <span class="break-words"
-        *ngFor="let item of (comments$|async)">
+  <p class="mb-2 break-words">
     {{item.content}}
-  </span>
+  </p>
 
+  <div class=" border-gray-200 py-2 text-xs flex gap-6 items-center text-gray-500">
+
+    <span class="inline-flex items-center">
+      <ui-icon icon="arrow-up-down"
+               sizeClass="h-4 w-4 mr-1">
+      </ui-icon>
+      <span>
+        {{item.votesUp - item.votesDown}} score
+      </span>
+    </span>
+
+
+    <span class="inline-flex items-center">
+      <ui-icon icon="discuss"
+               sizeClass="h-4 w-4 mr-1">
+      </ui-icon>
+      <span>{{item.commentsCount}} comments</span>
+    </span>
+
+    <span class="inline-flex items-center ml-auto">
+      <ui-icon icon="user"
+               sizeClass="h-4 w-4 mr-1.5">
+      </ui-icon>
+      <span>
+        Posted by
+        <a class="font-medium"
+           href="">{{item.authorName}}</a>
+        {{item.createdAt | date:'hh:mm dd.MM.y'}}
+      </span>
+    </span>
+
+  </div>
 </div>
 
 
-<!-- <ul *ngIf="comments$ | async as comments"
-      class="block">
-    <li *ngFor="let item of comments"
-        class="break-words truncate">
-      {{item.content}}
+<section class="rounded-lg border border-gray-200 bg-white px-4 py-3 mb-12">
+  <form (submit)="onSubmit($event)"
+        [formGroup]="form">
+
+    <forms-textarea class="mb-2"
+                    formControlName="content"
+                    [disableErrorMessages]="true"
+                    placeholder="What are your thoughts?">
+    </forms-textarea>
+
+    <div class="text-right">
+      <ui-button [disabled]="!form.valid"
+                 [loading]="isFormLoading"
+                 class="inline-block"
+                 type="submit"
+                 variant="submit">
+        Add comment
+      </ui-button>
+    </div>
+
+
+  </form>
+</section>
+
+<section class="rounded-lg border border-gray-200 bg-white px-4 py-4 mb-12">
+
+  <ul>
+
+    <li class="break-words last:mb-2 mb-8"
+        *ngFor="let item of (comments$|async)">
+
+      <p class="text-xs mb-2">
+        <span class="font-medium">{{item.authorName}}</span>
+        <span class="text-gray-400">- {{item.createdAt | date:'hh:mm dd.MM.y'}}</span>
+      </p>
+
+      <p class="text-gray-600 mb-3">{{item.content}}</p>
+
+      <div class="border-gray-200 text-xs flex gap-6 items-center text-gray-500">
+        <span class="inline-flex items-center">
+          <ui-icon icon="arrow-up-down"
+                   sizeClass="h-4 w-4 mr-1">
+          </ui-icon>
+          <span>
+            {{item.score}} score
+          </span>
+        </span>
+      </div>
+
     </li>
-  </ul> -->
+
+  </ul>
+
+</section>

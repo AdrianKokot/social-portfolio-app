@@ -8,4 +8,5 @@ export interface Comment {
   content: number;
   createdAt: Date;
   editedAt?: Date;
+  score: number;
 }

@@ -14,6 +14,7 @@ export class FormsInputComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder: string = '';
   @Input() name: string = '';
   @Input() type: string = 'text';
+  @Input() disableErrorMessages = false;
 
   public control!: FormControl;
 

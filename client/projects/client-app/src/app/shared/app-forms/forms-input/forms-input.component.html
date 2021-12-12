@@ -10,7 +10,7 @@
          class="border border-gray-300 focus:outline-green-600 form-input block w-full px-4 py-2 rounded-lg bg-white">
 </div>
 
-<div *ngIf="control.touched && !control.valid"
+<div *ngIf="!disableErrorMessages && control.touched && !control.valid"
      class="text-xs mt-1.5 px-2 text-red-600 font-medium">
   <p *ngFor="let error of control.errors | keyvalue">
     {{ getErrorMessage(error.key, error.value) }}
