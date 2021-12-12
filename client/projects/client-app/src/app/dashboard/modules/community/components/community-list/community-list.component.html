@@ -5,7 +5,7 @@
   <div *ngFor="let community of (items$ | async);"
        [hidden]="isLoading"
        [routerLink]="['/app/community/', community.id]"
-       class="bg-white rounded-lg p-4 shadow-md">
+       class="rounded-lg border border-gray-200 bg-white px-4 py-3">
     <h3 class="text-lg font-medium truncate">{{community.name}}</h3>
     <p class="truncate mb-4">{{community.description}}</p>
     <div class="text-gray-500 text-xs">
@@ -15,7 +15,7 @@
 
   <ng-container *ngIf="isLoading">
     <div *ngFor="let community of [1,2,3]"
-         class="bg-white rounded-lg p-4 shadow-md">
+         class="rounded-lg border border-gray-200 bg-white px-4 py-3">
       <h3 class="bg-gray-200 w-1/3 mb-1 rounded-lg animate-pulse">
         &nbsp;
       </h3>

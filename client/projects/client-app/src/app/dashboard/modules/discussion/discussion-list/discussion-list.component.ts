@@ -23,7 +23,7 @@ export class DiscussionListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.items$ = this.discussionService.getAll(this.communityId !== null ? {community: this.communityId} : {})
+    this.items$ = this.discussionService.getAll(this.communityId !== null ? {communityId: this.communityId} : {})
       .pipe(
         tap(() => {
           this.isLoading = true;
