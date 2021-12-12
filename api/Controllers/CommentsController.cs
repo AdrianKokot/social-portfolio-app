@@ -33,10 +33,22 @@ namespace Sociussion.Controllers
             {
                 await Repository.Add(model);
 
-                return CreatedAtAction(nameof(GetEntity), new {id = model.Id}, new
-                {
-                    model.Id
-                });
+                var c = await Repository.Get(model.Id);
+
+                return CreatedAtAction(nameof(GetEntity), new {id = model.Id},
+                    new
+                    {
+                        c.Id,
+                        c.Content,
+                        c.AuthorId,
+                        c.DiscussionId,
+                        c.CreatedAt,
+                        c.EditedAt,
+                        c.VotesUp,
+                        c.VotesDown,
+                        Score = c.VotesUp - c.VotesDown,
+                        AuthorName = c.Author.Name
+                    });
             }
             catch (Exception e)
             {
@@ -49,7 +61,7 @@ namespace Sociussion.Controllers
             var result = await Repository.GetAll(paginationParams);
 
             Response.AddNavigationHeaders(result.Metadata);
-            
+
             return Ok(result.Select(c => new
             {
                 c.Id,

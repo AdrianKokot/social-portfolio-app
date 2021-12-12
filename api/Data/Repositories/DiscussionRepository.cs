@@ -29,7 +29,7 @@ namespace Sociussion.Data.Repositories
 
             set = set.Include(d => d.Author);
 
-            return PaginatedList<Discussion>.FromQueryableAsync(set.OrderBy(d => d.CreatedAt), paginationParams);
+            return PaginatedList<Discussion>.FromQueryableAsync(set, paginationParams);
         }
     }
 }

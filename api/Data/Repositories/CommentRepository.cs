@@ -19,6 +19,11 @@ namespace Sociussion.Data.Repositories
             _context = context;
         }
 
+        public override async Task<Comment> Get(ulong id)
+        {
+            return await Set.Include(c => c.Author).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public override async Task<PaginatedList<Comment>> GetAll(CommentParams queryParams)
         {
             var query = Set.AsQueryable();
@@ -29,7 +34,6 @@ namespace Sociussion.Data.Repositories
                     .Include(c => c.Author);
             }
 
-            // return await PaginatedList<Comment>.FromQueryableAsync(query.OrderBy(c => c.CreatedAt), queryParams);
             return await PaginatedList<Comment>.FromQueryableAsync(query, queryParams);
         }
 
@@ -41,12 +45,12 @@ namespace Sociussion.Data.Repositories
             {
                 throw new Exception("Entity couldn't be added.");
             }
-            
+
             var discussion = await _context.Set<Discussion>()
                 .Where(x => x.Id == entity.DiscussionId)
                 .Include(x => x.Community)
                 .FirstOrDefaultAsync();
-            
+
             if (discussion is not null)
             {
                 discussion.CommentsCount++;
