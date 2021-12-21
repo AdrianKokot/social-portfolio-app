@@ -6,5 +6,5 @@ Currently, **_under development_**, more details when finished.
 
 ## Tech stack
 
-- Frontend: Angular 13, TailwindCSS 2.2
-- Backend: .NET 5
+- Frontend: Angular 13, TailwindCSS 3
+- Backend: .NET 6, AutoMapper

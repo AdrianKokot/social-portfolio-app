@@ -9,6 +9,6 @@ export interface Discussion {
   content: number;
   createdAt: Date;
   editedAt?: Date;
-  commentsCount: number;
+  commentCount: number;
   score: number;
 }
