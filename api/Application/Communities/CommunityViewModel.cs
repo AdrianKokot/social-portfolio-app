@@ -7,9 +7,9 @@ namespace Sociussion.Application.Communities;
 public class CommunityViewModel : IMapFrom<Community>
 {
     public ulong Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string PhotoUrl { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string PhotoUrl { get; set; } = string.Empty;
 
     public ulong OwnerId { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Discussions;
 using Sociussion.Application.Services;
 using Sociussion.Domain.Entities;
@@ -25,6 +26,18 @@ public class DiscussionService : IDiscussionService
     public IQueryable<Discussion> GetAll()
     {
         return _set.AsQueryable();
+    }
+    
+    public IQueryable<Discussion> GetAll(DiscussionQueryParams queryParams)
+    {
+        var set = GetAll();
+
+        if (queryParams.CommunityId is not null)
+        {
+            set = set.Where(x => x.CommunityId == queryParams.CommunityId);
+        }
+
+        return set;
     }
     
     public async Task<Discussion> CreateFrom(CreateDiscussionModel createModel, ulong getUserId)

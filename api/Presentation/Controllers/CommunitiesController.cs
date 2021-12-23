@@ -28,9 +28,9 @@ public class CommunitiesController : ApiController
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<CommunityViewModel>))]
-    public async Task<IActionResult> GetEntities([FromQuery] QueryParams queryParams)
+    public async Task<IActionResult> GetEntities([FromQuery] CommunityQueryParams queryParams)
     {
-        var query = _mapper.ProjectTo<CommunityViewModel>(_service.GetAll());
+        var query = _mapper.ProjectTo<CommunityViewModel>(_service.GetAll(queryParams));
         var result = await PaginatedList<CommunityViewModel>.CreateAsync(query, queryParams);
 
         return Ok(result);

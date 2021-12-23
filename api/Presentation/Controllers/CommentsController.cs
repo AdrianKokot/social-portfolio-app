@@ -28,9 +28,9 @@ public class CommentsController : ApiController
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<CommentViewModel>))]
-    public async Task<IActionResult> GetEntities([FromQuery] QueryParams queryParams)
+    public async Task<IActionResult> GetEntities([FromQuery] CommentQueryParams queryParams)
     {
-        var query = _mapper.ProjectTo<CommentViewModel>(_service.GetAll());
+        var query = _mapper.ProjectTo<CommentViewModel>(_service.GetAll(queryParams));
         var result = await PaginatedList<CommentViewModel>.CreateAsync(query, queryParams);
 
         return Ok(result);

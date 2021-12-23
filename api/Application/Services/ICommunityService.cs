@@ -1,4 +1,5 @@
-﻿using Sociussion.Application.Communities;
+﻿using Sociussion.Application.Common.QueryParams;
+using Sociussion.Application.Communities;
 using Sociussion.Domain.Entities;
 
 namespace Sociussion.Application.Services;
@@ -7,6 +8,7 @@ public interface ICommunityService
 {
     IQueryable<Community> Get(ulong id);
     IQueryable<Community> GetAll();
+    IQueryable<Community> GetAll(CommunityQueryParams queryParams);
 
     Task<Community> CreateFrom(CreateCommunityModel model, ulong createdBy);
     // Task<Community> Add(Community entity);

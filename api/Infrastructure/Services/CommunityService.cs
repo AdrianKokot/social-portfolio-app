@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Communities;
 using Sociussion.Application.Services;
 using Sociussion.Domain.Entities;
@@ -25,6 +26,17 @@ public class CommunityService : ICommunityService
     public IQueryable<Community> GetAll()
     {
         return _set;
+    }    
+    
+    public IQueryable<Community> GetAll(CommunityQueryParams queryParams)
+    {
+        var set = GetAll();
+        if (queryParams.Member is not null)
+        {
+            set = set.Where(x => x.Members.Any(y => y.Id == queryParams.Member));
+        }
+
+        return set;
     }
 
     public async Task<Community> CreateFrom(CreateCommunityModel model, ulong createdBy)

@@ -7,5 +7,5 @@ public class UpdateCommentModel
     [MaxLength(1024)]
     [MinLength(10)]
     [Required]
-    public string Content { get; set; }
+    public string Content { get; set; } = string.Empty;
 }

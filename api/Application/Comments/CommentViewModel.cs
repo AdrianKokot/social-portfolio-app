@@ -7,10 +7,10 @@ namespace Sociussion.Application.Comments;
 public class CommentViewModel : IMapFrom<Comment>
 {
     public ulong Id { get; set; }
-    public string Content { get; set; }
+    public string Content { get; set; } = string.Empty;
 
-    public string AuthorId { get; set; }
-    public string AuthorName { get; set; }
+    public ulong AuthorId { get; set; }
+    public string AuthorName { get; set; } = string.Empty;
 
     public ulong DiscussionId { get; set; }
 

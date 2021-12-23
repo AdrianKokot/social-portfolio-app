@@ -58,9 +58,9 @@ public class DiscussionsController : ApiController
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<DiscussionViewModel>))]
-    public async Task<IActionResult> GetEntities([FromQuery] QueryParams queryParams)
+    public async Task<IActionResult> GetEntities([FromQuery] DiscussionQueryParams queryParams)
     {
-        var query = _mapper.ProjectTo<DiscussionViewModel>(_service.GetAll());
+        var query = _mapper.ProjectTo<DiscussionViewModel>(_service.GetAll(queryParams));
         var result = await PaginatedList<DiscussionViewModel>.CreateAsync(query, queryParams);
 
         return Ok(result);

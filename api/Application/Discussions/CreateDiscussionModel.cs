@@ -6,7 +6,7 @@ namespace Sociussion.Application.Discussions;
 public class CreateDiscussionModel : UpdateCommentModel
 {
     [MaxLength(255), Required]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     [Required] public ulong CommunityId { get; set; }
 }

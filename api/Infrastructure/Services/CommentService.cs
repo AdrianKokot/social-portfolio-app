@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sociussion.Application.Comments;
+using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Services;
 using Sociussion.Domain.Entities;
 using Sociussion.Infrastructure.Persistence;
@@ -25,6 +26,18 @@ public class CommentService : ICommentService
     public IQueryable<Comment> GetAll()
     {
         return _set.AsQueryable();
+    }
+    
+    public IQueryable<Comment> GetAll(CommentQueryParams queryParams)
+    {
+        var set = GetAll();
+
+        if (queryParams.DiscussionId is not null)
+        {
+            set = set.Where(x => x.DiscussionId == queryParams.DiscussionId);
+        }
+        
+        return set;
     }
 
     public async Task<Comment> CreateFrom(CreateCommentModel createModel, ulong getUserId)
