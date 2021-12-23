@@ -25,7 +25,7 @@ public class DiscussionService : IDiscussionService
 
     public IQueryable<Discussion> GetAll()
     {
-        return _set.AsQueryable();
+        return _set.AsQueryable().OrderByDescending(x => x.CreatedAt);
     }
     
     public IQueryable<Discussion> GetAll(DiscussionQueryParams queryParams)

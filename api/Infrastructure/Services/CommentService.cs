@@ -25,7 +25,7 @@ public class CommentService : ICommentService
 
     public IQueryable<Comment> GetAll()
     {
-        return _set.AsQueryable();
+        return _set.AsQueryable().OrderByDescending(x => x.CreatedAt);
     }
     
     public IQueryable<Comment> GetAll(CommentQueryParams queryParams)
