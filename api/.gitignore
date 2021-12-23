@@ -451,4 +451,7 @@ $RECYCLE.BIN/
 .vs
 .idea
 
-app.db
+*/app.db
+
+*/app.db-shm
+*/app.db-wal

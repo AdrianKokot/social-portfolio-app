@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sociussion.Application.Common.Models;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Communities;
 using Sociussion.Application.Services;
+using Sociussion.Domain.Entities;
 
 namespace Sociussion.Presentation.Controllers;
 
@@ -14,7 +17,10 @@ public class CommunitiesController : ApiController
     private readonly ICommunityService _service;
     private readonly IMapper _mapper;
 
-    public CommunitiesController(ICommunityService service, IMapper mapper)
+    public CommunitiesController(
+        ICommunityService service,
+        IMapper mapper,
+        UserManager<ApplicationUser> userManager) : base(userManager)
     {
         _service = service;
         _mapper = mapper;
@@ -23,7 +29,8 @@ public class CommunitiesController : ApiController
     [HttpGet]
     public async Task<IActionResult> GetEntities([FromQuery] QueryParams queryParams)
     {
-        var result = await _mapper.ProjectTo<CommunityViewModel>(_service.GetAll()).ToListAsync();
+        var query = _mapper.ProjectTo<CommunityViewModel>(_service.GetAll());
+        var result = await PaginatedList<CommunityViewModel>.CreateAsync(query, queryParams);
 
         return Ok(result);
     }

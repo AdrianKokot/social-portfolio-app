@@ -1,6 +1,8 @@
 ﻿using System.Text.Json;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Sociussion.Domain.Entities;
 
 namespace Sociussion.Presentation.Controllers;
 
@@ -8,16 +10,37 @@ namespace Sociussion.Presentation.Controllers;
 [Route("api/[controller]")]
 public abstract class ApiController : ControllerBase
 {
-    protected ulong GetUserId() => ulong.Parse(User.Identity.GetUserId());
-    protected BadRequestObjectResult BadApiRequest(string key, string message)
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    protected ApiController(UserManager<ApplicationUser> userManager)
     {
-        return BadApiRequest(key, new[] {message});
+        _userManager = userManager;
     }
 
-    protected BadRequestObjectResult BadApiRequest(string key, string[] messages)
+    protected ulong GetUserId()
+    {
+        return ulong.Parse(_userManager.GetUserId(User));
+    }
+
+    // protected BadRequestObjectResult ValidationError()
+    // {
+    //     
+    // }
+
+    protected BadRequestObjectResult ApiValidationError(string key, string message)
+    {
+        return ApiValidationError(key, new[] {message});
+    }
+
+    protected BadRequestObjectResult ApiValidationError(ModelStateDictionary modelState)
+    {
+        return BadRequest(new ValidationProblemDetails(modelState));
+    }
+
+    protected BadRequestObjectResult ApiValidationError(string key, string[] messages)
     {
         key = JsonNamingPolicy.CamelCase.ConvertName(key);
-            
+
         var errors = new Dictionary<string, string[]> {{key, messages}};
 
         return BadRequest(new ValidationProblemDetails(errors));

@@ -33,10 +33,16 @@ internal class JsonPropertyMetadataProvider : IBindingMetadataProvider, IDisplay
     }
 
     private static bool IsNonControllerProperty(ModelMetadataIdentity key) =>
-        key.MetadataKind == ModelMetadataKind.Property
-        && !key.ContainerType.IsAssignableTo(typeof(ControllerBase));
+        key.ContainerType != null &&
+        key.MetadataKind == ModelMetadataKind.Property &&
+        !key.ContainerType.IsAssignableTo(typeof(ControllerBase));
 
-    private string JsonPropertyName(IReadOnlyList<object> attributes, ModelMetadataIdentity key) =>
-        attributes.OfType<JsonPropertyNameAttribute>().FirstOrDefault()?.Name
-        ?? _jsonNamingPolicy?.ConvertName(key.Name);
+    private string JsonPropertyName(IReadOnlyList<object> attributes, ModelMetadataIdentity key)
+    {
+        if (key.Name is not null)
+            return attributes.OfType<JsonPropertyNameAttribute>().FirstOrDefault()?.Name
+                   ?? _jsonNamingPolicy.ConvertName(key.Name);
+
+        return string.Empty;
+    }
 }

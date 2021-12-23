@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sociussion.Application.Common.Interfaces;
 
 namespace Sociussion.Application.Common.Models;
 
@@ -29,5 +30,10 @@ public class PaginatedList<T>
         var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
         return new PaginatedList<T>(items, count, pageNumber, pageSize);
+    }
+
+    public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, IQueryParams paginationParams)
+    {
+        return await PaginatedList<T>.CreateAsync(source, paginationParams.Page, paginationParams.PageSize);
     }
 }

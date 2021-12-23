@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sociussion.Application.Comments;
-using Sociussion.Application.Common.Interfaces;
+using Sociussion.Application.Common.Models;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Services;
+using Sociussion.Domain.Entities;
 
 namespace Sociussion.Presentation.Controllers;
 
@@ -15,7 +17,10 @@ public class CommentsController : ApiController
     private readonly ICommentService _service;
     private readonly IMapper _mapper;
 
-    public CommentsController(ICommentService service, IMapper mapper)
+    public CommentsController(
+        ICommentService service,
+        IMapper mapper,
+        UserManager<ApplicationUser> userManager) : base(userManager)
     {
         _service = service;
         _mapper = mapper;
@@ -24,7 +29,8 @@ public class CommentsController : ApiController
     [HttpGet]
     public async Task<IActionResult> GetEntities([FromQuery] QueryParams queryParams)
     {
-        var result = await _mapper.ProjectTo<CommentViewModel>(_service.GetAll()).ToListAsync();
+        var query = _mapper.ProjectTo<CommentViewModel>(_service.GetAll());
+        var result = await PaginatedList<CommentViewModel>.CreateAsync(query, queryParams);
 
         return Ok(result);
     }

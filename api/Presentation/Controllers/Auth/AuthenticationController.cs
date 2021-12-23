@@ -12,13 +12,16 @@ public class AuthenticationController : ApiController
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenService _tokenService;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
     public AuthenticationController(
         UserManager<ApplicationUser> userManager,
-        ITokenService tokenService)
+        ITokenService tokenService,
+        SignInManager<ApplicationUser> signInManager) : base(userManager)
     {
         _userManager = userManager;
         _tokenService = tokenService;
+        _signInManager = signInManager;
     }
 
 
@@ -29,7 +32,7 @@ public class AuthenticationController : ApiController
         var userExists = await _userManager.FindByEmailAsync(model.Email);
 
         if (userExists != null)
-            return BadApiRequest(nameof(model.Email), "Given e-mail address is already taken");
+            return ApiValidationError(nameof(model.Email), "Given e-mail address is already taken");
 
 
         ApplicationUser user = new ApplicationUser()
@@ -41,7 +44,7 @@ public class AuthenticationController : ApiController
         };
 
         var result = await _userManager.CreateAsync(user, model.Password);
-        
+
         if (result.Succeeded)
         {
             return NoContent();
@@ -51,7 +54,7 @@ public class AuthenticationController : ApiController
             .Select(x => x.Description.Replace("Passwords", "Password"))
             .ToArray();
 
-        return BadApiRequest(nameof(model.Password), errors);
+        return ApiValidationError(nameof(model.Password), errors);
     }
 
 
@@ -59,21 +62,22 @@ public class AuthenticationController : ApiController
     [Route("login")]
     public async Task<ActionResult> Login([FromBody] LoginUserModel model)
     {
-        var user = await _userManager.FindByEmailAsync(model.Email);
+        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
 
-        if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+        if (!result.Succeeded)
         {
-            return Ok(
-                new AuthenticatedUserModel
-                {
-                    Token = await _tokenService.CreateJwtToken(user),
-                    Email = user.Email,
-                    Name = user.Name,
-                    Id = user.Id
-                }
-            );
+            return ApiValidationError(nameof(model.Password), "Invalid credentials");
         }
-
-        return BadApiRequest(nameof(model.Password), "Invalid credentials");
+        
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        return Ok(
+            new AuthenticatedUserModel
+            {
+                Token = await _tokenService.CreateJwtToken(user),
+                Email = user.Email,
+                Name = user.Name,
+                Id = user.Id
+            }
+        );
     }
 }
