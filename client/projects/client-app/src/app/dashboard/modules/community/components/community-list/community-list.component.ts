@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { finalize, Observable, switchMap, tap } from "rxjs";
+import { finalize, map, Observable, switchMap, tap } from "rxjs";
 import { Community } from "../../../../../shared/shared/models/community";
 import { CommunityService } from "../../../../../shared/shared/api/community.service";
 import { AuthService } from "../../../../../shared/shared/auth/auth.service";
@@ -33,7 +33,8 @@ export class CommunityListComponent implements OnInit {
         }),
         finalize(() => {
           this.isLoading = false;
-        })
+        }),
+        map(x => x.items)
       );
 
     if (this.onlyUserCommunities) {

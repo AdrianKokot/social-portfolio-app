@@ -27,7 +27,7 @@ export class DiscussionComponent implements OnDestroy {
   private commentsSubscription = this.commentService.getAll({ discussionId: this.itemId })
     .subscribe({
       next: (comments) => {
-        this.comments = comments;
+        this.comments = comments.items;
       }
     })
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DiscussionService } from "../../../../shared/shared/api/discussion.service";
-import { finalize, Observable, tap } from "rxjs";
+import { finalize, map, Observable, tap } from "rxjs";
 import { Discussion } from "../../../../shared/shared/models/discussion";
 
 @Component({
@@ -30,7 +30,8 @@ export class DiscussionListComponent implements OnInit {
         }),
         finalize(() => {
           this.isLoading = false;
-        })
+        }),
+        map(x => x.items)
       )
   }
 

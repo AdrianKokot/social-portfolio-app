@@ -27,7 +27,7 @@ export class CommunityComponent implements OnDestroy {
         }
         return this.communityService.getAll({member: user.id}).pipe(
           map(memberOf => {
-            return memberOf.findIndex(x => x.id == this.itemId) !== -1;
+            return memberOf.items.findIndex(x => x.id == this.itemId) !== -1;
           })
         )
       })

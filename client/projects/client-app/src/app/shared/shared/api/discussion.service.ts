@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { apiActions } from "./actions.const";
-import { map, Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Discussion } from "../models/discussion";
 import { DiscussionParams } from "./params/discussion.params";
+import { PaginatedResult } from "./paginated-result";
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,8 @@ export class DiscussionService {
   constructor(private http: HttpClient) {
   }
 
-  public getAll(params: Partial<DiscussionParams> = {}): Observable<Discussion[]> {
-    return this.http.get<Discussion[]>(this.actions.root, {observe: 'response', params})
-      .pipe(
-        tap(response => {
-          console.log(response.headers.keys());//JSON.parse(response.headers.get('Pagination') || '{}'));
-        }),
-        map(response => response.body as Discussion[])
-      )
+  public getAll(params: Partial<DiscussionParams> = {}): Observable<PaginatedResult<Discussion>> {
+    return this.http.get<PaginatedResult<Discussion>>(this.actions.root, {params});
   }
 
   public get(id: number, params: Partial<DiscussionParams> = {}): Observable<Discussion> {
