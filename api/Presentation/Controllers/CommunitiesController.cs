@@ -27,6 +27,7 @@ public class CommunitiesController : ApiController
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<CommunityViewModel>))]
     public async Task<IActionResult> GetEntities([FromQuery] QueryParams queryParams)
     {
         var query = _mapper.ProjectTo<CommunityViewModel>(_service.GetAll());
@@ -36,6 +37,8 @@ public class CommunitiesController : ApiController
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommunityViewModel))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetEntity(ulong id)
     {
         var result = await _mapper.ProjectTo<CommunityViewModel>(_service.Get(id)).FirstOrDefaultAsync();
@@ -49,6 +52,9 @@ public class CommunitiesController : ApiController
     }
 
     [HttpPost("{id}/join")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> JoinCommunity(ulong id)
     {
         try
@@ -67,6 +73,9 @@ public class CommunitiesController : ApiController
     }
 
     [HttpDelete("{id}/leave")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> LaveCommunity(ulong id)
     {
         try
@@ -85,6 +94,9 @@ public class CommunitiesController : ApiController
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Create(CreateCommunityModel createModel)
     {
         try

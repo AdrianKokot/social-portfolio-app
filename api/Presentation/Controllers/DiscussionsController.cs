@@ -30,6 +30,9 @@ public class DiscussionsController : ApiController
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Create(CreateDiscussionModel createModel)
     {
         if (!(await _communityService.Get(createModel.CommunityId).AnyAsync()))
@@ -54,6 +57,7 @@ public class DiscussionsController : ApiController
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<DiscussionViewModel>))]
     public async Task<IActionResult> GetEntities([FromQuery] QueryParams queryParams)
     {
         var query = _mapper.ProjectTo<DiscussionViewModel>(_service.GetAll());
@@ -63,6 +67,8 @@ public class DiscussionsController : ApiController
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DiscussionViewModel))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetEntity(ulong id)
     {
         var entity = await _mapper.ProjectTo<DiscussionViewModel>(_service.Get(id)).FirstOrDefaultAsync();

@@ -27,6 +27,7 @@ public class CommentsController : ApiController
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<CommentViewModel>))]
     public async Task<IActionResult> GetEntities([FromQuery] QueryParams queryParams)
     {
         var query = _mapper.ProjectTo<CommentViewModel>(_service.GetAll());
@@ -36,6 +37,8 @@ public class CommentsController : ApiController
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentViewModel))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetEntity(ulong id)
     {
         var result = await _mapper.ProjectTo<CommentViewModel>(_service.Get(id)).FirstOrDefaultAsync();
@@ -49,6 +52,9 @@ public class CommentsController : ApiController
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Create(CreateCommentModel createModel)
     {
         try

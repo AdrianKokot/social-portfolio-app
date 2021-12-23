@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Sociussion.Application.Authentication;
 using Sociussion.Application.Common.Interfaces;
 using Sociussion.Domain.Entities;
@@ -25,8 +26,9 @@ public class AuthenticationController : ApiController
     }
 
 
-    [HttpPost]
-    [Route("register")]
+    [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult> Register([FromBody] RegisterUserModel model)
     {
         var userExists = await _userManager.FindByEmailAsync(model.Email);
@@ -58,8 +60,9 @@ public class AuthenticationController : ApiController
     }
 
 
-    [HttpPost]
-    [Route("login")]
+    [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> Login([FromBody] LoginUserModel model)
     {
         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
@@ -68,7 +71,7 @@ public class AuthenticationController : ApiController
         {
             return ApiValidationError(nameof(model.Password), "Invalid credentials");
         }
-        
+
         var user = await _userManager.FindByEmailAsync(model.Email);
         return Ok(
             new AuthenticatedUserModel
@@ -79,5 +82,20 @@ public class AuthenticationController : ApiController
                 Id = user.Id
             }
         );
+    }
+
+    [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+
+        if (User.Identity is null || !User.Identity.IsAuthenticated)
+        {
+            return Ok();
+        }
+
+        return BadRequest();
     }
 }
