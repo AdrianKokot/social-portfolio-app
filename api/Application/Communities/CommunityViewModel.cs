@@ -16,6 +16,8 @@ public class CommunityViewModel : IMapFrom<Community>
     public ulong MemberCount { get; set; }
 
     public DateTime? LastActive { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
     public void Mapping(Profile profile)
     {

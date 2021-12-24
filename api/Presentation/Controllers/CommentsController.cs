@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sociussion.Application.Comments;
+using Sociussion.Application.Common.Exceptions;
 using Sociussion.Application.Common.Models;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Services;
@@ -15,23 +15,19 @@ namespace Sociussion.Presentation.Controllers;
 public class CommentsController : ApiController
 {
     private readonly ICommentService _service;
-    private readonly IMapper _mapper;
 
     public CommentsController(
         ICommentService service,
-        IMapper mapper,
         UserManager<ApplicationUser> userManager) : base(userManager)
     {
         _service = service;
-        _mapper = mapper;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<CommentViewModel>))]
     public async Task<IActionResult> GetEntities([FromQuery] CommentQueryParams queryParams)
     {
-        var query = _mapper.ProjectTo<CommentViewModel>(_service.GetAll(queryParams));
-        var result = await PaginatedList<CommentViewModel>.CreateAsync(query, queryParams);
+        var result = await PaginatedList<CommentViewModel>.CreateAsync(_service.GetAllVm(queryParams), queryParams);
 
         return Ok(result);
     }
@@ -41,14 +37,14 @@ public class CommentsController : ApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetEntity(ulong id)
     {
-        var result = await _mapper.ProjectTo<CommentViewModel>(_service.Get(id)).FirstOrDefaultAsync();
-
-        if (result is null)
+        try
+        {
+            return Ok(await _service.GetVm(id));
+        }
+        catch (NotFoundException e)
         {
             return NotFound();
         }
-
-        return Ok(result);
     }
 
     [HttpPost]
@@ -59,13 +55,81 @@ public class CommentsController : ApiController
     {
         try
         {
-            var entity = await _service.CreateFrom(createModel, GetUserId());
+            var entityVm = await _service.CreateFromAndGetVm(createModel, GetUserId());
 
             return CreatedAtAction(
                 nameof(GetEntity),
-                new {id = entity.Id},
-                _mapper.Map<CommentViewModel>(entity)
+                new {id = entityVm.Id},
+                entityVm
             );
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    public async Task<IActionResult> Update(UpdateCommentModel updateModel, ulong id)
+    {
+        var entity = await _service.Get(id).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            return NotFound();
+        }
+
+        if (entity.AuthorId != GetUserId())
+        {
+            return Forbid();
+        }
+
+        try
+        {
+            await _service.Update(id, updateModel);
+            var entityVm = await _service.GetVm(entity.Id);
+
+            return Ok(entityVm);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(ulong id)
+    {
+        var entity = await _service.Get(id).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            return NotFound();
+        }
+
+        if (entity.AuthorId != GetUserId())
+        {
+            return Forbid();
+        }
+
+        try
+        {
+            await _service.Delete(id);
+
+            return NoContent();
         }
         catch (Exception e)
         {

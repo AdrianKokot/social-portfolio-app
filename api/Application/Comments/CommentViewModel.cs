@@ -15,7 +15,7 @@ public class CommentViewModel : IMapFrom<Comment>
     public ulong DiscussionId { get; set; }
 
     public DateTime CreatedAt { get; set; }
-    public DateTime? EditedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
     public long VotesUp { get; set; }
     public long VotesDown { get; set; }
