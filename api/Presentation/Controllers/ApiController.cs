@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Sociussion.Application.Common.Exceptions;
 using Sociussion.Domain.Entities;
 
 namespace Sociussion.Presentation.Controllers;
@@ -22,10 +23,21 @@ public abstract class ApiController : ControllerBase
         return ulong.Parse(_userManager.GetUserId(User));
     }
 
-    // protected BadRequestObjectResult ValidationError()
-    // {
-    //     
-    // }
+    protected async Task<IActionResult> ApiExceptionHandler(Func<Task<IActionResult>> fn)
+    {
+        try
+        {
+            return await fn();
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 
     protected BadRequestObjectResult ApiValidationError(string key, string message)
     {

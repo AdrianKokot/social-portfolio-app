@@ -22,20 +22,27 @@ public class CommunityService : ICommunityService
         _set = dbContext.Set<Community>();
     }
 
-    public IQueryable<Community> Get(ulong id)
+    public async Task<Community> Get(ulong id)
     {
-        return _set.Where(x => x.Id == id);
+        var entity = await _set.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            throw new NotFoundException(nameof(Discussion), id);
+        }
+
+        return entity;
     }
 
     public IQueryable<Community> GetAll()
     {
         return _set;
-    }    
-    
+    }
+
     public IQueryable<Community> GetAll(CommunityQueryParams queryParams)
     {
         var set = GetAll();
-        
+
         if (queryParams.Member is not null)
         {
             set = set.Where(x => x.Members.Any(y => y.Id == queryParams.Member));
@@ -109,7 +116,7 @@ public class CommunityService : ICommunityService
         {
             throw new NotFoundException(nameof(ApplicationUser), userId);
         }
-            
+
         if (!community.Members.Contains(user))
         {
             throw new Exception("User is not a member.");
@@ -131,28 +138,22 @@ public class CommunityService : ICommunityService
 
     public async Task<Community> Update(ulong id, UpdateCommunityModel updateModel)
     {
-        var entity = await Get(id).FirstOrDefaultAsync();
-
-        if (entity is null)
-        {
-            throw new NotFoundException(nameof(Community), id);
-        }
+        var entity = await Get(id);
 
         entity.Description = updateModel.Description;
         entity.Name = updateModel.Name;
-        
+
         if (await _context.SaveChangesAsync() > 0)
         {
             return entity;
         }
-        
+
         throw new Exception("Couldn't update given entity.");
     }
 
     public async Task<CommunityViewModel> GetVm(ulong id)
     {
-        var query = Get(id);
-        var entity = await _mapper.ProjectTo<CommunityViewModel>(query).FirstOrDefaultAsync();
+        var entity = await _mapper.ProjectTo<CommunityViewModel>(_set).FirstOrDefaultAsync(x => x.Id == id);
 
         if (entity is null)
         {
@@ -171,12 +172,7 @@ public class CommunityService : ICommunityService
 
     public async Task<bool> Delete(ulong id)
     {
-        var entity = await Get(id).FirstOrDefaultAsync();
-
-        if (entity is null)
-        {
-            throw new NotFoundException(nameof(Community), id);
-        }
+        var entity = await Get(id);
 
         _set.Remove(entity);
 

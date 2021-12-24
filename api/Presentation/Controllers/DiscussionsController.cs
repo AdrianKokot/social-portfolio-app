@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Sociussion.Application.Common.Models;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Discussions;
@@ -14,19 +12,13 @@ namespace Sociussion.Presentation.Controllers;
 [Authorize]
 public class DiscussionsController : ApiController
 {
-    private readonly ICommunityService _communityService;
     private readonly IDiscussionService _service;
-    private readonly IMapper _mapper;
 
     public DiscussionsController(
-        ICommunityService communityService,
         IDiscussionService service,
-        IMapper mapper,
         UserManager<ApplicationUser> userManager) : base(userManager)
     {
-        _communityService = communityService;
         _service = service;
-        _mapper = mapper;
     }
 
     [HttpPost]
@@ -34,50 +26,65 @@ public class DiscussionsController : ApiController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Create(CreateDiscussionModel createModel)
-    {
-        if (!(await _communityService.Get(createModel.CommunityId).AnyAsync()))
+        => await ApiExceptionHandler(async () =>
         {
-            return ApiValidationError(nameof(createModel.CommunityId), "Given community doesn't exist.");
-        }
-
-        try
-        {
-            var entity = await _service.CreateFrom(createModel, GetUserId());
+            var entityVm = await _service.CreateFromAndGetVm(createModel, GetUserId());
 
             return CreatedAtAction(
                 nameof(GetEntity),
-                new {id = entity.Id},
-                _mapper.Map<DiscussionViewModel>(entity)
+                new {id = entityVm.Id},
+                entityVm
             );
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
+        });
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<DiscussionViewModel>))]
     public async Task<IActionResult> GetEntities([FromQuery] DiscussionQueryParams queryParams)
-    {
-        var query = _mapper.ProjectTo<DiscussionViewModel>(_service.GetAll(queryParams));
-        var result = await PaginatedList<DiscussionViewModel>.CreateAsync(query, queryParams);
-
-        return Ok(result);
-    }
+        => await ApiExceptionHandler(async () =>
+            Ok(await PaginatedList<DiscussionViewModel>.CreateAsync(_service.GetAllVm(queryParams), queryParams)));
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DiscussionViewModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetEntity(ulong id)
-    {
-        var entity = await _mapper.ProjectTo<DiscussionViewModel>(_service.Get(id)).FirstOrDefaultAsync();
+        => await ApiExceptionHandler(async () => Ok(await _service.GetVm(id)));
 
-        if (entity is null)
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DiscussionViewModel))]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    public async Task<IActionResult> Update(UpdateDiscussionModel updateModel, ulong id)
+        => await ApiExceptionHandler(async () =>
         {
-            return NotFound();
-        }
+            var entity = await _service.Get(id);
 
-        return Ok(entity);
-    }
+            if (entity.AuthorId != GetUserId())
+            {
+                return Forbid();
+            }
+
+            await _service.Update(id, updateModel);
+            return Ok(await _service.GetVm(entity.Id));
+        });
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(ulong id)
+        => await ApiExceptionHandler(async () =>
+        {
+            var entity = await _service.Get(id);
+
+            if (entity.AuthorId != GetUserId())
+            {
+                return Forbid();
+            }
+
+            await _service.Delete(id);
+            return NoContent();
+        });
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Sociussion.Application.Common.Exceptions;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Discussions;
 using Sociussion.Application.Services;
@@ -10,24 +12,33 @@ namespace Sociussion.Infrastructure.Services;
 public class DiscussionService : IDiscussionService
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
     private readonly DbSet<Discussion> _set;
 
-    public DiscussionService(ApplicationDbContext dbContext)
+    public DiscussionService(ApplicationDbContext dbContext, IMapper mapper)
     {
         _context = dbContext;
+        _mapper = mapper;
         _set = dbContext.Set<Discussion>();
     }
 
-    public IQueryable<Discussion> Get(ulong id)
+    public async Task<Discussion> Get(ulong id)
     {
-        return _set.Where(x => x.Id == id);
+        var entity = await _set.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            throw new NotFoundException(nameof(Discussion), id);
+        }
+
+        return entity;
     }
 
     public IQueryable<Discussion> GetAll()
     {
         return _set.AsQueryable().OrderByDescending(x => x.CreatedAt);
     }
-    
+
     public IQueryable<Discussion> GetAll(DiscussionQueryParams queryParams)
     {
         var set = GetAll();
@@ -39,7 +50,7 @@ public class DiscussionService : IDiscussionService
 
         return set;
     }
-    
+
     public async Task<Discussion> CreateFrom(CreateDiscussionModel createModel, ulong getUserId)
     {
         var entity = new Discussion()
@@ -54,13 +65,55 @@ public class DiscussionService : IDiscussionService
 
         if (await _context.SaveChangesAsync() > 0)
         {
-            var result = await _set.FirstOrDefaultAsync(x => x.Id == entry.Entity.Id);
-            if (result is not null)
-            {
-                return result;
-            }
+            return entry.Entity;
         }
 
         throw new Exception("Couldn't create given entity.");
+    }
+
+    public async Task<DiscussionViewModel> CreateFromAndGetVm(CreateDiscussionModel createModel, ulong userId)
+    {
+        var entity = await CreateFrom(createModel, userId);
+        return await GetVm(entity.Id);
+    }
+
+    public IQueryable<DiscussionViewModel> GetAllVm(DiscussionQueryParams queryParams)
+    {
+        return _mapper.ProjectTo<DiscussionViewModel>(GetAll(queryParams));
+    }
+
+    public async Task<DiscussionViewModel> GetVm(ulong id)
+    {
+        var entity = await _mapper.ProjectTo<DiscussionViewModel>(_set).FirstOrDefaultAsync(x => x.Id == id);
+
+        if (entity is null)
+        {
+            throw new NotFoundException(nameof(Discussion), id);
+        }
+
+        return entity;
+    }
+
+    public async Task<Discussion> Update(ulong id, UpdateDiscussionModel updateModel)
+    {
+        var entity = await Get(id);
+        
+        entity.Content = updateModel.Content;
+        
+        if (await _context.SaveChangesAsync() > 0)
+        {
+            return entity;
+        }
+        
+        throw new Exception("Couldn't update given entity.");
+    }
+
+    public async Task<bool> Delete(ulong id)
+    {
+        var entity = await Get(id);
+
+        _set.Remove(entity);
+
+        return await _context.SaveChangesAsync() > 0;
     }
 }

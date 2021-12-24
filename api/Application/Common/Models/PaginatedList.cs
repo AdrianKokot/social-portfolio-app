@@ -34,6 +34,6 @@ public class PaginatedList<T>
 
     public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, IQueryParams paginationParams)
     {
-        return await PaginatedList<T>.CreateAsync(source, paginationParams.Page, paginationParams.PageSize);
+        return await CreateAsync(source, paginationParams.Page, paginationParams.PageSize);
     }
 }

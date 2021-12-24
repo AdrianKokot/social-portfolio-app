@@ -6,7 +6,7 @@ namespace Sociussion.Application.Services;
 
 public interface ICommunityService
 {
-    IQueryable<Community> Get(ulong id);
+    Task<Community> Get(ulong id);
     IQueryable<Community> GetAll();
     IQueryable<Community> GetAll(CommunityQueryParams queryParams);
     
