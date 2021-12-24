@@ -13,7 +13,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<ulong>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -28,7 +28,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<ulong>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -59,7 +59,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    RoleId = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    RoleId = table.Column<int>(type: "INTEGER", nullable: false),
                     ClaimType = table.Column<string>(type: "TEXT", nullable: true),
                     ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -80,7 +80,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     ClaimType = table.Column<string>(type: "TEXT", nullable: true),
                     ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -102,7 +102,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     LoginProvider = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
                     ProviderKey = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<ulong>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,8 +119,8 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    RoleId = table.Column<ulong>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RoleId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,7 +143,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     LoginProvider = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "TEXT", nullable: true)
@@ -163,15 +163,15 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "Communities",
                 columns: table => new
                 {
-                    Id = table.Column<ulong>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false),
                     PhotoUrl = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false),
                     LastActive = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    OwnerId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    MemberCount = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    DiscussionCount = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    OwnerId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MemberCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    DiscussionCount = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
@@ -190,8 +190,8 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "ApplicationUserCommunity",
                 columns: table => new
                 {
-                    MemberOfCommunitiesId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    MembersId = table.Column<ulong>(type: "INTEGER", nullable: false)
+                    MemberOfCommunitiesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MembersId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,15 +214,15 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "Discussions",
                 columns: table => new
                 {
-                    Id = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Content = table.Column<string>(type: "TEXT", nullable: false),
                     LastActive = table.Column<DateTime>(type: "TEXT", nullable: true),
                     VoteScore_VotesUp = table.Column<long>(type: "INTEGER", nullable: false),
                     VoteScore_VotesDown = table.Column<long>(type: "INTEGER", nullable: false),
-                    AuthorId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    CommunityId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    CommentCount = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CommunityId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CommentCount = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
@@ -247,8 +247,8 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "ApplicationUserDiscussion",
                 columns: table => new
                 {
-                    SavedById = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    SavedDiscussionsId = table.Column<ulong>(type: "INTEGER", nullable: false)
+                    SavedById = table.Column<int>(type: "INTEGER", nullable: false),
+                    SavedDiscussionsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -271,12 +271,12 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
                     Content = table.Column<string>(type: "TEXT", nullable: false),
                     VoteScore_VotesUp = table.Column<long>(type: "INTEGER", nullable: false),
                     VoteScore_VotesDown = table.Column<long>(type: "INTEGER", nullable: false),
-                    AuthorId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    DiscussionId = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DiscussionId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
@@ -301,8 +301,8 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "ApplicationUserComment",
                 columns: table => new
                 {
-                    SavedById = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    SavedCommentsId = table.Column<ulong>(type: "INTEGER", nullable: false)
+                    SavedById = table.Column<int>(type: "INTEGER", nullable: false),
+                    SavedCommentsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

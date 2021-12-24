@@ -2,5 +2,6 @@
 
 public class DiscussionQueryParams : QueryParams
 {
-    public ulong? CommunityId { get; set; }
+    public int? CommunityId { get; set; }
+    public new string OrderBy { get; set; } = "CreatedAt desc";
 }

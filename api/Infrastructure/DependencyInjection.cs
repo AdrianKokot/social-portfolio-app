@@ -25,7 +25,7 @@ public static class DependencyInjection
         });
 
         services.AddApplicationIdentity(config);
-        
+
         services.AddScoped<IDateTime, DateTimeService>();
         services.AddScoped<ITokenService, TokenService>();
 
@@ -39,7 +39,7 @@ public static class DependencyInjection
     private static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
     {
         var jwtConfig = config.GetJwtConfiguration();
-        
+
         services
             .AddDefaultIdentity<ApplicationUser>(c =>
             {

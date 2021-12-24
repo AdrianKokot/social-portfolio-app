@@ -4,7 +4,7 @@ using Sociussion.Domain.Abstractions;
 
 namespace Sociussion.Domain.Entities;
 
-public class ApplicationUser : IdentityUser<ulong>, IBaseEntity
+public class ApplicationUser : IdentityUser<int>, IBaseEntity
 {
     public string Name { get; set; }
     

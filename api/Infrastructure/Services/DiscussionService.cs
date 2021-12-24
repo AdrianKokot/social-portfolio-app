@@ -22,7 +22,7 @@ public class DiscussionService : IDiscussionService
         _set = dbContext.Set<Discussion>();
     }
 
-    public async Task<Discussion> Get(ulong id)
+    public async Task<Discussion> Get(int id)
     {
         var entity = await _set.Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -36,7 +36,7 @@ public class DiscussionService : IDiscussionService
 
     public IQueryable<Discussion> GetAll()
     {
-        return _set.AsQueryable().OrderByDescending(x => x.CreatedAt);
+        return _set.AsQueryable();
     }
 
     public IQueryable<Discussion> GetAll(DiscussionQueryParams queryParams)
@@ -51,7 +51,7 @@ public class DiscussionService : IDiscussionService
         return set;
     }
 
-    public async Task<Discussion> CreateFrom(CreateDiscussionModel createModel, ulong getUserId)
+    public async Task<Discussion> CreateFrom(CreateDiscussionModel createModel, int getUserId)
     {
         var entity = new Discussion()
         {
@@ -71,7 +71,7 @@ public class DiscussionService : IDiscussionService
         throw new Exception("Couldn't create given entity.");
     }
 
-    public async Task<DiscussionViewModel> CreateFromAndGetVm(CreateDiscussionModel createModel, ulong userId)
+    public async Task<DiscussionViewModel> CreateFromAndGetVm(CreateDiscussionModel createModel, int userId)
     {
         var entity = await CreateFrom(createModel, userId);
         return await GetVm(entity.Id);
@@ -82,7 +82,7 @@ public class DiscussionService : IDiscussionService
         return _mapper.ProjectTo<DiscussionViewModel>(GetAll(queryParams));
     }
 
-    public async Task<DiscussionViewModel> GetVm(ulong id)
+    public async Task<DiscussionViewModel> GetVm(int id)
     {
         var entity = await _mapper.ProjectTo<DiscussionViewModel>(_set).FirstOrDefaultAsync(x => x.Id == id);
 
@@ -94,7 +94,7 @@ public class DiscussionService : IDiscussionService
         return entity;
     }
 
-    public async Task<Discussion> Update(ulong id, UpdateDiscussionModel updateModel)
+    public async Task<Discussion> Update(int id, UpdateDiscussionModel updateModel)
     {
         var entity = await Get(id);
         
@@ -108,7 +108,7 @@ public class DiscussionService : IDiscussionService
         throw new Exception("Couldn't update given entity.");
     }
 
-    public async Task<bool> Delete(ulong id)
+    public async Task<bool> Delete(int id)
     {
         var entity = await Get(id);
 

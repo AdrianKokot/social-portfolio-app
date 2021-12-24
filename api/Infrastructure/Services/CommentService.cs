@@ -22,7 +22,7 @@ public class CommentService : ICommentService
         _set = dbContext.Set<Comment>();
     }
 
-    public async Task<Comment> Get(ulong id)
+    public async Task<Comment> Get(int id)
     {
         var entity = await _set.Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -36,7 +36,7 @@ public class CommentService : ICommentService
 
     public IQueryable<Comment> GetAll()
     {
-        return _set.AsQueryable().OrderByDescending(x => x.CreatedAt);
+        return _set.AsQueryable();
     }
 
     public IQueryable<Comment> GetAll(CommentQueryParams queryParams)
@@ -51,7 +51,7 @@ public class CommentService : ICommentService
         return set;
     }
 
-    public async Task<Comment> CreateFrom(CreateCommentModel createModel, ulong getUserId)
+    public async Task<Comment> CreateFrom(CreateCommentModel createModel, int getUserId)
     {
         var discussion = await _context.Set<Discussion>().FirstOrDefaultAsync(x => x.Id == createModel.DiscussionId);
 
@@ -78,13 +78,13 @@ public class CommentService : ICommentService
         throw new Exception("Couldn't create given entity.");
     }
 
-    public async Task<CommentViewModel> CreateFromAndGetVm(CreateCommentModel createModel, ulong userId)
+    public async Task<CommentViewModel> CreateFromAndGetVm(CreateCommentModel createModel, int userId)
     {
         var entity = await CreateFrom(createModel, userId);
         return await GetVm(entity.Id);
     }
 
-    public async Task<Comment> Update(ulong id, UpdateCommentModel updateModel)
+    public async Task<Comment> Update(int id, UpdateCommentModel updateModel)
     {
         var entity = await _set.Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -103,7 +103,7 @@ public class CommentService : ICommentService
         throw new Exception("Couldn't update given entity.");
     }
 
-    public async Task<CommentViewModel> GetVm(ulong id)
+    public async Task<CommentViewModel> GetVm(int id)
     {
         var entity = await _mapper.ProjectTo<CommentViewModel>(_set).FirstOrDefaultAsync(x => x.Id == id);
 
@@ -120,7 +120,7 @@ public class CommentService : ICommentService
         return _mapper.ProjectTo<CommentViewModel>(GetAll(queryParams));
     }
 
-    public async Task<bool> Delete(ulong id)
+    public async Task<bool> Delete(int id)
     {
         var entity = await Get(id);
 

@@ -10,10 +10,10 @@ public class Comment : BaseEntity
     public VoteScore VoteScore { get; set; } = new VoteScore();
     
     public ApplicationUser Author { get; set; }
-    public ulong? AuthorId { get; set; }
+    public int? AuthorId { get; set; }
 
     public Discussion Discussion { get; set; }
-    public ulong DiscussionId { get; set; }
+    public int DiscussionId { get; set; }
 
     public ICollection<ApplicationUser> SavedBy { get; set; }
 }

@@ -25,12 +25,12 @@ public class CommunitiesController : ApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<CommunityViewModel>))]
     public async Task<IActionResult> GetEntities([FromQuery] CommunityQueryParams queryParams)
         => await ApiExceptionHandler(async () =>
-            Ok(await PaginatedList<CommunityViewModel>.CreateAsync(_service.GetAllVm(queryParams), queryParams)));
+            Ok(await PaginatedList.CreateAndOrderAsync(_service.GetAllVm(queryParams), queryParams)));
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommunityViewModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetEntity(ulong id)
+    public async Task<IActionResult> GetEntity(int id)
         => await ApiExceptionHandler(async () => Ok(await _service.GetVm(id)));
 
 
@@ -38,7 +38,7 @@ public class CommunitiesController : ApiController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> JoinCommunity(ulong id)
+    public async Task<IActionResult> JoinCommunity(int id)
         => await ApiExceptionHandler(async () =>
         {
             await _service.AddMember(id, GetUserId());
@@ -49,7 +49,7 @@ public class CommunitiesController : ApiController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> LaveCommunity(ulong id) => await ApiExceptionHandler(async () =>
+    public async Task<IActionResult> LaveCommunity(int id) => await ApiExceptionHandler(async () =>
     {
         await _service.RemoveMember(id, GetUserId());
         return NoContent();
@@ -76,7 +76,7 @@ public class CommunitiesController : ApiController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-    public async Task<IActionResult> Update(UpdateCommunityModel updateModel, ulong id)
+    public async Task<IActionResult> Update(UpdateCommunityModel updateModel, int id)
         => await ApiExceptionHandler(async () =>
         {
             var entity = await _service.Get(id);
@@ -95,7 +95,7 @@ public class CommunitiesController : ApiController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(ulong id) => await ApiExceptionHandler(async () =>
+    public async Task<IActionResult> Delete(int id) => await ApiExceptionHandler(async () =>
     {
         var entity = await _service.Get(id);
         if (entity.OwnerId != GetUserId())

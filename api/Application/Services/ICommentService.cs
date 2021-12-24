@@ -6,15 +6,15 @@ namespace Sociussion.Application.Services;
 
 public interface ICommentService
 {
-    Task<Comment> Get(ulong id);
+    Task<Comment> Get(int id);
     IQueryable<Comment> GetAll();
     IQueryable<Comment> GetAll(CommentQueryParams queryParams);
-    Task<Comment> CreateFrom(CreateCommentModel createModel, ulong userId);
-    Task<CommentViewModel> CreateFromAndGetVm(CreateCommentModel createModel, ulong userId);
-    Task<Comment> Update(ulong entityId, UpdateCommentModel updateModel);
+    Task<Comment> CreateFrom(CreateCommentModel createModel, int userId);
+    Task<CommentViewModel> CreateFromAndGetVm(CreateCommentModel createModel, int userId);
+    Task<Comment> Update(int entityId, UpdateCommentModel updateModel);
 
-    Task<CommentViewModel> GetVm(ulong id);
+    Task<CommentViewModel> GetVm(int id);
 
     IQueryable<CommentViewModel> GetAllVm(CommentQueryParams queryParams);
-    Task<bool> Delete(ulong id);
+    Task<bool> Delete(int id);
 }

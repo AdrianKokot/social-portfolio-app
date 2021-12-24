@@ -8,5 +8,5 @@ public class CreateDiscussionModel : UpdateCommentModel
     [MaxLength(255), Required]
     public string Title { get; set; } = string.Empty;
 
-    [Required] public ulong CommunityId { get; set; }
+    [Required] public int CommunityId { get; set; }
 }

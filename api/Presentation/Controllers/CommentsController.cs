@@ -25,13 +25,13 @@ public class CommentsController : ApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<CommentViewModel>))]
     public async Task<IActionResult> GetEntities([FromQuery] CommentQueryParams queryParams)
         => await ApiExceptionHandler(async () =>
-            Ok(await PaginatedList<CommentViewModel>.CreateAsync(_service.GetAllVm(queryParams), queryParams)));
+            Ok(await PaginatedList.CreateAndOrderAsync(_service.GetAllVm(queryParams), queryParams)));
 
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentViewModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetEntity(ulong id)
+    public async Task<IActionResult> GetEntity(int id)
         => await ApiExceptionHandler(async () => Ok(await _service.GetVm(id)));
 
 
@@ -57,7 +57,7 @@ public class CommentsController : ApiController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-    public async Task<IActionResult> Update(UpdateCommentModel updateModel, ulong id) => await ApiExceptionHandler(
+    public async Task<IActionResult> Update(UpdateCommentModel updateModel, int id) => await ApiExceptionHandler(
         async () =>
         {
             var entity = await _service.Get(id);
@@ -78,7 +78,7 @@ public class CommentsController : ApiController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(ulong id) => await ApiExceptionHandler(async () =>
+    public async Task<IActionResult> Delete(int id) => await ApiExceptionHandler(async () =>
     {
         var entity = await _service.Get(id);
         if (entity.AuthorId != GetUserId())

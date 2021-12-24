@@ -2,5 +2,5 @@
 
 public class CommunityQueryParams : QueryParams
 {
-    public ulong? Member { get; set; }
+    public int? Member { get; set; }
 }

@@ -6,13 +6,13 @@ namespace Sociussion.Application.Services;
 
 public interface IDiscussionService
 {
-    Task<Discussion> Get(ulong id);
+    Task<Discussion> Get(int id);
     IQueryable<Discussion> GetAll();
     IQueryable<Discussion> GetAll(DiscussionQueryParams queryParams);
-    Task<Discussion> CreateFrom(CreateDiscussionModel createModel, ulong getUserId);
-    Task<DiscussionViewModel> CreateFromAndGetVm(CreateDiscussionModel createModel, ulong userId);
+    Task<Discussion> CreateFrom(CreateDiscussionModel createModel, int getUserId);
+    Task<DiscussionViewModel> CreateFromAndGetVm(CreateDiscussionModel createModel, int userId);
     IQueryable<DiscussionViewModel> GetAllVm(DiscussionQueryParams queryParams);
-    Task<DiscussionViewModel> GetVm(ulong id);
-    Task<Discussion> Update(ulong id, UpdateDiscussionModel updateModel);
-    Task<bool> Delete(ulong id);
+    Task<DiscussionViewModel> GetVm(int id);
+    Task<Discussion> Update(int id, UpdateDiscussionModel updateModel);
+    Task<bool> Delete(int id);
 }

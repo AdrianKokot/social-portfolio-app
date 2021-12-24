@@ -6,13 +6,13 @@ namespace Sociussion.Application.Comments;
 
 public class CommentViewModel : IMapFrom<Comment>
 {
-    public ulong Id { get; set; }
+    public int Id { get; set; }
     public string Content { get; set; } = string.Empty;
 
-    public ulong AuthorId { get; set; }
+    public int AuthorId { get; set; }
     public string AuthorName { get; set; } = string.Empty;
 
-    public ulong DiscussionId { get; set; }
+    public int DiscussionId { get; set; }
 
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }

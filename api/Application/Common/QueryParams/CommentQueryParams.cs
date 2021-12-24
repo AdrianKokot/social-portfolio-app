@@ -2,5 +2,10 @@
 
 public class CommentQueryParams : QueryParams
 {
-    public ulong? DiscussionId { get; set; }
+    public int? DiscussionId { get; set; }
+
+    public CommentQueryParams()
+    {
+        OrderBy = "CreatedAt asc";
+    }
 }

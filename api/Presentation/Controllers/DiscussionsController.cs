@@ -41,12 +41,12 @@ public class DiscussionsController : ApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<DiscussionViewModel>))]
     public async Task<IActionResult> GetEntities([FromQuery] DiscussionQueryParams queryParams)
         => await ApiExceptionHandler(async () =>
-            Ok(await PaginatedList<DiscussionViewModel>.CreateAsync(_service.GetAllVm(queryParams), queryParams)));
+            Ok(await PaginatedList.CreateAndOrderAsync(_service.GetAllVm(queryParams), queryParams)));
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DiscussionViewModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetEntity(ulong id)
+    public async Task<IActionResult> GetEntity(int id)
         => await ApiExceptionHandler(async () => Ok(await _service.GetVm(id)));
 
     [HttpPut("{id}")]
@@ -55,7 +55,7 @@ public class DiscussionsController : ApiController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-    public async Task<IActionResult> Update(UpdateDiscussionModel updateModel, ulong id)
+    public async Task<IActionResult> Update(UpdateDiscussionModel updateModel, int id)
         => await ApiExceptionHandler(async () =>
         {
             var entity = await _service.Get(id);
@@ -74,7 +74,7 @@ public class DiscussionsController : ApiController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(ulong id)
+    public async Task<IActionResult> Delete(int id)
         => await ApiExceptionHandler(async () =>
         {
             var entity = await _service.Get(id);

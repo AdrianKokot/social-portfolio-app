@@ -12,11 +12,11 @@ public class Community : BaseEntity
     public DateTime? LastActive { get; set; } = null;
 
     public ApplicationUser Owner { get; set; }
-    public ulong? OwnerId { get; set; }
+    public int? OwnerId { get; set; }
 
     public ICollection<ApplicationUser> Members { get; set; }
-    public ulong MemberCount { get; set; }
+    public int MemberCount { get; set; }
 
     public ICollection<Discussion> Discussions { get; set; }
-    public ulong DiscussionCount { get; set; }
+    public int DiscussionCount { get; set; }
 }

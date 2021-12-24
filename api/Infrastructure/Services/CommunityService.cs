@@ -22,7 +22,7 @@ public class CommunityService : ICommunityService
         _set = dbContext.Set<Community>();
     }
 
-    public async Task<Community> Get(ulong id)
+    public async Task<Community> Get(int id)
     {
         var entity = await _set.Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -51,7 +51,7 @@ public class CommunityService : ICommunityService
         return set;
     }
 
-    public async Task<Community> CreateFrom(CreateCommunityModel model, ulong createdBy)
+    public async Task<Community> CreateFrom(CreateCommunityModel model, int createdBy)
     {
         var entity = new Community()
         {
@@ -70,7 +70,7 @@ public class CommunityService : ICommunityService
         throw new Exception("Couldn't create given entity.");
     }
 
-    public async Task<bool> AddMember(ulong communityId, ulong userId)
+    public async Task<bool> AddMember(int communityId, int userId)
     {
         var community = await _set
             .Include(x => x.Members)
@@ -99,7 +99,7 @@ public class CommunityService : ICommunityService
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> RemoveMember(ulong communityId, ulong userId)
+    public async Task<bool> RemoveMember(int communityId, int userId)
     {
         var community = await _set
             .Include(x => x.Members)
@@ -130,13 +130,13 @@ public class CommunityService : ICommunityService
         return await _context.SaveChangesAsync() > 0;
     }
 
-    public async Task<CommunityViewModel> CreateFromAndGetVm(CreateCommunityModel createModel, ulong userId)
+    public async Task<CommunityViewModel> CreateFromAndGetVm(CreateCommunityModel createModel, int userId)
     {
         var entity = await CreateFrom(createModel, userId);
         return await GetVm(entity.Id);
     }
 
-    public async Task<Community> Update(ulong id, UpdateCommunityModel updateModel)
+    public async Task<Community> Update(int id, UpdateCommunityModel updateModel)
     {
         var entity = await Get(id);
 
@@ -151,7 +151,7 @@ public class CommunityService : ICommunityService
         throw new Exception("Couldn't update given entity.");
     }
 
-    public async Task<CommunityViewModel> GetVm(ulong id)
+    public async Task<CommunityViewModel> GetVm(int id)
     {
         var entity = await _mapper.ProjectTo<CommunityViewModel>(_set).FirstOrDefaultAsync(x => x.Id == id);
 
@@ -170,7 +170,7 @@ public class CommunityService : ICommunityService
         return _mapper.ProjectTo<CommunityViewModel>(query);
     }
 
-    public async Task<bool> Delete(ulong id)
+    public async Task<bool> Delete(int id)
     {
         var entity = await Get(id);
 

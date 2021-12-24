@@ -18,9 +18,9 @@ public abstract class ApiController : ControllerBase
         _userManager = userManager;
     }
 
-    protected ulong GetUserId()
+    protected int GetUserId()
     {
-        return ulong.Parse(_userManager.GetUserId(User));
+        return int.Parse(_userManager.GetUserId(User));
     }
 
     protected async Task<IActionResult> ApiExceptionHandler(Func<Task<IActionResult>> fn)

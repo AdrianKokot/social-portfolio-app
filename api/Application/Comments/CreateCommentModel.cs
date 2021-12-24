@@ -4,5 +4,5 @@ namespace Sociussion.Application.Comments;
 
 public class CreateCommentModel : UpdateCommentModel
 {
-    [Required] public ulong DiscussionId { get; set; }
+    [Required] public int DiscussionId { get; set; }
 }

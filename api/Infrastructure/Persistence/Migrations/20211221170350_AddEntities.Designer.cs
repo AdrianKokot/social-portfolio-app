@@ -21,10 +21,10 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("ApplicationUserComment", b =>
                 {
-                    b.Property<ulong>("SavedById")
+                    b.Property<int>("SavedById")
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong>("SavedCommentsId")
+                    b.Property<int>("SavedCommentsId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("SavedById", "SavedCommentsId");
@@ -36,10 +36,10 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("ApplicationUserCommunity", b =>
                 {
-                    b.Property<ulong>("MemberOfCommunitiesId")
+                    b.Property<int>("MemberOfCommunitiesId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong>("MembersId")
+                    b.Property<int>("MembersId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("MemberOfCommunitiesId", "MembersId");
@@ -51,10 +51,10 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("ApplicationUserDiscussion", b =>
                 {
-                    b.Property<ulong>("SavedById")
+                    b.Property<int>("SavedById")
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong>("SavedDiscussionsId")
+                    b.Property<int>("SavedDiscussionsId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("SavedById", "SavedDiscussionsId");
@@ -64,9 +64,9 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.ToTable("ApplicationUserDiscussion");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -91,7 +91,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +103,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong>("RoleId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -113,7 +113,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -125,7 +125,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -135,7 +135,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -148,7 +148,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("LoginProvider", "ProviderKey");
@@ -158,12 +158,12 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<ulong>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong>("RoleId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("UserId", "RoleId");
@@ -173,9 +173,9 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<ulong>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LoginProvider")
@@ -196,7 +196,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Sociussion.Domain.Entities.ApplicationUser", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -272,11 +272,11 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Sociussion.Domain.Entities.Comment", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong?>("AuthorId")
+                    b.Property<int?>("AuthorId")
                         .IsRequired()
                         .HasColumnType("INTEGER");
 
@@ -287,7 +287,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong>("DiscussionId")
+                    b.Property<int>("DiscussionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -304,7 +304,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Sociussion.Domain.Entities.Community", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -316,13 +316,13 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong>("DiscussionCount")
+                    b.Property<int>("DiscussionCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("LastActive")
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong>("MemberCount")
+                    b.Property<int>("MemberCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -330,7 +330,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<ulong?>("OwnerId")
+                    b.Property<int?>("OwnerId")
                         .IsRequired()
                         .HasColumnType("INTEGER");
 
@@ -351,18 +351,18 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Sociussion.Domain.Entities.Discussion", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong?>("AuthorId")
+                    b.Property<int?>("AuthorId")
                         .IsRequired()
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong>("CommentCount")
+                    b.Property<int>("CommentCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<ulong>("CommunityId")
+                    b.Property<int>("CommunityId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
@@ -437,16 +437,16 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<ulong>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("Sociussion.Domain.Entities.ApplicationUser", null)
                         .WithMany()
@@ -455,7 +455,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("Sociussion.Domain.Entities.ApplicationUser", null)
                         .WithMany()
@@ -464,9 +464,9 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<ulong>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -479,7 +479,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<ulong>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("Sociussion.Domain.Entities.ApplicationUser", null)
                         .WithMany()
@@ -504,7 +504,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
                     b.OwnsOne("Sociussion.Domain.ValueObjects.VoteScore", "VoteScore", b1 =>
                         {
-                            b1.Property<ulong>("CommentId")
+                            b1.Property<int>("CommentId")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<long>("VotesDown")
@@ -556,7 +556,7 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
                     b.OwnsOne("Sociussion.Domain.ValueObjects.VoteScore", "VoteScore", b1 =>
                         {
-                            b1.Property<ulong>("DiscussionId")
+                            b1.Property<int>("DiscussionId")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<long>("VotesDown")

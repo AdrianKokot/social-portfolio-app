@@ -8,7 +8,7 @@ using Sociussion.Domain.Entities;
 
 namespace Sociussion.Infrastructure.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<ulong>, ulong>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
 {
     private readonly IDateTime _dateTime;
     
