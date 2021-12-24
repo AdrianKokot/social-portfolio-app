@@ -2,8 +2,6 @@
 
 namespace Sociussion.Application.Communities;
 
-public class CreateCommunityModel
+public class CreateCommunityModel : UpdateCommunityModel
 {
-    [Required] [MaxLength(255)] public string Name { get; set; } = string.Empty;
-    [Required] public string Description { get; set; } = string.Empty;
 }

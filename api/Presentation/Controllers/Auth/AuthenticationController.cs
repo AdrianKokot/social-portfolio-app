@@ -28,7 +28,7 @@ public class AuthenticationController : ApiController
 
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Register([FromBody] RegisterUserModel model)
     {
         var userExists = await _userManager.FindByEmailAsync(model.Email);
@@ -37,7 +37,7 @@ public class AuthenticationController : ApiController
             return ApiValidationError(nameof(model.Email), "Given e-mail address is already taken");
 
 
-        ApplicationUser user = new ApplicationUser()
+        var user = new ApplicationUser()
         {
             Name = model.Name,
             Email = model.Email,
@@ -62,7 +62,7 @@ public class AuthenticationController : ApiController
 
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticatedUserModel))]
     public async Task<ActionResult> Login([FromBody] LoginUserModel model)
     {
         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
@@ -86,14 +86,14 @@ public class AuthenticationController : ApiController
 
     [HttpPost("logout")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
 
         if (User.Identity is null || !User.Identity.IsAuthenticated)
         {
-            return Ok();
+            return NoContent();
         }
 
         return BadRequest();

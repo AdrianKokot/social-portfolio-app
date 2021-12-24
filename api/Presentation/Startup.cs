@@ -1,11 +1,9 @@
-﻿using System.ComponentModel;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.OpenApi.Models;
 using Sociussion.Application;
 using Sociussion.Infrastructure;
 using Sociussion.Presentation.Helpers;
-using DateTimeConverter = Sociussion.Presentation.Helpers.DateTimeConverter;
 
 namespace Sociussion.Presentation;
 

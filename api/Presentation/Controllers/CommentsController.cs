@@ -49,7 +49,7 @@ public class CommentsController : ApiController
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommentViewModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Create(CreateCommentModel createModel)
     {
@@ -75,7 +75,7 @@ public class CommentsController : ApiController
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentViewModel))]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
@@ -96,9 +96,7 @@ public class CommentsController : ApiController
         try
         {
             await _service.Update(id, updateModel);
-            var entityVm = await _service.GetVm(entity.Id);
-
-            return Ok(entityVm);
+            return Ok(await _service.GetVm(entity.Id));
         }
         catch (Exception e)
         {
@@ -128,7 +126,6 @@ public class CommentsController : ApiController
         try
         {
             await _service.Delete(id);
-
             return NoContent();
         }
         catch (Exception e)

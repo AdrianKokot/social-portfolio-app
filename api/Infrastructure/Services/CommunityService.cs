@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Sociussion.Application.Common.Exceptions;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Communities;
 using Sociussion.Application.Services;
@@ -10,11 +12,13 @@ namespace Sociussion.Infrastructure.Services;
 public class CommunityService : ICommunityService
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
     private readonly DbSet<Community> _set;
 
-    public CommunityService(ApplicationDbContext dbContext)
+    public CommunityService(ApplicationDbContext dbContext, IMapper mapper)
     {
         _context = dbContext;
+        _mapper = mapper;
         _set = dbContext.Set<Community>();
     }
 
@@ -31,6 +35,7 @@ public class CommunityService : ICommunityService
     public IQueryable<Community> GetAll(CommunityQueryParams queryParams)
     {
         var set = GetAll();
+        
         if (queryParams.Member is not null)
         {
             set = set.Where(x => x.Members.Any(y => y.Id == queryParams.Member));
@@ -66,14 +71,14 @@ public class CommunityService : ICommunityService
 
         if (community is null)
         {
-            throw new Exception("Community doesn't exist.");
+            throw new NotFoundException(nameof(Community), communityId);
         }
 
         var user = await _context.Set<ApplicationUser>().FindAsync(userId);
 
         if (user is null)
         {
-            throw new Exception("User doesn't exist.");
+            throw new NotFoundException(nameof(ApplicationUser), userId);
         }
 
         if (community.Members.Contains(user))
@@ -95,14 +100,14 @@ public class CommunityService : ICommunityService
 
         if (community is null)
         {
-            throw new Exception("Community doesn't exist.");
+            throw new NotFoundException(nameof(Community), communityId);
         }
 
         var user = await _context.Set<ApplicationUser>().FindAsync(userId);
 
         if (user is null)
         {
-            throw new Exception("User doesn't exist.");
+            throw new NotFoundException(nameof(ApplicationUser), userId);
         }
             
         if (!community.Members.Contains(user))
@@ -114,6 +119,66 @@ public class CommunityService : ICommunityService
         {
             community.MemberCount--;
         }
+
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<CommunityViewModel> CreateFromAndGetVm(CreateCommunityModel createModel, ulong userId)
+    {
+        var entity = await CreateFrom(createModel, userId);
+        return await GetVm(entity.Id);
+    }
+
+    public async Task<Community> Update(ulong id, UpdateCommunityModel updateModel)
+    {
+        var entity = await Get(id).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            throw new NotFoundException(nameof(Community), id);
+        }
+
+        entity.Description = updateModel.Description;
+        entity.Name = updateModel.Name;
+        
+        if (await _context.SaveChangesAsync() > 0)
+        {
+            return entity;
+        }
+        
+        throw new Exception("Couldn't update given entity.");
+    }
+
+    public async Task<CommunityViewModel> GetVm(ulong id)
+    {
+        var query = Get(id);
+        var entity = await _mapper.ProjectTo<CommunityViewModel>(query).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            throw new NotFoundException(nameof(Community), id);
+        }
+
+        return entity;
+    }
+
+    public IQueryable<CommunityViewModel> GetAllVm(CommunityQueryParams queryParams)
+    {
+        var query = GetAll(queryParams);
+
+        return _mapper.ProjectTo<CommunityViewModel>(query);
+    }
+
+    public async Task<bool> Delete(ulong id)
+    {
+        var entity = await Get(id).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            throw new NotFoundException(nameof(Community), id);
+        }
+
+        _set.Remove(entity);
 
         return await _context.SaveChangesAsync() > 0;
     }

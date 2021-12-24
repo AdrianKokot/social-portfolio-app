@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sociussion.Application.Common.Exceptions;
 using Sociussion.Application.Common.Models;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Communities;
@@ -52,7 +53,7 @@ public class CommunitiesController : ApiController
     }
 
     [HttpPost("{id}/join")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> JoinCommunity(ulong id)
@@ -61,7 +62,7 @@ public class CommunitiesController : ApiController
         {
             if (await _service.AddMember(id, GetUserId()))
             {
-                return Ok();
+                return NoContent();
             }
         }
         catch (Exception e)
@@ -73,7 +74,7 @@ public class CommunitiesController : ApiController
     }
 
     [HttpDelete("{id}/leave")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> LaveCommunity(ulong id)
@@ -82,7 +83,7 @@ public class CommunitiesController : ApiController
         {
             if (await _service.RemoveMember(id, GetUserId()))
             {
-                return Ok();
+                return NoContent();
             }
         }
         catch (Exception e)
@@ -95,19 +96,84 @@ public class CommunitiesController : ApiController
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CommunityViewModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Create(CreateCommunityModel createModel)
     {
         try
         {
-            var entity = await _service.CreateFrom(createModel, GetUserId());
+            var entityVm = await _service.CreateFromAndGetVm(createModel, GetUserId());
 
             return CreatedAtAction(
                 nameof(GetEntity),
-                new {id = entity.Id},
-                _mapper.Map<CommunityViewModel>(entity)
+                new {id = entityVm.Id},
+                entityVm
             );
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommunityViewModel))]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    public async Task<IActionResult> Update(UpdateCommunityModel updateModel, ulong id)
+    {
+        var entity = await _service.Get(id).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            return NotFound();
+        }
+
+        if (entity.OwnerId != GetUserId())
+        {
+            return Forbid();
+        }
+
+        try
+        {
+            await _service.Update(id, updateModel);
+            return Ok(await _service.GetVm(entity.Id));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(ulong id)
+    {
+        var entity = await _service.Get(id).FirstOrDefaultAsync();
+
+        if (entity is null)
+        {
+            return NotFound();
+        }
+
+        if (entity.OwnerId != GetUserId())
+        {
+            return Forbid();
+        }
+
+        try
+        {
+            await _service.Delete(id);
+            return NoContent();
         }
         catch (Exception e)
         {
