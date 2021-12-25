@@ -23,6 +23,6 @@ public class DiscussionViewModel : IMapFrom<Discussion>
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Discussion, DiscussionViewModel>()
-            .ForMember(x => x.Score, opt => opt.MapFrom(y => y.VotesUp - y.VotesDown));
+            .ForMember(x => x.Score, opt => opt.MapFrom(y => y.CommentCount + y.VotesUp - y.VotesDown));
     }
 }
