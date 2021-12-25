@@ -19,6 +19,8 @@ export class CommunityComponent implements OnDestroy {
   public itemId: number = parseInt(this.route.snapshot.params["id"]);
   public item$: Observable<Community> = this.communityService.get(this.itemId);
 
+  public ordering = this.fb.control("score desc");
+
   private isUserAMemberSubscription = this.auth.user$
     .pipe(
       switchMap(user => {

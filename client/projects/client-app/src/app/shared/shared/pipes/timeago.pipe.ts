@@ -8,8 +8,8 @@ export class TimeagoPipe implements PipeTransform {
   transform(value: Date): string {
     value = new Date(value);
 
+
     const seconds = Math.round(Math.abs(((new Date()).getTime() - value.getTime()) / 1000));
-    console.log(seconds);
     const minutes = Math.round(seconds / 60);
     const hours = Math.round(minutes / 60);
     const days = Math.round(hours / 24);

@@ -12,7 +12,6 @@ import { AuthService } from "../auth.service";
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor(private auth: AuthService) {
-    console.log('TokenInterceptor created');
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {

@@ -48,7 +48,6 @@ export class AppRoutingModule {
       } else if (curr.anchor) {
         viewportScroller.scrollToAnchor(curr.anchor);
       } else {
-        console.log(prev, curr);
         const prevBase = prev.routerEvent.urlAfterRedirects.split('?')[0];
         const currBase = curr.routerEvent.urlAfterRedirects.split('?')[0];
 

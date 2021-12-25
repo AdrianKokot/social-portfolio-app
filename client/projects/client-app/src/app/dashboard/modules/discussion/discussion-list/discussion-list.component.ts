@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -25,53 +24,52 @@ import { DiscussionParams } from "../../../../shared/shared/api/params/discussio
 export class DiscussionListComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() communityId: number | string | null = null;
   public items: Discussion[] = [];
-
   public isLoading: boolean = true;
-
+  @ViewChild('infinityBar') infinityBar!: ElementRef<HTMLElement>;
+  private order: string = "score desc";
   private subscription: Subscription | null = null;
   private scroll$ = new Subject<void>();
   private hasNextPage = true;
-
-  @ViewChild('infinityBar') infinityBar!: ElementRef<HTMLElement>;
   private observer: IntersectionObserver | null = null;
-
+  private param: Partial<DiscussionParams> = {};
 
   constructor(
     private discussionService: DiscussionService
-  ) {}
+  ) {
+  }
 
-  trackById: TrackByFunction<Discussion> = (index: number, item: Discussion) => item.id;
+  @Input() set orderBy(val: string | null) {
+    this.order = val !== null ? val : "score desc";
 
-  private tryUnsubscribe() {
-    if (!this.hasNextPage) {
-      this.unsubscribe();
+    if (this.param.orderBy !== this.order) {
+      this.items = [];
+      this.param.page = 0;
+      this.hasNextPage = true;
+      this.scroll$.next();
     }
   }
 
-  private unsubscribe() {
-    this.subscription?.unsubscribe();
-    this.observer?.disconnect();
-  }
+  trackById: TrackByFunction<Discussion> = (index: number, item: Discussion) => item.id;
 
   ngOnDestroy(): void {
     this.tryUnsubscribe();
   }
 
   ngOnInit(): void {
-    const param: Partial<DiscussionParams> = {
+
+    this.param = {
       communityId: this.communityId !== null ? this.communityId : undefined,
-      orderBy: "score desc",
+      orderBy: this.order,
       page: 0
-    };
+    }
 
     this.subscription = this.scroll$
       .pipe(
         switchMap(() => {
-          param.page != undefined && param.page++;
+          this.param.orderBy = this.order;
+          this.param.page != undefined && this.param.page++;
 
-          console.log('scroll');
-
-          return this.discussionService.getAll(param)
+          return this.discussionService.getAll(this.param)
             .pipe(
               tap(() => {
                 this.isLoading = true;
@@ -101,6 +99,17 @@ export class DiscussionListComponent implements OnInit, AfterViewInit, OnDestroy
     });
 
     this.observer.observe(this.infinityBar.nativeElement);
+  }
+
+  private tryUnsubscribe() {
+    if (!this.hasNextPage) {
+      this.unsubscribe();
+    }
+  }
+
+  private unsubscribe() {
+    this.subscription?.unsubscribe();
+    this.observer?.disconnect();
   }
 
 }

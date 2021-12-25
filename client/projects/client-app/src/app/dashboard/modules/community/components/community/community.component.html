@@ -1,32 +1,32 @@
 <!-- <section class="container max-w-screen-lg mx-auto"> -->
 
-  <ng-container *ngIf="(item$ |async) as item; else skeleton">
+<ng-container *ngIf="(item$ |async) as item; else skeleton">
 
-    <header class="mb-8">
+  <header class="mb-8">
 
-      <img [src]="item.photoUrl || 'https://api.lorem.space/image?w=1293&h=256'"
-           alt="picture"
-           class="rounded-lg shadow-sm h-64 w-full object-cover bg-gray-200">
+    <img [src]="item.photoUrl || 'https://api.lorem.space/image?w=1293&h=256'"
+         alt="picture"
+         class="rounded-lg shadow-sm h-64 w-full object-cover bg-gray-200">
 
-    </header>
+  </header>
 
-    <section class="mb-4 flex items-center w-full">
+  <section class="mb-4 flex items-center w-full">
 
-      <div class="mr-2">
-        <h1 class="text-2xl font-medium">
-          <span>{{item.name}}</span>
-        </h1>
-        <p class="text-gray-600">{{ item.memberCount | numberToText }} member{{item.memberCount === 1 ? '' : 's'}}</p>
-      </div>
+    <div class="mr-2">
+      <h1 class="text-2xl font-medium">
+        <span>{{item.name}}</span>
+      </h1>
+      <p class="text-gray-600">{{ item.memberCount | numberToText }} member{{item.memberCount === 1 ? '' : 's'}}</p>
+    </div>
 
-      <ng-container *ngIf="isUserAMember !== null">
+    <ng-container *ngIf="isUserAMember !== null">
 
-        <ng-container *ngIf="isUserAMember; else joinCommunityBtn">
+      <ng-container *ngIf="isUserAMember; else joinCommunityBtn">
 
-          <ui-button (click)="leaveCommunity()"
-                     [loading]="isCommunityActionLoading"
-                     class="ml-auto"
-                     variant="secondary">
+        <ui-button (click)="leaveCommunity()"
+                   [loading]="isCommunityActionLoading"
+                   class="ml-auto"
+                   variant="secondary">
 
         <span class="flex items-center">
           <ui-icon icon="door-open"
@@ -36,15 +36,15 @@
           </span>
         </span>
 
-          </ui-button>
+        </ui-button>
 
-        </ng-container>
-        <ng-template #joinCommunityBtn>
+      </ng-container>
+      <ng-template #joinCommunityBtn>
 
-          <ui-button (click)="joinCommunity()"
-                     [loading]="isCommunityActionLoading"
-                     class="ml-auto"
-                     variant="primary">
+        <ui-button (click)="joinCommunity()"
+                   [loading]="isCommunityActionLoading"
+                   class="ml-auto"
+                   variant="primary">
 
             <span class="flex items-center">
               <ui-icon icon="plus"
@@ -54,65 +54,88 @@
               </span>
             </span>
 
-          </ui-button>
+        </ui-button>
 
-        </ng-template>
+      </ng-template>
 
 
-      </ng-container>
+    </ng-container>
 
-    </section>
+  </section>
 
-    <section class="flex">
-      <h2>
-        <a
-          [ngClass]="{'!border-green-500': selectedTab === 'discussions'}"
-          [queryParams]="{tab:null}"
-          [routerLink]="[]"
-          class="block px-4 py-1 mr-2 border-b-2 border-transparent"
-          href="?tab=discussions">
-          Discussions
-        </a>
-      </h2>
-      <h2>
-        <a
-          [queryParams]="{tab:'about'}"
-          [routerLink]="[]"
-          class="block px-4 py-1 mr-2 border-b-2 border-transparent"
-          href="?tab=about"
-          routerLinkActive="!border-green-500">
-          About
-        </a>
-      </h2>
-    </section>
-    <div class="border-b border-gray-300 -mt-px mb-4 shadow"></div>
+  <section class="flex items-center">
+    <h2>
+      <a
+        [ngClass]="{'!border-green-500': selectedTab === 'discussions'}"
+        [queryParams]="{tab:null}"
+        [routerLink]="[]"
+        class="block px-4 py-1 mr-2 border-b-2 border-transparent"
+        href="?tab=discussions">
+        Discussions
+      </a>
+    </h2>
+    <h2>
+      <a
+        [queryParams]="{tab:'about'}"
+        [routerLink]="[]"
+        class="block px-4 py-1 mr-2 border-b-2 border-transparent"
+        href="?tab=about"
+        routerLinkActive="!border-green-500">
+        About
+      </a>
+    </h2>
 
-    <section [hidden]="selectedTab !== 'about'"
-             class="rounded-lg border border-gray-200 bg-white px-4 py-2">
-      {{item.description}}
-    </section>
+    <div *ngIf="selectedTab == 'discussions'"
+         class="ml-auto inline-flex items-center">
+      <ui-icon icon="sort"
+               sizeClass="h-4 w-4"></ui-icon>
+      <select class="bg-transparent block text-sm appearance-none py-1 px-2 focus:outline-none"
+              [formControl]="ordering">
+        <option value="score desc"
+                class="px-4 py-1 block">Highest score
+        </option>
+        <option value="createdAt desc"
+                class="px-4 py-1 block">Newest
+        </option>
+        <option value="createdAt asc"
+                class="px-4 py-1 block">Oldest
+        </option>
+        <option value="score asc"
+                class="px-4 py-1 block">Lowest score
+        </option>
+      </select>
+    </div>
+  </section>
+  <div class="border-b border-gray-300 -mt-px mb-4 shadow"></div>
 
-    <section [hidden]="selectedTab !== 'discussions'">
+  <section [hidden]="selectedTab !== 'about'"
+           class="rounded-lg border border-gray-200 bg-white px-4 py-2">
+    {{item.description}}
+  </section>
 
-      <div class="rounded-lg border border-gray-200 bg-white px-2 py-1 mb-4">
+  <section [hidden]="selectedTab !== 'discussions'">
 
-        <a [routerLink]="['discussion/new']"
-           class="text-gray-400 inline-block px-2 py-1 cursor-text"
-           href="discussion/new">
-          Start a new discussion
-        </a>
+    <div class="rounded-lg border border-gray-200 bg-white px-2 py-1 mb-4">
 
-      </div>
+      <a [routerLink]="['discussion/new']"
+         class="text-gray-400 inline-block px-2 py-1 cursor-text"
+         href="discussion/new">
+        Start a new discussion
+      </a>
 
-      <app-discussion-list [communityId]="itemId" class="mb-12"></app-discussion-list>
+    </div>
 
-    </section>
+    <app-discussion-list [communityId]="itemId"
+                         [orderBy]="ordering.value"
+                         class="mb-12"></app-discussion-list>
 
-  </ng-container>
+  </section>
 
-  <ng-template #skeleton>
-    Loading..
-  </ng-template>
+</ng-container>
+
+<ng-template #skeleton>
+  Loading..
+</ng-template>
 
 <!-- </section> -->
 
