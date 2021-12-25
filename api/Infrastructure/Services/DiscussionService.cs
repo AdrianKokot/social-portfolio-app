@@ -97,14 +97,14 @@ public class DiscussionService : IDiscussionService
     public async Task<Discussion> Update(int id, UpdateDiscussionModel updateModel)
     {
         var entity = await Get(id);
-        
+
         entity.Content = updateModel.Content;
-        
+
         if (await _context.SaveChangesAsync() > 0)
         {
             return entity;
         }
-        
+
         throw new Exception("Couldn't update given entity.");
     }
 

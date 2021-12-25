@@ -291,6 +291,12 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("VotesDown")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("VotesUp")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
@@ -380,6 +386,12 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("VotesDown")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("VotesUp")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -500,31 +512,9 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Sociussion.Domain.ValueObjects.VoteScore", "VoteScore", b1 =>
-                        {
-                            b1.Property<int>("CommentId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<long>("VotesDown")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<long>("VotesUp")
-                                .HasColumnType("INTEGER");
-
-                            b1.HasKey("CommentId");
-
-                            b1.ToTable("Comments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CommentId");
-                        });
-
                     b.Navigation("Author");
 
                     b.Navigation("Discussion");
-
-                    b.Navigation("VoteScore")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Sociussion.Domain.Entities.Community", b =>
@@ -552,31 +542,9 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Sociussion.Domain.ValueObjects.VoteScore", "VoteScore", b1 =>
-                        {
-                            b1.Property<int>("DiscussionId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<long>("VotesDown")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<long>("VotesUp")
-                                .HasColumnType("INTEGER");
-
-                            b1.HasKey("DiscussionId");
-
-                            b1.ToTable("Discussions");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DiscussionId");
-                        });
-
                     b.Navigation("Author");
 
                     b.Navigation("Community");
-
-                    b.Navigation("VoteScore")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Sociussion.Domain.Entities.ApplicationUser", b =>

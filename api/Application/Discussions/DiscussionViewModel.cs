@@ -14,14 +14,15 @@ public class DiscussionViewModel : IMapFrom<Discussion>
     public string AuthorName { get; set; } = string.Empty;
     public int CommunityId { get; set; }
     public int CommentCount { get; set; }
-    public long VotesUp { get; set; }
-    public long VotesDown { get; set; }
-    public long Score { get; set; }
+    public int VotesUp { get; set; }
+    public int VotesDown { get; set; }
+    public int Score { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Discussion, DiscussionViewModel>();
+        profile.CreateMap<Discussion, DiscussionViewModel>()
+            .ForMember(x => x.Score, opt => opt.MapFrom(y => y.VotesUp - y.VotesDown));
     }
 }

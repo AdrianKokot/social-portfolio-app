@@ -8,7 +8,7 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
 {
     public void Configure(EntityTypeBuilder<Discussion> builder)
     {
-        builder.OwnsOne(x => x.VoteScore);
+        // builder.OwnsOne(x => x.VoteScore);
 
         builder.Property(x => x.Title)
             .HasMaxLength(255)

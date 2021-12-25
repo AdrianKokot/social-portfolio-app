@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Sociussion.Domain.Common;
-using Sociussion.Domain.ValueObjects;
+﻿using Sociussion.Domain.Common;
 
 namespace Sociussion.Domain.Entities;
 
@@ -10,7 +8,8 @@ public class Discussion : BaseEntity
     public string Content { get; set; } = string.Empty;
 
     public DateTime? LastActive { get; set; } = null;
-    public VoteScore VoteScore { get; set; } = new VoteScore();
+    public int VotesUp { get; set; } = 0;
+    public int VotesDown { get; set; } = 0;
     
     public ApplicationUser Author { get; set; }
     public int? AuthorId { get; set; }

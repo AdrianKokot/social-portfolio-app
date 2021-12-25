@@ -1,5 +1,4 @@
 ﻿using Sociussion.Domain.Common;
-using Sociussion.Domain.ValueObjects;
 
 namespace Sociussion.Domain.Entities;
 
@@ -7,7 +6,8 @@ public class Comment : BaseEntity
 {
     public string Content { get; set; } = string.Empty;
 
-    public VoteScore VoteScore { get; set; } = new VoteScore();
+    public int VotesUp { get; set; } = 0;
+    public int VotesDown { get; set; } = 0;
     
     public ApplicationUser Author { get; set; }
     public int? AuthorId { get; set; }

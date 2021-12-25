@@ -45,6 +45,7 @@ public static class PaginatedList
     public static async Task<PaginatedList<T>> CreateAndOrderAsync<T>(IQueryable<T> source,
         IQueryParams paginationParams)
     {
+        Console.WriteLine($"OrderBy: {paginationParams.OrderBy}");
         if (paginationParams.OrderBy != string.Empty)
         {
             var split = paginationParams.OrderBy.Split(" ");

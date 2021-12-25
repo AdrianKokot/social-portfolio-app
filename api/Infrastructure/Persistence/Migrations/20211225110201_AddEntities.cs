@@ -214,12 +214,13 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "Discussions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Content = table.Column<string>(type: "TEXT", nullable: false),
                     LastActive = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    VoteScore_VotesUp = table.Column<long>(type: "INTEGER", nullable: false),
-                    VoteScore_VotesDown = table.Column<long>(type: "INTEGER", nullable: false),
+                    VotesUp = table.Column<int>(type: "INTEGER", nullable: false),
+                    VotesDown = table.Column<int>(type: "INTEGER", nullable: false),
                     AuthorId = table.Column<int>(type: "INTEGER", nullable: false),
                     CommunityId = table.Column<int>(type: "INTEGER", nullable: false),
                     CommentCount = table.Column<int>(type: "INTEGER", nullable: false),
@@ -271,10 +272,11 @@ namespace Sociussion.Infrastructure.Persistence.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Content = table.Column<string>(type: "TEXT", nullable: false),
-                    VoteScore_VotesUp = table.Column<long>(type: "INTEGER", nullable: false),
-                    VoteScore_VotesDown = table.Column<long>(type: "INTEGER", nullable: false),
+                    VotesUp = table.Column<int>(type: "INTEGER", nullable: false),
+                    VotesDown = table.Column<int>(type: "INTEGER", nullable: false),
                     AuthorId = table.Column<int>(type: "INTEGER", nullable: false),
                     DiscussionId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
