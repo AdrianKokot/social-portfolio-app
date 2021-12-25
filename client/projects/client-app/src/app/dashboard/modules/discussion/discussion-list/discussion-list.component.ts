@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DiscussionService } from "../../../../shared/shared/api/discussion.service";
 import { finalize, map, Observable, tap } from "rxjs";
 import { Discussion } from "../../../../shared/shared/models/discussion";
+import { DiscussionParams } from "../../../../shared/shared/api/params/discussion.params";
 
 @Component({
   selector: 'app-discussion-list',
@@ -23,7 +24,12 @@ export class DiscussionListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.items$ = this.discussionService.getAll(this.communityId !== null ? {communityId: this.communityId} : {})
+    const param: Partial<DiscussionParams> = {};
+
+    param.communityId = this.communityId !== null ? this.communityId : undefined;
+    param.orderBy = "score desc";
+
+    this.items$ = this.discussionService.getAll(param)
       .pipe(
         tap(() => {
           this.isLoading = true;
