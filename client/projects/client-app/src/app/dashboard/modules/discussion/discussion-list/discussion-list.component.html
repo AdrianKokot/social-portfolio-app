@@ -1,4 +1,4 @@
-<div *ngFor="let item of (items$ | async)"
+<div *ngFor="let item of items; trackBy: trackById"
      class="rounded-lg border border-gray-200 bg-white px-4 py-3 mb-4">
 
   <h3 class="text-xl font-medium mb-2">
@@ -16,9 +16,9 @@
 
   <div class=" border-gray-200 py-2 text-xs flex gap-6 items-center text-gray-500">
 
-    <a class="inline-flex items-center"
-       [href]="'discussion/' + item.id"
-       [routerLink]="['discussion', item.id]">
+    <a [href]="'discussion/' + item.id"
+       [routerLink]="['discussion', item.id]"
+       class="inline-flex items-center">
       <ui-icon icon="arrow-up-down"
                sizeClass="h-4 w-4 mr-1">
       </ui-icon>
@@ -28,9 +28,9 @@
     </a>
 
 
-    <a class="inline-flex items-center"
-       [href]="'discussion/' + item.id"
-       [routerLink]="['discussion', item.id]">
+    <a [href]="'discussion/' + item.id"
+       [routerLink]="['discussion', item.id]"
+       class="inline-flex items-center">
       <ui-icon icon="discuss"
                sizeClass="h-4 w-4 mr-1">
       </ui-icon>
@@ -53,8 +53,21 @@
 </div>
 
 <ng-container *ngIf="isLoading">
-  <div *ngFor="let item of [1,2,3]"
-       class="rounded-lg border border-gray-200 bg-white px-4 py-2 mb-4">
+  <div
+    class="rounded-lg border border-gray-200 bg-white px-4 py-2 mb-4">
+
+    <h3 class="bg-gray-200 w-2/3 mb-2 text-xl rounded-lg animate-pulse">
+      &nbsp;
+    </h3>
+    <p class="mb-2 w-full bg-gray-200 rounded-lg animate-pulse h-16">
+      &nbsp;
+    </p>
+    <div class="text-xs w-full bg-gray-200 rounded-lg animate-pulse">
+      &nbsp;
+    </div>
 
   </div>
 </ng-container>
+
+
+<div #infinityBar></div>
