@@ -64,6 +64,7 @@ public class CommunityService : ICommunityService
 
         if (await _context.SaveChangesAsync() > 0)
         {
+            await AddMember(entry.Entity.Id, createdBy);
             return entry.Entity;
         }
 
