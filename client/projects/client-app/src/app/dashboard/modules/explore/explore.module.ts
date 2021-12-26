@@ -4,6 +4,7 @@ import { CommunityModule } from "../community/community.module";
 import { SharedModule } from "../../../shared/shared/shared.module";
 import { ExploreRoutingModule } from "./explore-routing.module";
 import { ExploreCommunitiesComponent } from './components/explore-communities/explore-communities.component';
+import { UIIconModule } from "@ui-lib";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ExploreCommunitiesComponent } from './components/explore-communities/ex
   imports: [
     SharedModule,
     ExploreRoutingModule,
-    CommunityModule
+    CommunityModule,
+    UIIconModule
   ]
 })
 export class ExploreModule {

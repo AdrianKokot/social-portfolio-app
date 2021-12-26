@@ -1,0 +1,40 @@
+<div class="mb-8">
+  <a href="/app/explore/communities"
+     routerLink="/app/explore/communities"
+     variant="base">
+    &lt; Return to the community list
+  </a>
+</div>
+
+<form (submit)="onSubmit($event)"
+      [formGroup]="form">
+
+  <h1 class="font-medium text-xl mb-4">
+    New community
+  </h1>
+
+  <section class="mb-6">
+
+    <forms-input class="mb-6"
+                 formControlName="name"
+                 label="Name"
+                 placeholder="Community topic">
+    </forms-input>
+
+    <forms-textarea class="mb-6"
+                    formControlName="description"
+                    label="Description"
+                    placeholder="Brief explanation of what's the purpose of the community">
+    </forms-textarea>
+
+    <ui-button [disabled]="!form.valid"
+               [loading]="isFormLoading"
+               class="w-full"
+               type="submit"
+               variant="submit">
+      Create
+    </ui-button>
+
+  </section>
+
+</form>

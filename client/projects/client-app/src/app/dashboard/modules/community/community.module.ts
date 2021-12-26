@@ -6,12 +6,14 @@ import { UIButtonModule, UIIconModule } from "@ui-lib";
 import { CommunityRoutingModule } from "./community-routing.module";
 import { DiscussionModule } from "../discussion/discussion.module";
 import { AppFormsModule } from "../../../shared/app-forms/app-forms.module";
+import { CommunityFormComponent } from './components/community-form/community-form.component';
 
 
 @NgModule({
   declarations: [
     CommunityListComponent,
-    CommunityComponent
+    CommunityComponent,
+    CommunityFormComponent
   ],
   exports: [CommunityListComponent],
   imports: [

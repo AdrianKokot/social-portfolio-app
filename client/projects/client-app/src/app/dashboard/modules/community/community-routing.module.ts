@@ -3,10 +3,15 @@ import { CommunityComponent } from './components/community/community.component';
 import { RouterModule, Routes } from "@angular/router";
 import { DiscussionFormComponent } from "../discussion/discussion-form/discussion-form.component";
 import { DiscussionComponent } from "../discussion/discussion/discussion.component";
+import { CommunityFormComponent } from "./components/community-form/community-form.component";
 
 const routes: Routes = [
   {
     path: '', redirectTo: '/app/explore/communities', pathMatch: 'full'
+  },
+  {
+    path: 'new',
+    component: CommunityFormComponent
   },
   {
     path: ':id', component: CommunityComponent

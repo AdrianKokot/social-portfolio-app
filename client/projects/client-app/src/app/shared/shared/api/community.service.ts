@@ -31,4 +31,7 @@ export class CommunityService {
     return this.http.delete<void>(this.actions.leave(id), {});
   }
 
+  public create(data: Partial<Community>): Observable<Community> {
+    return this.http.post<Community>(this.actions.root, data);
+  }
 }

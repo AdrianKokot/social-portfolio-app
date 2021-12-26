@@ -3,6 +3,7 @@ import { finalize, map, Observable, switchMap, tap } from "rxjs";
 import { Community } from "../../../../../shared/shared/models/community";
 import { CommunityService } from "../../../../../shared/shared/api/community.service";
 import { AuthService } from "../../../../../shared/shared/auth/auth.service";
+import { CommunityParams } from "../../../../../shared/shared/api/params/community.params";
 
 @Component({
   selector: 'app-community-list',
@@ -23,7 +24,13 @@ export class CommunityListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const params: { [key: string]: number | string } = this.limit ? {pageSize: +this.limit} : {};
+    const params: Partial<CommunityParams> = {
+      orderBy: 'lastActive desc'
+    };
+
+    if (this.limit) {
+      params.pageSize = +this.limit;
+    }
 
     let communityQuery = () => this.communityService
       .getAll(params)
@@ -43,7 +50,7 @@ export class CommunityListComponent implements OnInit {
           switchMap(u => {
 
             if (u !== null) {
-              params['member'] = u.id;
+              params.member = u.id;
             }
 
             return communityQuery();

@@ -29,7 +29,10 @@ a[variant="logo"] {
 }
 
 a[variant="primary"] {
-  @apply inline-block;
+  &:not(.flex) {
+    @apply inline-block;
+  }
+
   @apply hover:bg-green-700;
   @apply duration-300;
   @apply transition-colors;
