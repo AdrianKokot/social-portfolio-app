@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Sociussion.Application.Comments;
 using Sociussion.Application.Common.Exceptions;
+using Sociussion.Application.Common.Interfaces;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Services;
 using Sociussion.Domain.Entities;
@@ -13,12 +14,14 @@ public class CommentService : ICommentService
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IDateTime _dateTime;
     private readonly DbSet<Comment> _set;
 
-    public CommentService(ApplicationDbContext dbContext, IMapper mapper)
+    public CommentService(ApplicationDbContext dbContext, IMapper mapper, IDateTime dateTime)
     {
         _context = dbContext;
         _mapper = mapper;
+        _dateTime = dateTime;
         _set = dbContext.Set<Comment>();
     }
 
@@ -53,7 +56,7 @@ public class CommentService : ICommentService
 
     public async Task<Comment> CreateFrom(CreateCommentModel createModel, int getUserId)
     {
-        var discussion = await _context.Set<Discussion>().FirstOrDefaultAsync(x => x.Id == createModel.DiscussionId);
+        var discussion = await _context.Set<Discussion>().Include(x => x.Community).FirstOrDefaultAsync(x => x.Id == createModel.DiscussionId);
 
         if (discussion is null)
         {
@@ -69,7 +72,9 @@ public class CommentService : ICommentService
 
         var entry = _set.Add(entity);
         discussion.CommentCount++;
-
+        discussion.LastActive = _dateTime.Now;
+        discussion.Community.LastActive = _dateTime.Now;
+        
         if (await _context.SaveChangesAsync() > 0)
         {
             return entry.Entity;

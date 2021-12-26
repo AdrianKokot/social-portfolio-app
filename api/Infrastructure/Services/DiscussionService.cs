@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Sociussion.Application.Common.Exceptions;
+using Sociussion.Application.Common.Interfaces;
 using Sociussion.Application.Common.QueryParams;
 using Sociussion.Application.Discussions;
 using Sociussion.Application.Services;
@@ -13,12 +14,14 @@ public class DiscussionService : IDiscussionService
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IDateTime _dateTime;
     private readonly DbSet<Discussion> _set;
 
-    public DiscussionService(ApplicationDbContext dbContext, IMapper mapper)
+    public DiscussionService(ApplicationDbContext dbContext, IMapper mapper, IDateTime dateTime)
     {
         _context = dbContext;
         _mapper = mapper;
+        _dateTime = dateTime;
         _set = dbContext.Set<Discussion>();
     }
 
@@ -60,8 +63,15 @@ public class DiscussionService : IDiscussionService
             CommunityId = createModel.CommunityId,
             AuthorId = getUserId
         };
+        var community = await _context.Communities.FirstOrDefaultAsync(x => x.Id == createModel.CommunityId);
+
+        if (community is null)
+        {
+            throw new NotFoundException(nameof(Community), createModel.CommunityId);
+        }
 
         var entry = _set.Add(entity);
+        community.LastActive = _dateTime.Now;
 
         if (await _context.SaveChangesAsync() > 0)
         {
