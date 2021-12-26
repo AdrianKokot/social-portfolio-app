@@ -9,7 +9,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { DiscussionService } from "../../../../shared/shared/api/discussion.service";
-import { finalize, Subject, Subscription, switchMap, tap } from "rxjs";
+import { filter, finalize, Subject, Subscription, switchMap, tap } from "rxjs";
 import { Discussion } from "../../../../shared/shared/models/discussion";
 import { DiscussionParams } from "../../../../shared/shared/api/params/discussion.params";
 
@@ -42,6 +42,7 @@ export class DiscussionListComponent implements OnInit, AfterViewInit, OnDestroy
     this.order = val !== null ? val : "score desc";
 
     if (this.param.orderBy !== this.order) {
+      console.log('change order');
       this.items = [];
       this.param.page = 0;
       this.hasNextPage = true;
@@ -52,7 +53,8 @@ export class DiscussionListComponent implements OnInit, AfterViewInit, OnDestroy
   trackById: TrackByFunction<Discussion> = (index: number, item: Discussion) => item.id;
 
   ngOnDestroy(): void {
-    this.tryUnsubscribe();
+    this.subscription?.unsubscribe();
+    this.observer?.disconnect();
   }
 
   ngOnInit(): void {
@@ -65,6 +67,7 @@ export class DiscussionListComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.subscription = this.scroll$
       .pipe(
+        filter(() => this.hasNextPage),
         switchMap(() => {
           this.param.orderBy = this.order;
           this.param.page != undefined && this.param.page++;
@@ -82,13 +85,8 @@ export class DiscussionListComponent implements OnInit, AfterViewInit, OnDestroy
       )
       .subscribe({
         next: (res) => {
-
           this.hasNextPage = res.hasNextPage;
           this.items.push(...res.items);
-
-          console.log(this.items);
-
-          this.tryUnsubscribe();
         }
       })
   }
@@ -100,16 +98,4 @@ export class DiscussionListComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.observer.observe(this.infinityBar.nativeElement);
   }
-
-  private tryUnsubscribe() {
-    if (!this.hasNextPage) {
-      this.unsubscribe();
-    }
-  }
-
-  private unsubscribe() {
-    this.subscription?.unsubscribe();
-    this.observer?.disconnect();
-  }
-
 }
